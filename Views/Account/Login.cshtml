@@ -1,0 +1,23 @@
+﻿
+@{
+    ViewData["Title"] = "Login";
+}
+
+<div id="new-user">
+    <form asp-action="CreateNewUser" method="post">
+       
+        <input name="Name" type="text" />
+        <input name="Email" type="email" />
+        <input name="Password" type="password" />
+        <input type="submit"/>
+    </form>
+</div>
+
+<div id="new-user">
+    <form asp-action="Login" method="post">
+        <input name="Name" type="text" />
+        <input name="Password" type="password" />
+        <input type="submit" />
+    </form>
+</div>
+
