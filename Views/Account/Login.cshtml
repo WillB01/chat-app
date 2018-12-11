@@ -1,23 +1,20 @@
-﻿
+﻿@model User
 @{
     ViewData["Title"] = "Login";
 }
 
-<div id="new-user">
-    <form asp-action="CreateNewUser" method="post">
-       
-        <input name="Name" type="text" />
-        <input name="Email" type="email" />
-        <input name="Password" type="password" />
-        <input type="submit"/>
-    </form>
-</div>
 
-<div id="new-user">
-    <form asp-action="Login" method="post">
-        <input name="Name" type="text" />
-        <input name="Password" type="password" />
+<div id="login-user">
+    <form asp-action="Login" method="post" autocomplete="off">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" type="text" />
+        <label asp-for="Password"></label>
+        <input asp-for="Password" type="password" />
         <input type="submit" />
     </form>
+    <div>
+        <span asp-validation-for="Name"></span>
+        <span asp-validation-for="Password"></span>
+    </div>
 </div>
 

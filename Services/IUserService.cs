@@ -12,5 +12,6 @@ namespace ChatApp.Services
         IEnumerable<AppUser> GetAppUsers { get; }
         Task<IdentityResult> CreateUserAsync(User newUser);
         Task<SignInResult> LoginAsync(User user);
+        Task LogoutAsync();
     }
 }

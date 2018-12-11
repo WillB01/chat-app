@@ -47,7 +47,7 @@ namespace ChatApp
                 .AddDefaultTokenProviders();
             services.ConfigureApplicationCookie(options =>
             {
-                options.LoginPath = "/Account/Login";
+                options.LoginPath = "/Account";
                 options.SlidingExpiration = true;
             });
 

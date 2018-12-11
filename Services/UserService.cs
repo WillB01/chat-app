@@ -41,5 +41,10 @@ namespace ChatApp.Services
             var result = await _signInManager.PasswordSignInAsync(user.Name, user.Password, false, false);
             return result;
         }
+
+        public async Task LogoutAsync()
+        {
+            await _signInManager.SignOutAsync();
+        }
     }
 }

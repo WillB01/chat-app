@@ -6,10 +6,18 @@
     <link rel="stylesheet" type="text/css" media="screen" href="~/lib/css/mainStyle.css" />
 </head>
 <body>
-  
+    <nav>
+        <div id="auth-container">
+            @{
+                await Html.RenderPartialAsync("_Auth");
+            }
+        </div>
+    </nav>
+
+
     <div id="main-content">
         @RenderBody()
     </div>
-    
+
 </body>
 </html>

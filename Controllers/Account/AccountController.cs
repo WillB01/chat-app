@@ -26,7 +26,22 @@ namespace ChatApp.Controllers.Account
 
         [HttpGet]
         [AllowAnonymous]
+        public IActionResult Index()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
         public IActionResult Login()
+        {
+            return View();
+        }
+
+
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult Register()
         {
             return View();
         }
@@ -34,7 +49,13 @@ namespace ChatApp.Controllers.Account
         [HttpPost]
         public async Task<IActionResult> Login(User user)
         {
+            if (!ModelState.IsValid && string.IsNullOrEmpty(user.Email))
+            {
+                return View();
+            }
+
             var result = await _userService.LoginAsync(user);
+
             if (!result.Succeeded)
             {
                 return View();
@@ -42,8 +63,16 @@ namespace ChatApp.Controllers.Account
             return RedirectToAction(INDEX, HOME);
         }
 
+
         [HttpPost]
-        public async Task<IActionResult> CreateNewUser(User user)
+        public async Task<IActionResult> Logout()
+        {
+            await _userService.LogoutAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Register(User user)
         {
             
             var result = await _userService.CreateUserAsync(user);
