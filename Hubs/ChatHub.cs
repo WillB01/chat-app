@@ -2,7 +2,9 @@
 using ChatApp.Models.Context;
 using ChatApp.Models.Entities;
 using ChatApp.Services;
+using ChatApp.Services.ViewModelService;
 using ChatApp.ViewModels;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
@@ -13,20 +15,35 @@ namespace ChatApp.Hubs
 {
     public class ChatHub : Hub
     {
-        private readonly DataContext _dataContext;
-        private readonly ChatContext _chatContext;
+        private readonly IChatService _viewModelService;
+        private readonly IUserService _userService;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public ChatHub(ChatContext chatContext, DataContext dataContext)
+
+        public ChatHub(IChatService viewModelService, IUserService userService, IHttpContextAccessor httpContextAccessor)
         {
-            _dataContext = dataContext;
-            _chatContext = chatContext;
+            _viewModelService = viewModelService;
+            _userService = userService;
+            _httpContextAccessor = httpContextAccessor;
+
         }
         public override async Task OnConnectedAsync()
         {
+            
+            var user = _httpContextAccessor.HttpContext.User;
+            var loggedinUser = _userService.GetloggedinUser(user);
+            var test = await _userService.GetloggedinUser(user);
+            var t = _viewModelService.GetUserChats(test).Select(p => p.Message);
+               
+
+
+
+
             await Clients.Caller.SendAsync(
-                 "ReceivePost", "ChatKewl",
+                 "ReceiveMessage", "ChatKewl",
                      DateTimeOffset.UtcNow,
-                     "Hello do you like music?");
+                   t
+                     );
             await base.OnConnectedAsync();
         }
 
@@ -35,7 +52,7 @@ namespace ChatApp.Hubs
             return base.OnDisconnectedAsync(exception);
         }
 
-        public async Task PostMessage(string name, string text)
+        public async Task SendMessage(string name, string text)
         {
             var message = new ChatsViewModel
             {
@@ -44,9 +61,9 @@ namespace ChatApp.Hubs
             };
 
             await Clients.All.SendAsync(
-                "ReceivePost",
+                "ReceiveMessage",
                
-                message.Message,
+                "kewl",
                 message.Time);
         }
     }

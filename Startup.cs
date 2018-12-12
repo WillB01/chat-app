@@ -77,6 +77,8 @@ namespace ChatApp
             }
 
             app.UseStatusCodePages();
+            app.UseHttpsRedirection();
+            app.UseCookiePolicy();
             app.UseStaticFiles();
             app.UseAuthentication();
             app.UseSignalR(routes =>

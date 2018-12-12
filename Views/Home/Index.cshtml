@@ -2,8 +2,12 @@
 
 @model MainViewModel
 @section scripts{
-    <script src="~/lib/js/chathub.js"></script>
+    <script src="~/js/chathub.js"></script>
 
+
+}
+@section styles{
+    <link rel="stylesheet" type="text/css" media="screen" href="~/css/chatHubStyle.css" />
 }
 
 @foreach (var item in Model.FreindsViewModel)
@@ -11,10 +15,10 @@
     <p>@item.Key</p>
 }
 
-    <div id="chat-container">
-        @{
-            await Html.RenderPartialAsync("_ChatBox",Model);
-        }
-    </div>
+<div id="chat-container">
+    @{
+        await Html.RenderPartialAsync("_ChatBox", Model);
+    }
+</div>
 
 
