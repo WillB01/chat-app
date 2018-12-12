@@ -1,3 +1,8 @@
-﻿
+﻿@model IEnumerable<Chat>
 <h1>Index</h1>
+
+@foreach (var item in Model)
+{
+    <p>@item.Message</p>
+}
 

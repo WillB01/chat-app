@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using ChatApp.Models.Context;
 using ChatApp.Models.Identity;
+using ChatApp.ViewModels;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 
 namespace ChatApp.Services
@@ -19,32 +22,39 @@ namespace ChatApp.Services
             _dataContext = dataContext;
             _userManager = userManager;
             _signInManager = signInManager;
+    
         }
         public IEnumerable<AppUser> GetAppUsers => _dataContext.Users;
 
-        
 
-        public async Task<IdentityResult> CreateUserAsync(User newUser)
+
+        public async Task<IdentityResult> CreateUserAsync(MainViewModel user)
         {
             var appUser = new AppUser
             {
-                UserName = newUser.Name,
-                Email = newUser.Email,
+                UserName = user.RegisterNewUserView.Name,
+                Email = user.RegisterNewUserView.Email,
             };
-            
-            var result = await _userManager.CreateAsync(appUser, newUser.Password);
+
+            var result = await _userManager.CreateAsync(appUser, user.RegisterNewUserView.Password);
             return result;
         }
 
-        public async Task<SignInResult> LoginAsync(User user)
+        public async Task<SignInResult> LoginAsync(MainViewModel user)
         {
-            var result = await _signInManager.PasswordSignInAsync(user.Name, user.Password, false, false);
+            var result = await _signInManager.PasswordSignInAsync(user.UserLoginViewModel.Name, user.UserLoginViewModel.Password, false, false);
             return result;
         }
 
         public async Task LogoutAsync()
         {
             await _signInManager.SignOutAsync();
+        }
+
+        public async Task<AppUser> GetloggedinUser(ClaimsPrincipal user)
+        {
+            var result = await _userManager.GetUserAsync(user);
+            return result;
         }
     }
 }

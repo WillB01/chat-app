@@ -1,6 +1,7 @@
 ﻿using ChatApp.Controllers.Home;
 using ChatApp.Models.Identity;
 using ChatApp.Services;
+using ChatApp.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace ChatApp.Controllers.Account
 {
-    public class AccountController : Controller
+    public class AuthController : Controller
     {
         private readonly IUserService _userService;
 
@@ -19,7 +20,7 @@ namespace ChatApp.Controllers.Account
         private const string HOME = "Home";
 
 
-        public AccountController(IUserService userService)
+        public AuthController(IUserService userService)
         {
             _userService = userService;
         }
@@ -47,9 +48,9 @@ namespace ChatApp.Controllers.Account
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(User user)
+        public async Task<IActionResult> Login(MainViewModel user)
         {
-            if (!ModelState.IsValid && string.IsNullOrEmpty(user.Email))
+            if (!ModelState.IsValid)
             {
                 return View();
             }
@@ -72,9 +73,13 @@ namespace ChatApp.Controllers.Account
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register(User user)
+        public async Task<IActionResult> Register(MainViewModel user)
         {
-            
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+
             var result = await _userService.CreateUserAsync(user);
 
             if (!result.Succeeded)

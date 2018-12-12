@@ -27,7 +27,9 @@ namespace ChatApp
 
         public void ConfigureServices(IServiceCollection services)
         {
+
             services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IChatService, ChatService>();
 
             services.AddDbContext<DataContext>(options =>
             {
@@ -47,11 +49,13 @@ namespace ChatApp
                 .AddDefaultTokenProviders();
             services.ConfigureApplicationCookie(options =>
             {
-                options.LoginPath = "/Account";
+                options.LoginPath = "/Auth";
                 options.SlidingExpiration = true;
             });
 
             services.AddMvc();
+            services.AddHttpContextAccessor();
+
 
 
         }
