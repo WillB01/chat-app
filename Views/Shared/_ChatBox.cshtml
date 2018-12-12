@@ -1,0 +1,11 @@
+﻿@model MainViewModel
+
+<p> chaxbox <p>
+    @foreach (var item in Model.ChatsViewModels)
+    {
+            <p>@item.Message</p>
+            @foreach (var msg in item.PrivateMessage)
+            {
+                <p>@msg.ToUser.UserName</p>
+            }
+    }

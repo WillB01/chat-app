@@ -1,11 +1,20 @@
-﻿@model IEnumerable<Chat>
-@section scripts{ 
+﻿@*@model IEnumerable<Chat>*@
+
+@model MainViewModel
+@section scripts{
     <script src="~/lib/js/chathub.js"></script>
 
 }
 
-@foreach (var item in Model)
+@foreach (var item in Model.FreindsViewModel)
 {
-    <p>@item</p>
+    <p>@item.Key</p>
 }
+
+    <div id="chat-container">
+        @{
+            await Html.RenderPartialAsync("_ChatBox",Model);
+        }
+    </div>
+
 

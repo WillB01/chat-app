@@ -9,6 +9,8 @@ using ChatApp.Models.Entities;
 using ChatApp.Models.Identity;
 using ChatApp.Services;
 using ChatApp.Services.FriendService;
+using ChatApp.Services.ViewModelService;
+using ChatApp.ViewModels;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -34,6 +36,7 @@ namespace ChatApp
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IChatService, ChatService>();
             services.AddTransient<IFriendService, FriendService>();
+            services.AddTransient<IViewModelService, MainViewModel>();
 
             services.AddDbContext<DataContext>(options =>
             {

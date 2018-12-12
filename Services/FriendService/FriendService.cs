@@ -24,14 +24,26 @@ namespace ChatApp.Services.FriendService
 
        
 
-        public async Task<IEnumerable<Friends>> GetFriends(AppUser user)
+        public async Task<IDictionary<string, string>> GetFriends(AppUser user)
         {
-
-            var result = _chatContext.Friends
-                .Where(p => p.IdentityId == user.Id);
-            
-                
           
+            var result  = _chatContext.Friends
+                .Where(p => p.IdentityId == user.Id)
+                .ToDictionary(p => p.Friend.UserName, i => i.FriendId);
+
+            //var result = _chatContext.Friends
+            //    .Where(p => p.IdentityId == user.Id);
+
+
+            //for (int i = 0; i < result.Length; i++)
+            //{
+            //    var friends = _userService.GetAppUsers.Select(p => p.Id == result[i]).ToString();
+            //    test.Add(friends);
+
+            //}
+
+
+
             return result;
         }
     }

@@ -5,6 +5,11 @@ namespace ChatApp.Models.Entities
 {
     public partial class PrivateMessage
     {
+        public PrivateMessage()
+        {
+
+        }
+
         public int Id { get; set; }
         public string UserId { get; set; }
         public string ToUserId { get; set; }

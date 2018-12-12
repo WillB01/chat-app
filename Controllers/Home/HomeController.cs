@@ -1,6 +1,7 @@
 ﻿using ChatApp.Models.Identity;
 using ChatApp.Services;
 using ChatApp.Services.FriendService;
+using ChatApp.Services.ViewModelService;
 using ChatApp.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -18,12 +19,14 @@ namespace ChatApp.Controllers.Home
         private readonly IUserService _userService;
         private readonly IChatService _chatService;
         private readonly IFriendService _friendService;
+        private readonly IViewModelService _viewModelService;
 
-        public HomeController(IUserService userService, IChatService chatService, IFriendService friendService)
+        public HomeController(IUserService userService, IChatService chatService, IFriendService friendService, IViewModelService viewModelService)
         {
             _userService = userService;
             _chatService = chatService;
             _friendService = friendService;
+            _viewModelService = viewModelService;
         }
         [HttpGet]
         [Authorize]
@@ -31,11 +34,12 @@ namespace ChatApp.Controllers.Home
         {
             var loggedinUser = HttpContext.User;
             var user = await _userService.GetloggedinUser(loggedinUser);
-            var chats =   _chatService.GetUserChats(user);
-            var friends = await _friendService.GetFriends(user);
-            var test = friends.Select(p => p.Friend.UserName);
-            
-            return View(chats);
+
+            _viewModelService.FreindsViewModel = await _friendService.GetFriends(user);
+            _viewModelService.ChatsViewModels = _chatService.GetUserChats(user);
+
+
+            return View(_viewModelService);
         }
 
 

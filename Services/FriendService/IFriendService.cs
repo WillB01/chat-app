@@ -11,6 +11,6 @@ namespace ChatApp.Services.FriendService
 {
     public interface IFriendService
     {
-        Task<IEnumerable<Friends>> GetFriends(AppUser user);
+        Task<IDictionary<string, string>> GetFriends(AppUser user);
     }
 }

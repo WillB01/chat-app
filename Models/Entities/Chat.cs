@@ -1,13 +1,22 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore.Infrastructure;
+using System;
 using System.Collections.Generic;
 
 namespace ChatApp.Models.Entities
 {
     public partial class Chat
     {
+        private ILazyLoader LazyLoader { get; set; }
+        public ICollection<PrivateMessage> _privateMessage;
+
         public Chat()
         {
             PrivateMessage = new HashSet<PrivateMessage>();
+        }
+
+        public Chat(ILazyLoader lazyLoader)
+        {
+            this.LazyLoader = lazyLoader;
         }
 
         public int Id { get; set; }
@@ -15,7 +24,11 @@ namespace ChatApp.Models.Entities
         public string Message { get; set; }
         public DateTime Time { get; set; }
 
-        public virtual AspNetUsers Identity { get; set; }
-        public virtual ICollection<PrivateMessage> PrivateMessage { get; set; }
+        public virtual AspNetUsers Identity{ get; set;}
+        public virtual ICollection<PrivateMessage> PrivateMessage
+        {
+            get => LazyLoader.Load(this, ref _privateMessage);
+            set => _privateMessage = value;
+        }
     }
 }
