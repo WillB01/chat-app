@@ -10,5 +10,6 @@ namespace ChatApp.ViewModels
         public LoginUserViewModel UserLoginViewModel { get; set; }
         public RegisterNewUserViewModel RegisterNewUserView { get; set; }
         public IEnumerable<ChatsViewModel> ChatsViewModels { get; set; }
+        public IEnumerable<FriendsViewModel> FriendsViewModels { get; set; }
     }
 }

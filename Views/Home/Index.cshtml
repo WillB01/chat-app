@@ -1,8 +1,11 @@
 ﻿@model IEnumerable<Chat>
-<h1>Index</h1>
+@section scripts{ 
+    <script src="~/lib/js/chathub.js"></script>
+
+}
 
 @foreach (var item in Model)
 {
-    <p>@item.Message</p>
+    <p>@item</p>
 }
 

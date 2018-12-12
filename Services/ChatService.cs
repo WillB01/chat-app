@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ChatApp.Models;
+using ChatApp.Models.Entities;
 using ChatApp.Models.Identity;
 
 namespace ChatApp.Services

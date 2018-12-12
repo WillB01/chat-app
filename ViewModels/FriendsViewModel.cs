@@ -1,5 +1,4 @@
-﻿using ChatApp.Models;
-using ChatApp.Models.Entities;
+﻿using ChatApp.Models.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,13 +6,12 @@ using System.Threading.Tasks;
 
 namespace ChatApp.ViewModels
 {
-    public class ChatsViewModel
+    public class FriendsViewModel
     {
-        public int Id { get; set; }
         public string IdentityId { get; set; }
-        public string Message { get; set; }
-        public DateTime Time { get; set; }
+        public string FriendId { get; set; }
 
+        public virtual AspNetUsers Friend { get; set; }
         public virtual AspNetUsers Identity { get; set; }
     }
 }

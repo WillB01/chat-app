@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ChatApp.Models
+namespace ChatApp.Models.Entities
 {
     public partial class AspNetUsers
     {
         public AspNetUsers()
         {
             Chat = new HashSet<Chat>();
+            FriendsFriend = new HashSet<Friends>();
+            FriendsIdentity = new HashSet<Friends>();
+            PrivateMessageToUser = new HashSet<PrivateMessage>();
+            PrivateMessageUser = new HashSet<PrivateMessage>();
         }
 
         public string Id { get; set; }
@@ -27,5 +31,9 @@ namespace ChatApp.Models
         public int AccessFailedCount { get; set; }
 
         public virtual ICollection<Chat> Chat { get; set; }
+        public virtual ICollection<Friends> FriendsFriend { get; set; }
+        public virtual ICollection<Friends> FriendsIdentity { get; set; }
+        public virtual ICollection<PrivateMessage> PrivateMessageToUser { get; set; }
+        public virtual ICollection<PrivateMessage> PrivateMessageUser { get; set; }
     }
 }
