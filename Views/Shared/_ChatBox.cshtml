@@ -1,6 +1,6 @@
 ﻿@model MainViewModel
 
-<p> chaxbox <p>
+@*<p> chaxbox <p>
     @foreach (var item in Model.ChatsViewModels)
     {
     <p>@item.Message</p>
@@ -8,7 +8,10 @@
     {
         <p>@msg.ToUser.UserName</p>
     }
-}
+}*@
+    <div id="text-print">
+        
+    </div>
     <input id="chat-text" />
     <button id="send-msg">Send</button>
 

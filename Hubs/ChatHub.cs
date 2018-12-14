@@ -107,9 +107,21 @@ namespace ChatApp.Hubs
         }
 
         public string GetConnectionId() => Context.ConnectionId;
-        public string GetHistory(string user)
+        public async Task<IQueryable<IEnumerable<string>>> GetHistory(string value)
         {
-            return "kewdddl";
+            var user = _httpContextAccessor.HttpContext.User;
+            var loggedinUser = await _userService.GetloggedinUser(user);
+            //var getSecondUser = await _userService.GetUserByUserName(value);
+            
+            var t = await _viewModelService.GetUserConversation(loggedinUser, value);
+
+
+            var msg = t;
+           
+                
+                
+            var hej = _httpContextAccessor.HttpContext.User.Identities;
+            return  t;
         }
 
         //public Task SendMessageToGroup(string message)

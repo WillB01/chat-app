@@ -11,6 +11,7 @@ namespace ChatApp.Services
     public interface IChatService
     {
         IAsyncEnumerable<Chat> Chats { get; }
-        IEnumerable<Chat> GetUserChats(AppUser user);
+        Task<IQueryable<IEnumerable<string>>> GetUserChats(AppUser user, AppUser receiver);
+        Task<IQueryable<IEnumerable<string>>> GetUserConversation(AppUser loggedinUser, string getSecondUser);
     }
 }

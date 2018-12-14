@@ -56,5 +56,19 @@ namespace ChatApp.Services
             var result = await _userManager.GetUserAsync(user);
             return result;
         }
+
+        public async Task<AppUser> GetUserByUserName(string name)
+        {
+            var result = await Task.Run(() => _dataContext.Users.Where(p => p.UserName == name)
+                .FirstOrDefault());
+            return result;
+        }
+
+        public async Task<string> GetUserId(string name)
+        {
+            var result = await Task.Run(() => _dataContext.Users.Where(p => p.UserName == name)
+                .FirstOrDefault().Id);
+            return result;
+        }
     }
 }
