@@ -13,11 +13,12 @@ using System.Threading.Tasks;
 
 namespace ChatApp.Hubs
 {
-    public class ChatHub : Hub
+    public class ChatHub : Hub<IChatClient>
     {
         private readonly IChatService _viewModelService;
         private readonly IUserService _userService;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private static List<UserConnections> _uList = new List<UserConnections>();
 
 
         public ChatHub(IChatService viewModelService, IUserService userService, IHttpContextAccessor httpContextAccessor)
@@ -29,27 +30,35 @@ namespace ChatApp.Hubs
         }
         public override async Task OnConnectedAsync()
         {
-            
-            var user = _httpContextAccessor.HttpContext.User;
-            var loggedinUser = _userService.GetloggedinUser(user);
-            var test = await _userService.GetloggedinUser(user);
-            var t = _viewModelService.GetUserChats(test).Select(p => p.Message);
-               
+           
+            //var user = _httpContextAccessor.HttpContext.User;
+            //var loggedinUser = _userService.GetloggedinUser(user);
+            //var test = await _userService.GetloggedinUser(user);
+            //var t = _viewModelService.GetUserChats(test).Select(p => p.Message);
+            //var hej = _httpContextAccessor.HttpContext.User.Identities;
+
+            var us = new UserConnections();
+            us.UserName = Context.User.Identity.Name;
+            us.ConnectionID = Context.ConnectionId;
+            _uList.Add(us);
 
 
 
 
-            await Clients.Caller.SendAsync(
-                 "ReceiveMessage", "ChatKewl",
-                     DateTimeOffset.UtcNow,
-                   t
+
+            await Clients.Caller.ReceiveMessage(
+                    "ChatKewl",
+                     DateTime.Now
+                   
                      );
+            
             await base.OnConnectedAsync();
         }
 
-        public override Task OnDisconnectedAsync(Exception exception)
+        public override async Task OnDisconnectedAsync(Exception exception)
         {
-            return base.OnDisconnectedAsync(exception);
+            await Groups.RemoveFromGroupAsync(Context.ConnectionId, "SignalR Users");
+            await base.OnDisconnectedAsync(exception);
         }
 
         public async Task SendMessage(string name, string text)
@@ -60,12 +69,26 @@ namespace ChatApp.Hubs
                 Time = DateTime.Now
             };
 
-            await Clients.All.SendAsync(
-                "ReceiveMessage",
-               
+            await Clients.All.ReceiveMessage(
                 "kewl",
                 message.Time);
         }
+
+        public async Task SendPrivateMessage(string user, string message)
+        {
+            var userTosend =_uList.Where(u => u.UserName == user).Select(p => p.ConnectionID).First();
+            var test = userTosend;
+           await Clients.Client(userTosend).ReceiveMessage(message);
+            //await Clients.All.ReceiveMessage(message);
+           
+        }
+
+        public string GetConnectionId() => Context.ConnectionId;
+
+        //public Task SendMessageToGroup(string message)
+        //{
+        //    return Clients.Group("SignalR Users").SendAsync("ReceiveMessage", message);
+        //}
     }
 }
 

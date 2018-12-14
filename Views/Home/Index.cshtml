@@ -1,24 +1,32 @@
 ﻿@*@model IEnumerable<Chat>*@
 
 @model MainViewModel
-@section scripts{
-    <script src="~/js/chathub.js"></script>
 
 
-}
-@section styles{
-    <link rel="stylesheet" type="text/css" media="screen" href="~/css/chatHubStyle.css" />
-}
+<ul>
+    @foreach (var item in Model.FreindsViewModel)
+    {
+        <li class="friends">@item.Key</li>
+    }
 
-@foreach (var item in Model.FreindsViewModel)
-{
-    <p>@item.Key</p>
-}
+</ul>
 
 <div id="chat-container">
     @{
         await Html.RenderPartialAsync("_ChatBox", Model);
     }
 </div>
+
+
+
+
+
+
+@section styles{
+    <link rel="stylesheet" type="text/css" media="screen" href="~/css/chatHubStyle.css" />
+}
+@section scripts{
+    <script src="~/js/chathub.js"></script>
+}
 
 

@@ -3,9 +3,15 @@
 <p> chaxbox <p>
     @foreach (var item in Model.ChatsViewModels)
     {
-            <p>@item.Message</p>
-            @foreach (var msg in item.PrivateMessage)
-            {
-                <p>@msg.ToUser.UserName</p>
-            }
+    <p>@item.Message</p>
+    @foreach (var msg in item.PrivateMessage)
+    {
+        <p>@msg.ToUser.UserName</p>
+    }
+}
+    <input id="chat-text" />
+    <button id="send-msg">Send</button>
+
+    @section scripts{
+        <script src="~/js/chathub.js"></script>
     }
