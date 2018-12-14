@@ -18,7 +18,7 @@ namespace ChatApp.Hubs
         private readonly IChatService _viewModelService;
         private readonly IUserService _userService;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private static List<UserConnections> _uList = new List<UserConnections>();
+        private static HashSet<UserConnections> _uList = new HashSet<UserConnections>();
 
 
         public ChatHub(IChatService viewModelService, IUserService userService, IHttpContextAccessor httpContextAccessor)
@@ -30,7 +30,7 @@ namespace ChatApp.Hubs
         }
         public override async Task OnConnectedAsync()
         {
-           
+
             //var user = _httpContextAccessor.HttpContext.User;
             //var loggedinUser = _userService.GetloggedinUser(user);
             //var test = await _userService.GetloggedinUser(user);
@@ -40,6 +40,8 @@ namespace ChatApp.Hubs
             var us = new UserConnections();
             us.UserName = Context.User.Identity.Name;
             us.ConnectionID = Context.ConnectionId;
+            var test = Clients.All;
+            var k = test;
             _uList.Add(us);
 
 
@@ -57,9 +59,27 @@ namespace ChatApp.Hubs
 
         public override async Task OnDisconnectedAsync(Exception exception)
         {
-            await Groups.RemoveFromGroupAsync(Context.ConnectionId, "SignalR Users");
+            //await Groups.RemoveFromGroupAsync(Context.ConnectionId, Clients.Caller.ToString());
             await base.OnDisconnectedAsync(exception);
         }
+
+        //public async Task AddToGroup(string groupName)
+        //{
+        //    var userTosend = _uList.Where(u => u.UserName == groupName).Select(p => p.ConnectionID).FirstOrDefault();
+        //    await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
+        //    await Groups.AddToGroupAsync(userTosend, groupName);
+
+        //    await Clients.Group(groupName).ReceiveMessage("Send", $"{Context.ConnectionId} has joined the group {groupName}.");
+        //}
+
+        //public async Task RemoveFromGroup(string groupName)
+        //{
+        //    await Groups.RemoveFromGroupAsync(Context.ConnectionId, groupName);
+
+        //    await Clients.Group(groupName).ReceiveMessage("Send", $"{Context.ConnectionId} has left the group {groupName}.");
+        //}
+
+        
 
         public async Task SendMessage(string name, string text)
         {
@@ -76,14 +96,21 @@ namespace ChatApp.Hubs
 
         public async Task SendPrivateMessage(string user, string message)
         {
-            var userTosend =_uList.Where(u => u.UserName == user).Select(p => p.ConnectionID).First();
+
+            var userTosend =_uList.Where(u => u.UserName == user).Select(p => p.ConnectionID).FirstOrDefault();
             var test = userTosend;
-           await Clients.Client(userTosend).ReceiveMessage(message);
+
+            await Clients.Client(userTosend).ReceiveMessage(message, DateTime.Now);
+            //await Clients.Group(user).ReceiveMessage(message);
             //await Clients.All.ReceiveMessage(message);
            
         }
 
         public string GetConnectionId() => Context.ConnectionId;
+        public string GetHistory(string user)
+        {
+            return "kewdddl";
+        }
 
         //public Task SendMessageToGroup(string message)
         //{

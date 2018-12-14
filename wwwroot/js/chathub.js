@@ -2,25 +2,56 @@
 const sendMsgBtn = document.querySelector('#send-msg');
 const friendItem = document.querySelectorAll('.friends');
 const chatText = document.querySelector('#chat-text');
-
-const connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
+let userConnectionId = '';
+let userHistory = '';
 let userToChatWith = '';
+
+//Signalr stuff ////////////
+const connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
+
+
+const startChat = () => {
+    connection.start()
+        .catch((err) => console.error(err.toString())
+        )
+        .then(() =>
+            connection.invoke('getConnectionId')
+        )
+        .then((connectionId) => {
+            let history = connection.invoke('GetHistory', "will");
+            history.then(h => {
+                userHistory = h;
+                userConnectionId = connectionId;
+                console.log(userHistory);
+                console.log(userConnectionId);
+            });
+        })
+};
+////////////////////////
 
 const clickHandlerFriendItem = () => {
     for (var i = 0; i < friendItem.length; i++) {
         friendItem[i].addEventListener('click', (e) => {
+            const p = document.createElement("p");
+            const text = document.createTextNode(`${userHistory}`);
+            p.appendChild(text);
+            chatBox.appendChild(p);
             userToChatWith = e.target.innerHTML;
+            console.log(e.target.innerHTML);
            
-            console.log(e.target.className);
         });
     };
 };
 
 
-clickHandlerFriendItem();
+
+
+
 
 
 connection.on('ReceiveMessage', renderMessage);
+startChat();
+clickHandlerFriendItem();
 
 //connection.on("ReceiveMessage", function (user, message) {
 //    console.log(message);
@@ -36,25 +67,20 @@ connection.on('ReceiveMessage', renderMessage);
    
 //});
 
-connection.start()
-    .catch((err) => console.error(err.toString())
-    )
-    .then(() => connection.invoke('getConnectionId'))
-    .then((connectionId) => {
-        console.log('conectionId' + connectionId);
-    });
+
+
 
 sendMsgBtn.addEventListener('click', () => {
     let text = chatText.value;
+
     connection.invoke('SendPrivateMessage', userToChatWith, text);
    
 });
 
 function renderMessage(message, time) {
     console.log(`${message}`);
-    const chatContainer = document.querySelector('#chat-box');
     const p = document.createElement("p");
-    const text = document.createTextNode(`${name} - ${message}`);
+    const text = document.createTextNode(`${time} - ${message}`);
     p.appendChild(text);
     chatBox.appendChild(p);
 
