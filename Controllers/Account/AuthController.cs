@@ -1,13 +1,7 @@
-﻿using ChatApp.Controllers.Home;
-using ChatApp.Models.Identity;
-using ChatApp.Services;
+﻿using ChatApp.Services;
 using ChatApp.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace ChatApp.Controllers.Account
@@ -18,7 +12,6 @@ namespace ChatApp.Controllers.Account
 
         private const string INDEX = "Index";
         private const string HOME = "Home";
-
 
         public AuthController(IUserService userService)
         {
@@ -38,7 +31,6 @@ namespace ChatApp.Controllers.Account
         {
             return View();
         }
-
 
         [HttpGet]
         [AllowAnonymous]
@@ -63,7 +55,6 @@ namespace ChatApp.Controllers.Account
             }
             return RedirectToAction(INDEX, HOME);
         }
-
 
         [HttpPost]
         public async Task<IActionResult> Logout()

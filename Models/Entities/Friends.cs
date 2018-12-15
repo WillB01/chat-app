@@ -1,6 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore.Infrastructure;
-using System;
-using System.Collections.Generic;
 
 namespace ChatApp.Models.Entities
 {
@@ -10,18 +8,14 @@ namespace ChatApp.Models.Entities
 
         private AspNetUsers _friend;
 
-
         public Friends()
         {
-
         }
 
         public Friends(ILazyLoader lazyLoader)
         {
             _lazyLoader = lazyLoader;
         }
-
-
 
         public string IdentityId { get; set; }
         public string FriendId { get; set; }
@@ -31,7 +25,7 @@ namespace ChatApp.Models.Entities
             get => _lazyLoader.Load(this, ref _friend);
             set => _friend = value;
         }
-        public virtual AspNetUsers Identity { get; set; }
 
+        public virtual AspNetUsers Identity { get; set; }
     }
 }

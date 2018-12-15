@@ -2,5 +2,8 @@
     background: #efefef;
     width: 70%;
     min-height: 400px;
-    
+}
+
+.user-message-container {
+    background: green;
 }

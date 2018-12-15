@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using ChatApp.Models;
-using ChatApp.Models.Entities;
+﻿using ChatApp.Models.Entities;
 using ChatApp.Models.Identity;
 using ChatApp.ViewModels;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace ChatApp.Services
 {
@@ -21,40 +19,35 @@ namespace ChatApp.Services
             _userService = userService;
         }
 
-        public async Task<IEnumerable<ChatsViewModel>[]> GetUserConversation(AppUser loggedinUser, string getSecondUser)
+        public async Task<ChatsViewModel[]> GetUserConversation(AppUser loggedinUser, string getSecondUser)
         {
             var sendToId = await _userService.GetUserId(getSecondUser);
 
-            var loggedInUserMsg = await Task.Run(() => _chatContext.PrivateMessage
-               .Include(p => p.Chat)
-               .Where(p => p.UserId == loggedinUser.Id)
-               .Select(e => e.Chat.PrivateMessage.Where(i => i.ToUserId.ToString() == sendToId))
-               .Select(f => f.Select((b) =>
-               new ChatsViewModel
-               {
-                   Message = b.Chat.Message,
-                   Time = b.Chat.Time,
-                   Identity = b.Chat.Identity,
-                   IdentityId = b.Chat.IdentityId
-               })).ToArray());
-
-            var sendToUserMsg = await Task.Run(() => _chatContext.PrivateMessage
+            var fromUser = await Task.Run(() => _chatContext.PrivateMessage
               .Include(p => p.Chat)
-              .Where(p => p.UserId == sendToId)
-              .Select(e => e.Chat.PrivateMessage.Where(i => i.UserId.ToString() == sendToId))
-              .Select(f => f.Select((b) => 
+              .Where(p => p.UserId == loggedinUser.Id && p.ToUserId == sendToId)
+              .Select((b) =>
               new ChatsViewModel
               {
                   Message = b.Chat.Message,
                   Time = b.Chat.Time,
-                  Identity = b.Chat.Identity,
+                  IsLoggedin = true,
                   IdentityId = b.Chat.IdentityId
-              })).ToArray());
+              }).ToArray());
 
+            var toUser = await Task.Run(() => _chatContext.PrivateMessage
+              .Include(p => p.Chat)
+              .Where(p => p.UserId == sendToId && p.ToUserId == loggedinUser.Id)
+              .Select((b) =>
+              new ChatsViewModel
+              {
+                  Message = b.Chat.Message,
+                  Time = b.Chat.Time,
+                  IsLoggedin = false,
+                  IdentityId = b.Chat.IdentityId
+              }).ToArray());
 
-            var conversation = loggedInUserMsg.Concat(sendToUserMsg)
-                .OrderBy(p => p.FirstOrDefault().Time)
-                .ToArray();
+            var conversation = fromUser.Concat(toUser).ToArray().OrderBy(e => e.Time).ToArray();
 
             return conversation;
         }
@@ -65,7 +58,6 @@ namespace ChatApp.Services
             {
                 UserId = userLoggedin,
                 ToUserId = userId,
-               
             };
             viewModel.Chat = new Chat
             {
@@ -73,12 +65,9 @@ namespace ChatApp.Services
                 Time = time,
                 IdentityId = userLoggedin,
             };
-           
+
             _chatContext.AddRange(viewModel);
             await _chatContext.SaveChangesAsync();
-
         }
     }
-
-   
 }

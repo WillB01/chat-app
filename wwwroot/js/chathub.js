@@ -1,7 +1,6 @@
 ﻿const chatBox = document.querySelector('#chat-container');
 const textToPrintDiv = document.querySelector('#text-print');
 
-
 const sendMsgBtn = document.querySelector('#send-msg');
 const friendItem = document.querySelectorAll('.friends');
 const chatText = document.querySelector('#chat-text');
@@ -11,7 +10,6 @@ let userToChatWith = '';
 //Signalr stuff ////////////
 const connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
 
-
 const startChat = () => {
     connection.start()
         .catch((err) => console.error(err.toString())
@@ -20,9 +18,7 @@ const startChat = () => {
             connection.invoke('getConnectionId')
         )
         .then((connectionId) => {
-
             userConnectionId = connectionId;
-
         });
 };
 
@@ -31,7 +27,7 @@ const startChat = () => {
 const flattenMsgHistory = (history) => {
     const stageOne = [];
     for (var i = 0; i < history.length; i++) {
-        stageOne.push({ [history[i][0].time] : history[i][0].message });
+        stageOne.push({ [history[i].time]: [history[i].message, history[i].isLoggedin] });
     }
     return stageOne;
 };
@@ -41,49 +37,44 @@ const clickHandlerFriendItem = () => {
         friendItem[i].addEventListener('click', (e) => {
             textToPrintDiv.innerHTML = '';
             const value = e.target.innerHTML;
-          
+
             let history = connection.invoke('GetHistory', value);
-            history.then(h => {
-                flattenMsgHistory(h).map(item => {
+            history.then(result => {
+                flattenMsgHistory(result).map((item, index) => {
                     const p = document.createElement("p");
-                    const text = document.createTextNode(`${Object.keys(item)} - ${item[Object.keys(item)]}`);
+                    const text = document.createTextNode(`${Object.keys(item)} - ${item[Object.keys(item)][0]}`);
+                    if (item[Object.keys(item)][1]) {
+                        p.classList.add('user-message-container');
+                    }
                     p.appendChild(text);
                     textToPrintDiv.appendChild(p);
                 });
-                
-               
+
                 userToChatWith = e.target.innerHTML;
-              
-                
             });
-            
-           
         });
     };
 }; // starts when user clicks on a friend
-
-
-
 
 connection.on('ReceiveMessage', renderMessage);
 startChat();
 clickHandlerFriendItem();
 
-
 sendMsgBtn.addEventListener('click', () => {
     let text = chatText.value;
     chatText.value = '';
     connection.invoke('SendPrivateMessage', userToChatWith, text);
-   
 });
 
-function renderMessage(message, time) {
-    console.log(`${message}`);
+function renderMessage(message, time, isLoggedin) {
+    console.log(`${isLoggedin}`);
 
     const p = document.createElement("p");
+    if (isLoggedin) {
+        p.classList.add('user-message-container');
+    }
+
     const text = document.createTextNode(`${time} - ${message}`);
     p.appendChild(text);
     textToPrintDiv.appendChild(p);
-
-
 };

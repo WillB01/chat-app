@@ -2,13 +2,11 @@
 
 @model MainViewModel
 
-
 <ul>
     @foreach (var item in Model.FreindsViewModel)
     {
         <li class="friends">@item.Key</li>
     }
-
 </ul>
 
 <div id="chat-container">
@@ -17,16 +15,9 @@
     }
 </div>
 
-
-
-
-
-
 @section styles{
     <link rel="stylesheet" type="text/css" media="screen" href="~/css/chatHubStyle.css" />
 }
 @section scripts{
     <script src="~/js/chathub.js"></script>
 }
-
-

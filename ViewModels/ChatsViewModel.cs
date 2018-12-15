@@ -1,9 +1,5 @@
-﻿using ChatApp.Models;
-using ChatApp.Models.Entities;
+﻿using ChatApp.Models.Entities;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ChatApp.ViewModels
 {
@@ -15,5 +11,7 @@ namespace ChatApp.ViewModels
         public DateTime Time { get; set; }
 
         public virtual AspNetUsers Identity { get; set; }
+
+        public bool IsLoggedin { get; set; } = false;
     }
 }

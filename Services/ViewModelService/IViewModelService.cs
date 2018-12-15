@@ -1,8 +1,5 @@
-﻿using ChatApp.Models.Entities;
-using ChatApp.ViewModels;
-using System;
+﻿using ChatApp.ViewModels;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace ChatApp.Services.ViewModelService

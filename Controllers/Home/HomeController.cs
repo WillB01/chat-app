@@ -1,14 +1,9 @@
-﻿using ChatApp.Models.Identity;
-using ChatApp.Services;
+﻿using ChatApp.Services;
 using ChatApp.Services.FriendService;
 using ChatApp.Services.ViewModelService;
-using ChatApp.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace ChatApp.Controllers.Home
@@ -28,6 +23,7 @@ namespace ChatApp.Controllers.Home
             _friendService = friendService;
             _viewModelService = viewModelService;
         }
+
         [HttpGet]
         [Authorize]
         public async Task<IActionResult> Index()
@@ -36,10 +32,8 @@ namespace ChatApp.Controllers.Home
             var user = await _userService.GetloggedinUser(loggedinUser);
 
             _viewModelService.FreindsViewModel = await _friendService.GetFriends(user);
-         
+
             return View(_viewModelService);
         }
-
-
     }
 }

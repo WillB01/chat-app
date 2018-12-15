@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Infrastructure;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace ChatApp.Models.Entities
@@ -19,7 +18,7 @@ namespace ChatApp.Models.Entities
         public string Message { get; set; }
         public DateTime Time { get; set; }
 
-        public virtual AspNetUsers Identity{ get; set;}
-        public virtual ICollection<PrivateMessage> PrivateMessage{get; set;}
+        public virtual AspNetUsers Identity { get; set; }
+        public virtual ICollection<PrivateMessage> PrivateMessage { get; set; }
     }
 }

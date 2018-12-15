@@ -1,14 +1,12 @@
-﻿using System;
+﻿using ChatApp.Models.Context;
+using ChatApp.Models.Identity;
+using ChatApp.Services.ViewModelService;
+using ChatApp.ViewModels;
+using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using ChatApp.Models.Context;
-using ChatApp.Models.Identity;
-using ChatApp.Services.ViewModelService;
-using ChatApp.ViewModels;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 
 namespace ChatApp.Services
 {
@@ -27,6 +25,7 @@ namespace ChatApp.Services
             _signInManager = signInManager;
             _viewModelService = viewModelService;
         }
+
         public IEnumerable<AppUser> GetAppUsers => _dataContext.Users;
 
         public async Task<IdentityResult> CreateUserAsync(MainViewModel user)
@@ -54,7 +53,6 @@ namespace ChatApp.Services
 
         public async Task<AppUser> GetloggedinUser(ClaimsPrincipal user)
         {
-            
             var result = await _userManager.GetUserAsync(user);
             return result;
         }

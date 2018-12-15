@@ -1,6 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace ChatApp.Models.Entities
 {
@@ -19,7 +17,6 @@ namespace ChatApp.Models.Entities
         public virtual DbSet<Chat> Chat { get; set; }
         public virtual DbSet<Friends> Friends { get; set; }
         public virtual DbSet<PrivateMessage> PrivateMessage { get; set; }
-
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
