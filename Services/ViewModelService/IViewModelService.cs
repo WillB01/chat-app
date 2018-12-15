@@ -11,7 +11,8 @@ namespace ChatApp.Services.ViewModelService
     {
         LoginUserViewModel UserLoginViewModel { get; set; }
         RegisterNewUserViewModel RegisterNewUserView { get; set; }
-        Task<IEnumerable<Chat>> ChatsViewModels { get; set; }
+        Task<IEnumerable<ChatsViewModel>> ChatsViewModels { get; set; }
         IDictionary<string, string> FreindsViewModel { get; set; }
+        IdentityUserVM User { get; set; }
     }
 }

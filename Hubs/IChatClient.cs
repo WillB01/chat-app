@@ -14,6 +14,6 @@ namespace ChatApp.Hubs
         Task ReceiveMessage(string ConnectionId, string groupName);
         Task ReceiveMessage(string sendFromId, string userId, string sendFromName, string userName, string message);
 
-        //Task<IGroupManager> GroupAddAsync(string connectionId, string groupName);
+        
     }
 }

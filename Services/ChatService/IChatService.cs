@@ -10,8 +10,7 @@ namespace ChatApp.Services
 {
     public interface IChatService
     {
-        IAsyncEnumerable<Chat> Chats { get; }
-        Task<IQueryable<IEnumerable<string>>> GetUserChats(AppUser user, AppUser receiver);
         Task<IQueryable<IEnumerable<string>>> GetUserConversation(AppUser loggedinUser, string getSecondUser);
+        Task SaveConversation(string userLoggedin ,string userId, string message, DateTime time);
     }
 }

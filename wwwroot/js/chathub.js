@@ -21,14 +21,10 @@ const startChat = () => {
             connection.invoke('getConnectionId')
         )
         .then((connectionId) => {
-            //let history = connection.invoke('GetHistory', 'kewl');
-            //history.then(h => {
-                //userHistory = h;
-                userConnectionId = connectionId;
-                //console.log(userHistory);
-                //console.log(userConnectionId);
-            //});
-        })
+
+            userConnectionId = connectionId;
+
+        });
 };
 ////////////////////////
 
@@ -41,7 +37,7 @@ const clickHandlerFriendItem = () => {
             let history = connection.invoke('GetHistory', value);
             history.then(h => {
                 userHistory = h;
-            
+                console.log(h);
                 const p = document.createElement("p");
                 const text = document.createTextNode(`${userHistory}`);
                 p.appendChild(text);
@@ -57,38 +53,14 @@ const clickHandlerFriendItem = () => {
 };
 
 
-
-
-
-
-
 connection.on('ReceiveMessage', renderMessage);
 startChat();
 clickHandlerFriendItem();
-
-//connection.on("ReceiveMessage", function (user, message) {
-//    console.log(message);
-//    console.log(sendMsgBtn);
-//    console.log(user);
-    
-
-//    let li = document.createElement("li");
-
-//    li.textContent = user;
-//    chatBox.appendChild(li);
-//    renderMessage(user);
-   
-//});
-
-
 
 
 sendMsgBtn.addEventListener('click', () => {
     let text = chatText.value;
     chatText.value = '';
-    const p = document.createElement("p");
-    const textToPrint = document.createTextNode(`me - ${text}`);
-    textToPrintDiv.appendChild(textToPrint);
     connection.invoke('SendPrivateMessage', userToChatWith, text);
    
 });
@@ -99,21 +71,7 @@ function renderMessage(message, time) {
     const p = document.createElement("p");
     const text = document.createTextNode(`${time} - ${message}`);
     p.appendChild(text);
-    chatBox.appendChild(p);
+    textToPrintDiv.appendChild(p);
 
 
 };
-
-//function send() {
-//    connection.invoke('SendPrivateMessage', userToChatWith, 'text');
-//}
-
-
-//document.getElementById("sendButton").addEventListener("click", function (event) {
-//    const user = document.getElementById("userInput").value;
-//    const message = document.getElementById("messageInput").value;
-//    connection.invoke("SendMessage", user, message).catch(function (err) {
-//        return console.error(err.toString());
-//    });
-//    event.preventDefault();
-//});

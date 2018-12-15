@@ -36,9 +36,7 @@ namespace ChatApp.Controllers.Home
             var user = await _userService.GetloggedinUser(loggedinUser);
 
             _viewModelService.FreindsViewModel = await _friendService.GetFriends(user);
-            //_viewModelService.ChatsViewModels = _chatService.GetUserChats(user);
-
-
+         
             return View(_viewModelService);
         }
 
