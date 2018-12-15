@@ -65,7 +65,7 @@ namespace ChatApp.Hubs
 
         public string GetConnectionId() => Context.ConnectionId;
 
-        public async Task<IQueryable<IEnumerable<string>>> GetHistory(string value)
+        public async Task<IEnumerable<ChatsViewModel>[]> GetHistory(string value)
         {
             var user = _httpContextAccessor.HttpContext.User;
             var loggedinUser = await _userService.GetloggedinUser(user);

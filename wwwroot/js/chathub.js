@@ -6,7 +6,6 @@ const sendMsgBtn = document.querySelector('#send-msg');
 const friendItem = document.querySelectorAll('.friends');
 const chatText = document.querySelector('#chat-text');
 let userConnectionId = '';
-let userHistory = '';
 let userToChatWith = '';
 
 //Signalr stuff ////////////
@@ -26,7 +25,16 @@ const startChat = () => {
 
         });
 };
+
 ////////////////////////
+
+const flattenMsgHistory = (history) => {
+    const stageOne = [];
+    for (var i = 0; i < history.length; i++) {
+        stageOne.push({ [history[i][0].time] : history[i][0].message });
+    }
+    return stageOne;
+};
 
 const clickHandlerFriendItem = () => {
     for (var i = 0; i < friendItem.length; i++) {
@@ -36,12 +44,14 @@ const clickHandlerFriendItem = () => {
           
             let history = connection.invoke('GetHistory', value);
             history.then(h => {
-                userHistory = h;
-                console.log(h);
-                const p = document.createElement("p");
-                const text = document.createTextNode(`${userHistory}`);
-                p.appendChild(text);
-                textToPrintDiv.appendChild(p);
+                flattenMsgHistory(h).map(item => {
+                    const p = document.createElement("p");
+                    const text = document.createTextNode(`${Object.keys(item)} - ${item[Object.keys(item)]}`);
+                    p.appendChild(text);
+                    textToPrintDiv.appendChild(p);
+                });
+                
+               
                 userToChatWith = e.target.innerHTML;
               
                 
@@ -50,7 +60,9 @@ const clickHandlerFriendItem = () => {
            
         });
     };
-};
+}; // starts when user clicks on a friend
+
+
 
 
 connection.on('ReceiveMessage', renderMessage);
