@@ -19,16 +19,17 @@ namespace ChatApp.Services
             _userService = userService;
         }
 
-        public async Task<ChatsViewModel[]> GetUserConversation(AppUser loggedinUser, string getSecondUser)
+        public async Task<ChatsViewModel[]> GetUserConversation(IdentityUserVM loggedinUser, string getSecondUser)
         {
-            var sendToId = await _userService.GetUserId(getSecondUser);
+            var toUserId = await _userService.GetUserId(getSecondUser);
 
             var fromUser = await Task.Run(() => _chatContext.PrivateMessage
               .Include(p => p.Chat)
-              .Where(p => p.UserId == loggedinUser.Id && p.ToUserId == sendToId)
+              .Where(p => p.UserId == loggedinUser.Id && p.ToUserId == toUserId)
               .Select((b) =>
               new ChatsViewModel
               {
+                 ConversationId = b.UserId != toUserId ? b.UserId : toUserId,
                   Message = b.Chat.Message,
                   Time = b.Chat.Time,
                   IsLoggedin = true,
@@ -37,10 +38,11 @@ namespace ChatApp.Services
 
             var toUser = await Task.Run(() => _chatContext.PrivateMessage
               .Include(p => p.Chat)
-              .Where(p => p.UserId == sendToId && p.ToUserId == loggedinUser.Id)
+              .Where(p => p.UserId == toUserId && p.ToUserId == loggedinUser.Id)
               .Select((b) =>
               new ChatsViewModel
               {
+                  ConversationId = b.UserId != toUserId ? b.UserId : toUserId,
                   Message = b.Chat.Message,
                   Time = b.Chat.Time,
                   IsLoggedin = false,
@@ -56,6 +58,7 @@ namespace ChatApp.Services
         {
             var viewModel = new PrivateMessage
             {
+                
                 UserId = userLoggedin,
                 ToUserId = userId,
             };

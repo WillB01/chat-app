@@ -7,7 +7,7 @@ namespace ChatApp.Services
 {
     public interface IChatService
     {
-        Task<ChatsViewModel[]> GetUserConversation(AppUser loggedinUser, string getSecondUser);
+        Task<ChatsViewModel[]> GetUserConversation(IdentityUserVM loggedinUser, string getSecondUser);
 
         Task SaveConversation(string userLoggedin, string userId, string message, DateTime time);
     }

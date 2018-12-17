@@ -6,6 +6,9 @@ const friendItem = document.querySelectorAll('.friends');
 const chatText = document.querySelector('#chat-text');
 let userConnectionId = '';
 let userToChatWith = '';
+let userName = ''; 
+let friendDataValue = '';
+let divToPrint = '';
 
 //Signalr stuff ////////////
 const connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
@@ -15,13 +18,17 @@ const startChat = () => {
         .catch((err) => console.error(err.toString())
         )
         .then(() =>
-            connection.invoke('getConnectionId')
+            connection.invoke('GetUserName')
         )
-        .then((connectionId) => {
-            userConnectionId = connectionId;
+        .then((name) => {
+            userName = name;
         });
+  
+       
 };
-
+const button = document.createElement("button");
+var buttonText = document.createTextNode("Send");  
+const input = document.createElement("input");
 ////////////////////////
 
 const flattenMsgHistory = (history) => {
@@ -35,24 +42,58 @@ const flattenMsgHistory = (history) => {
 const clickHandlerFriendItem = () => {
     for (var i = 0; i < friendItem.length; i++) {
         friendItem[i].addEventListener('click', (e) => {
+            friendDataValue = e.target.dataset.friend;
+            
+          
+
+           
+            //console.log(friendDataValue);
+                
+          
+                //divToPrint.innerHTML = '';
+            
+           
             textToPrintDiv.innerHTML = '';
+            //chatBox.innerHTML = '';
+           
             const value = e.target.innerHTML;
+           
+                button.append(buttonText);
+                button.id = 'send-msg';
+                input.id = 'chat-text';
+                chatBox.append(input);
+                chatBox.append(button);
+            
+            textToPrintDiv.setAttribute('friend-chat', friendDataValue);
 
-            let history = connection.invoke('GetHistory', value);
-            history.then(result => {
-                flattenMsgHistory(result).map((item, index) => {
-                    const p = document.createElement("p");
-                    const text = document.createTextNode(`${Object.keys(item)} - ${item[Object.keys(item)][0]}`);
-                    if (item[Object.keys(item)][1]) {
-                        p.classList.add('user-message-container');
-                    }
-                    p.appendChild(text);
-                    textToPrintDiv.appendChild(p);
-                });
+                let history = connection.invoke('GetHistory', value);
+                history.then(result => {
+                    flattenMsgHistory(result).map((item, index) => {
+                        const p = document.createElement("p");
 
+                        const text = document.createTextNode(`${Object.keys(item)} - ${item[Object.keys(item)][0]}`);
+                        if (item[Object.keys(item)][1]) {
+                            p.classList.add('user-message-container');
+                            p.setAttribute('data-user', friendDataValue );
+                        }
+                        p.appendChild(text);
+                        console.log(divToPrint);
+                        textToPrintDiv.appendChild(p);
+                        
+                        
+                    });
+
+            });
+            //divToPrint = document.querySelectorAll(`[friend-chat=${friendDataValue}]`)[0];
+            //if (friendDataValue ===  value) {
+            //    console.log(divToPrint);
+            //    console.log(true);
+            //}
+
+        
                 userToChatWith = e.target.innerHTML;
             });
-        });
+        
     };
 }; // starts when user clicks on a friend
 
@@ -60,21 +101,70 @@ connection.on('ReceiveMessage', renderMessage);
 startChat();
 clickHandlerFriendItem();
 
-sendMsgBtn.addEventListener('click', () => {
-    let text = chatText.value;
-    chatText.value = '';
+button.addEventListener('click', () => {
+    let text = input.value;
+    input.value = '';
     connection.invoke('SendPrivateMessage', userToChatWith, text);
 });
 
-function renderMessage(message, time, isLoggedin) {
-    console.log(`${isLoggedin}`);
+function renderMessage(message, time, isLoggedin, fromFriend) {
+    
 
-    const p = document.createElement("p");
+    divToPrint = document.querySelectorAll(`[friend-chat=${fromFriend}]`)[0];
+    var testP = document.createElement("p");
+    console.log(userName);
+    console.log(fromFriend);
+    console.log(divToPrint);
+ 
+    testP.appendChild(document.createTextNode(`${time} - ${message}`));
     if (isLoggedin) {
-        p.classList.add('user-message-container');
+        testP.classList.add('user-message-container');
+     
     }
 
-    const text = document.createTextNode(`${time} - ${message}`);
-    p.appendChild(text);
-    textToPrintDiv.appendChild(p);
+    if (divToPrint !== undefined) {
+        divToPrint.appendChild(testP);
+    }
+
+
+    //if (friendDataValue === fromFriend) {
+    //    console.log(divToPrint);
+    //    console.log(true);
+    //}
+
+  
+  
+
+        //const p = document.createElement("p");
+        //if (isLoggedin) {
+        //    p.classList.add('user-message-container');
+        //}
+
+        //const text = document.createTextNode(`${time} - ${message}`);
+        //p.appendChild(text);
+    //textToPrintDiv.appendChild(p);
+    //divToPrint.appendChild(p);
+
+   
+
+    
+   
 };
+
+async function connect(conn) {
+    conn.start().catch(e => {
+        sleep(5000);
+        console.log("Reconnecting Socket");
+        connect(conn);
+    }
+    )
+}
+
+connection.onclose(function (e) {
+    connect(connection);
+});
+
+async function sleep(msec) {
+    return new Promise(resolve => setTimeout(resolve, msec));
+}
+

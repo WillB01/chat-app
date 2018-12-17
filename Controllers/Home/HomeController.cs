@@ -1,6 +1,7 @@
 ﻿using ChatApp.Services;
 using ChatApp.Services.FriendService;
 using ChatApp.Services.ViewModelService;
+using ChatApp.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -31,7 +32,14 @@ namespace ChatApp.Controllers.Home
             var loggedinUser = HttpContext.User;
             var user = await _userService.GetloggedinUser(loggedinUser);
 
-            _viewModelService.FreindsViewModel = await _friendService.GetFriends(user);
+             var friends = await _friendService.GetFriends(user);
+            _viewModelService.FreindsViewModel = friends;
+            
+
+
+
+
+
 
             return View(_viewModelService);
         }

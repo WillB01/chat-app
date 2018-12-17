@@ -51,16 +51,24 @@ namespace ChatApp.Services
             await _signInManager.SignOutAsync();
         }
 
-        public async Task<AppUser> GetloggedinUser(ClaimsPrincipal user)
+        public async Task<IdentityUserVM> GetloggedinUser(ClaimsPrincipal user)
         {
+            
             var result = await _userManager.GetUserAsync(user);
-            return result;
+            var viewModel = new IdentityUserVM
+            {
+                Id = result.Id,
+                UserName = result.UserName,
+                Email = result.Email
+            };
+            return viewModel;
         }
 
         public async Task<AppUser> GetUserByUserName(string name)
         {
             var result = await Task.Run(() => _dataContext.Users.Where(p => p.UserName == name)
                 .FirstOrDefault());
+            
             return result;
         }
 

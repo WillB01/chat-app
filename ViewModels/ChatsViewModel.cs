@@ -9,6 +9,7 @@ namespace ChatApp.ViewModels
         public string IdentityId { get; set; }
         public string Message { get; set; }
         public DateTime Time { get; set; }
+        public string ConversationId { get; set; }
 
         public virtual AspNetUsers Identity { get; set; }
 

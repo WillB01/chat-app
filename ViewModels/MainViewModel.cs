@@ -12,8 +12,8 @@ namespace ChatApp.ViewModels
 
         public Task<IEnumerable<ChatsViewModel>> ChatsViewModels { get; set; }
 
-        public IDictionary<string, string> FreindsViewModel { get; set; }
+        public FriendsViewModel[] FreindsViewModel { get; set; }
 
-        public IdentityUserVM User { get; set; }
+        public IdentityUserVM[] User { get; set; }
     }
 }

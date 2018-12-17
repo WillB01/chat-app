@@ -17,7 +17,7 @@ namespace ChatApp.Services
 
         Task LogoutAsync();
 
-        Task<AppUser> GetloggedinUser(ClaimsPrincipal user);
+        Task<IdentityUserVM> GetloggedinUser(ClaimsPrincipal user);
 
         Task<AppUser> GetUserByUserName(string name);
 

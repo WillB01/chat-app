@@ -3,10 +3,13 @@
 @model MainViewModel
 
 <ul>
-    @foreach (var item in Model.FreindsViewModel)
+
+    @foreach (var friend in Model.FreindsViewModel)
     {
-        <li class="friends">@item.Key</li>
+        <li class="friends" data-friend="@friend.Name" >@friend.Name</li>
     }
+  
+
 </ul>
 
 <div id="chat-container">

@@ -6,6 +6,8 @@ namespace ChatApp.ViewModels
     {
         public string IdentityId { get; set; }
         public string FriendId { get; set; }
+        public int AmountOfFriends { get; set; }
+        public string Name { get; set; }
 
         public virtual AspNetUsers Friend { get; set; }
         public virtual AspNetUsers Identity { get; set; }

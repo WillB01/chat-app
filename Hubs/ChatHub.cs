@@ -1,4 +1,5 @@
 ﻿using ChatApp.Services;
+using ChatApp.Services.FriendService;
 using ChatApp.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.SignalR;
@@ -14,13 +15,19 @@ namespace ChatApp.Hubs
         private readonly IChatService _chatService;
         private readonly IUserService _userService;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private static HashSet<UserConnections> _uList = new HashSet<UserConnections>();
+        private readonly IFriendService _friendService;
+        private  HashSet<UserConnections> _uList = new HashSet<UserConnections>();
 
-        public ChatHub(IChatService chatService, IUserService userService, IHttpContextAccessor httpContextAccessor)
+        public IUserIdProvider _UserIdProvider { get; }
+
+        public ChatHub(IChatService chatService, IUserService userService, 
+            IHttpContextAccessor httpContextAccessor, IFriendService friendService, IUserIdProvider _userIdProvider)
         {
             _chatService = chatService;
             _userService = userService;
             _httpContextAccessor = httpContextAccessor;
+            _friendService = friendService;
+            _UserIdProvider = _userIdProvider;
         }
 
         public override async Task OnConnectedAsync()
@@ -41,24 +48,20 @@ namespace ChatApp.Hubs
             await base.OnDisconnectedAsync(exception);
         }
 
+
         public async Task SendPrivateMessage(string user, string message)
         {
-            var id = await _userService.GetUserId(user);
+            var toSendId = await _userService.GetUserId(user);
             var loggedinUserName = await Task.Run(() => Context.User.Identity.Name);
             var idLogged = await _userService.GetUserId(loggedinUserName);
 
-            await _chatService.SaveConversation(idLogged, id, message, DateTime.Now);
+            await _chatService.SaveConversation(idLogged, toSendId, message, DateTime.Now);
 
-            var userTosend = await Task.Run(() => _uList
-            .Where(u => u.UserName == user)
-            .Select(p => p.ConnectionID)
-            .FirstOrDefault());
-
-            await Clients.Client(userTosend).ReceiveMessage(message, DateTime.Now, false);
-            await Clients.Caller.ReceiveMessage(message, DateTime.Now, true);
+            await Clients.User(toSendId).ReceiveMessage(message, DateTime.Now, false, loggedinUserName);
+            await Clients.Caller.ReceiveMessage(message, DateTime.Now, true, user);
         }
 
-        public string GetConnectionId() => Context.ConnectionId;
+        public string GetUserName() => Context.User.Identity.Name;
 
         public async Task<ChatsViewModel[]> GetHistory(string value)
         {
