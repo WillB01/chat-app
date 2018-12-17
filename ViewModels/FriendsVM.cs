@@ -2,7 +2,7 @@
 
 namespace ChatApp.ViewModels
 {
-    public class FriendsViewModel
+    public class FriendsVM
     {
         public string IdentityId { get; set; }
         public string FriendId { get; set; }

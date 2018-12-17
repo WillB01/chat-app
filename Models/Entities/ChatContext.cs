@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace ChatApp.Models.Entities
 {
@@ -14,9 +16,10 @@ namespace ChatApp.Models.Entities
         }
 
         public virtual DbSet<AspNetUsers> AspNetUsers { get; set; }
-        public virtual DbSet<Chat> Chat { get; set; }
+        public virtual DbSet<Conversation> Conversation { get; set; }
         public virtual DbSet<Friends> Friends { get; set; }
-        public virtual DbSet<PrivateMessage> PrivateMessage { get; set; }
+        public virtual DbSet<Message> Message { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -43,19 +46,33 @@ namespace ChatApp.Models.Entities
                 entity.Property(e => e.UserName).HasMaxLength(256);
             });
 
-            modelBuilder.Entity<Chat>(entity =>
+            modelBuilder.Entity<Conversation>(entity =>
             {
-                entity.Property(e => e.IdentityId)
+                entity.Property(e => e.ToUserId)
                     .IsRequired()
                     .HasMaxLength(450);
 
-                entity.Property(e => e.Message).IsRequired();
+                entity.Property(e => e.UserId)
+                    .IsRequired()
+                    .HasMaxLength(450);
 
-                entity.HasOne(d => d.Identity)
-                    .WithMany(p => p.Chat)
-                    .HasForeignKey(d => d.IdentityId)
+                entity.HasOne(d => d.Message)
+                    .WithMany(p => p.Conversation)
+                    .HasForeignKey(d => d.MessageId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Chat__IdentityId__49C3F6B7");
+                    .HasConstraintName("FK__Conversat__Messa__1AD3FDA4");
+
+                entity.HasOne(d => d.ToUser)
+                    .WithMany(p => p.ConversationToUser)
+                    .HasForeignKey(d => d.ToUserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__Conversat__ToUse__19DFD96B");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.ConversationUser)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__Conversat__UserI__18EBB532");
             });
 
             modelBuilder.Entity<Friends>(entity =>
@@ -76,27 +93,21 @@ namespace ChatApp.Models.Entities
                     .HasConstraintName("FK__Friends__Identit__4CA06362");
             });
 
-            modelBuilder.Entity<PrivateMessage>(entity =>
+            modelBuilder.Entity<Message>(entity =>
             {
-                entity.Property(e => e.ToUserId).HasMaxLength(450);
+                entity.Property(e => e.IdentityId)
+                    .IsRequired()
+                    .HasMaxLength(450);
 
-                entity.Property(e => e.UserId).HasMaxLength(450);
+                entity.Property(e => e.Message1)
+                    .IsRequired()
+                    .HasColumnName("Message");
 
-                entity.HasOne(d => d.Chat)
-                    .WithMany(p => p.PrivateMessage)
-                    .HasForeignKey(d => d.ChatId)
+                entity.HasOne(d => d.Identity)
+                    .WithMany(p => p.Message)
+                    .HasForeignKey(d => d.IdentityId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__PrivateMe__ChatI__5535A963");
-
-                entity.HasOne(d => d.ToUser)
-                    .WithMany(p => p.PrivateMessageToUser)
-                    .HasForeignKey(d => d.ToUserId)
-                    .HasConstraintName("FK__PrivateMe__ToUse__534D60F1");
-
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.PrivateMessageUser)
-                    .HasForeignKey(d => d.UserId)
-                    .HasConstraintName("FK__PrivateMe__UserI__52593CB8");
+                    .HasConstraintName("FK__Message__Identit__160F4887");
             });
         }
     }

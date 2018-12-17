@@ -1,18 +1,18 @@
-﻿@model MainViewModel
+﻿@model MainVM
 @{
     ViewData["Title"] = "Login";
 }
 
 <div id="login-user">
     <form asp-action="Login" method="post" autocomplete="off">
-        <label asp-for="UserLoginViewModel.Name"></label>
-        <input asp-for="UserLoginViewModel.Name" type="text" />
-        <label asp-for="UserLoginViewModel.Password"></label>
-        <input asp-for="UserLoginViewModel.Password" type="password" />
+        <label asp-for="UserLoginVM.Name"></label>
+        <input asp-for="UserLoginVM.Name" type="text" />
+        <label asp-for="UserLoginVM.Password"></label>
+        <input asp-for="UserLoginVM.Password" type="password" />
         <input type="submit" />
     </form>
     <div>
-        <span asp-validation-for="UserLoginViewModel.Name"></span>
-        <span asp-validation-for="UserLoginViewModel.Password"></span>
+        <span asp-validation-for="UserLoginVM.Name"></span>
+        <span asp-validation-for="UserLoginVM.Password"></span>
     </div>
 </div>

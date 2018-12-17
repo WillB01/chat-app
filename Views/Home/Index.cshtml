@@ -1,16 +1,19 @@
-﻿@*@model IEnumerable<Chat>*@
-
-@model MainViewModel
+﻿
+@model MainVM
+<div id="search-container">
+    @{
+        await Html.RenderPartialAsync("_Search", Model);
+    }
+</div>
 
 <ul>
 
-    @foreach (var friend in Model.FreindsViewModel)
+    @foreach (var friend in Model.FriendsVM)
     {
-        <li class="friends" data-friend="@friend.Name" >@friend.Name</li>
+        <li class="friends" data-friend="@friend.Name">@friend.Name</li>
     }
-  
-
 </ul>
+
 
 <div id="chat-container">
     @{
@@ -22,5 +25,12 @@
     <link rel="stylesheet" type="text/css" media="screen" href="~/css/chatHubStyle.css" />
 }
 @section scripts{
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous"></script>
+    <script src="~/lib/typeahead.js/typeahead.jquery.min.js"></script>
+    <script src="~/lib/typeahead.js/typeahead.bundle.min.js"></script>
+    <script src="~/lib/typeahead.js/bloodhound.min.js"></script>
     <script src="~/js/chathub.js"></script>
+    <script src="~/js/Search.js"></script>
 }

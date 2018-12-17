@@ -1,21 +1,21 @@
-﻿@model MainViewModel
+﻿@model MainVM
 @{
     ViewData["Title"] = "Register";
 }
 
 <div id="register-user">
     <form asp-action="Register" method="post" autocomplete="off">
-        <label asp-for="RegisterNewUserView.Name"></label>
-        <input asp-for="RegisterNewUserView.Name" type="text" />
-        <label asp-for="RegisterNewUserView.Email"></label>
-        <input asp-for="RegisterNewUserView.Email" type="email" />
-        <label asp-for="RegisterNewUserView.Password"></label>
-        <input asp-for="RegisterNewUserView.Password" type="password" />
+        <label asp-for="RegisterNewVM.Name"></label>
+        <input asp-for="RegisterNewVM.Name" type="text" />
+        <label asp-for="RegisterNewVM.Email"></label>
+        <input asp-for="RegisterNewVM.Email" type="email" />
+        <label asp-for="RegisterNewVM.Password"></label>
+        <input asp-for="RegisterNewVM.Password" type="password" />
         <input type="submit" value="Create" />
     </form>
     <div>
-        <span asp-validation-for="RegisterNewUserView.Name"></span>
-        <span asp-validation-for="RegisterNewUserView.Email"></span>
-        <span asp-validation-for="RegisterNewUserView.Password"></span>
+        <span asp-validation-for="RegisterNewVM.Name"></span>
+        <span asp-validation-for="RegisterNewVM.Email"></span>
+        <span asp-validation-for="RegisterNewVM.Password"></span>
     </div>
 </div>

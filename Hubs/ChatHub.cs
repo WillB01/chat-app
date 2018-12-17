@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace ChatApp.Hubs
@@ -16,11 +15,11 @@ namespace ChatApp.Hubs
         private readonly IUserService _userService;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IFriendService _friendService;
-        private  HashSet<UserConnections> _uList = new HashSet<UserConnections>();
+        private HashSet<UserConnections> _uList = new HashSet<UserConnections>();
 
         public IUserIdProvider _UserIdProvider { get; }
 
-        public ChatHub(IChatService chatService, IUserService userService, 
+        public ChatHub(IChatService chatService, IUserService userService,
             IHttpContextAccessor httpContextAccessor, IFriendService friendService, IUserIdProvider _userIdProvider)
         {
             _chatService = chatService;
@@ -48,7 +47,6 @@ namespace ChatApp.Hubs
             await base.OnDisconnectedAsync(exception);
         }
 
-
         public async Task SendPrivateMessage(string user, string message)
         {
             var toSendId = await _userService.GetUserId(user);
@@ -63,7 +61,7 @@ namespace ChatApp.Hubs
 
         public string GetUserName() => Context.User.Identity.Name;
 
-        public async Task<ChatsViewModel[]> GetHistory(string value)
+        public async Task<MessageVM[]> GetHistory(string value)
         {
             var user = _httpContextAccessor.HttpContext.User;
             var loggedinUser = await _userService.GetloggedinUser(user);

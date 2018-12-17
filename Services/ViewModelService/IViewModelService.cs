@@ -6,10 +6,10 @@ namespace ChatApp.Services.ViewModelService
 {
     public interface IViewModelService
     {
-        LoginUserViewModel UserLoginViewModel { get; set; }
-        RegisterNewUserViewModel RegisterNewUserView { get; set; }
-        Task<IEnumerable<ChatsViewModel>> ChatsViewModels { get; set; }
-        FriendsViewModel[] FreindsViewModel { get; set; }
-        IdentityUserVM[] User { get; set; }
+        LoginUserVM UserLoginVM { get; set; }
+        RegisterNewUserVM RegisterNewVM { get; set; }
+        Task<IEnumerable<MessageVM>> MessageVM { get; set; }
+        FriendsVM[] FriendsVM { get; set; }
+        IdentityUserVM[] IdentityUserVM { get; set; }
     }
 }

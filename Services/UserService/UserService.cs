@@ -17,6 +17,8 @@ namespace ChatApp.Services
         private readonly SignInManager<AppUser> _signInManager;
         private readonly IViewModelService _viewModelService;
 
+       
+
         public UserService(DataContext dataContext, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager,
             IViewModelService viewModelService)
         {
@@ -26,23 +28,35 @@ namespace ChatApp.Services
             _viewModelService = viewModelService;
         }
 
-        public IEnumerable<AppUser> GetAppUsers => _dataContext.Users;
-
-        public async Task<IdentityResult> CreateUserAsync(MainViewModel user)
+        public async Task<IdentityUserVM[]> GetAppUsers()
         {
-            var appUser = new AppUser
+            var result = await Task.Run(() => _dataContext.Users
+            .Select(e => new IdentityUserVM
             {
-                UserName = user.RegisterNewUserView.Name,
-                Email = user.RegisterNewUserView.Email,
-            };
+                Id = e.Id,
+                UserName = e.UserName,
+                Email = e.Email,
+            })
+            .ToArray());
 
-            var result = await _userManager.CreateAsync(appUser, user.RegisterNewUserView.Password);
             return result;
         }
 
-        public async Task<SignInResult> LoginAsync(MainViewModel user)
+        public async Task<IdentityResult> CreateUserAsync(MainVM user)
         {
-            var result = await _signInManager.PasswordSignInAsync(user.UserLoginViewModel.Name, user.UserLoginViewModel.Password, false, false);
+            var appUser = new AppUser
+            {
+                UserName = user.RegisterNewVM.Name,
+                Email = user.RegisterNewVM.Email,
+            };
+
+            var result = await _userManager.CreateAsync(appUser, user.RegisterNewVM.Password);
+            return result;
+        }
+
+        public async Task<SignInResult> LoginAsync(MainVM user)
+        {
+            var result = await _signInManager.PasswordSignInAsync(user.UserLoginVM.Name, user.UserLoginVM.Password, false, false);
             return result;
         }
 
@@ -53,7 +67,6 @@ namespace ChatApp.Services
 
         public async Task<IdentityUserVM> GetloggedinUser(ClaimsPrincipal user)
         {
-            
             var result = await _userManager.GetUserAsync(user);
             var viewModel = new IdentityUserVM
             {
@@ -64,12 +77,19 @@ namespace ChatApp.Services
             return viewModel;
         }
 
-        public async Task<AppUser> GetUserByUserName(string name)
+        public async Task<IdentityUserVM> GetUserByUserName(string name)
         {
             var result = await Task.Run(() => _dataContext.Users.Where(p => p.UserName == name)
                 .FirstOrDefault());
+            var viewModel = new IdentityUserVM
+            {
+                Id = result.Id,
+                UserName = result.UserName,
+                Email = result.Email
+            };
             
-            return result;
+
+            return viewModel;
         }
 
         public async Task<string> GetUserId(string name)

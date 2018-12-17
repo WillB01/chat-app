@@ -7,11 +7,11 @@ namespace ChatApp.Models.Entities
     {
         public AspNetUsers()
         {
-            Chat = new HashSet<Chat>();
+            ConversationToUser = new HashSet<Conversation>();
+            ConversationUser = new HashSet<Conversation>();
             FriendsFriend = new HashSet<Friends>();
             FriendsIdentity = new HashSet<Friends>();
-            PrivateMessageToUser = new HashSet<PrivateMessage>();
-            PrivateMessageUser = new HashSet<PrivateMessage>();
+            Message = new HashSet<Message>();
         }
 
         public string Id { get; set; }
@@ -30,10 +30,10 @@ namespace ChatApp.Models.Entities
         public bool LockoutEnabled { get; set; }
         public int AccessFailedCount { get; set; }
 
-        public virtual ICollection<Chat> Chat { get; set; }
+        public virtual ICollection<Conversation> ConversationToUser { get; set; }
+        public virtual ICollection<Conversation> ConversationUser { get; set; }
         public virtual ICollection<Friends> FriendsFriend { get; set; }
         public virtual ICollection<Friends> FriendsIdentity { get; set; }
-        public virtual ICollection<PrivateMessage> PrivateMessageToUser { get; set; }
-        public virtual ICollection<PrivateMessage> PrivateMessageUser { get; set; }
+        public virtual ICollection<Message> Message { get; set; }
     }
 }

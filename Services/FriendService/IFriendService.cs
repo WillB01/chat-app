@@ -1,12 +1,10 @@
-﻿using ChatApp.Models.Identity;
-using ChatApp.ViewModels;
-using System.Collections.Generic;
+﻿using ChatApp.ViewModels;
 using System.Threading.Tasks;
 
 namespace ChatApp.Services.FriendService
 {
     public interface IFriendService
     {
-        Task<FriendsViewModel[]> GetFriends(IdentityUserVM user);
+        Task<FriendsVM[]> GetFriends(IdentityUserVM user);
     }
 }

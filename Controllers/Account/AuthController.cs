@@ -40,14 +40,14 @@ namespace ChatApp.Controllers.Account
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(MainViewModel user)
+        public async Task<IActionResult> Login(MainVM user1)
         {
             if (!ModelState.IsValid)
             {
                 return View();
             }
 
-            var result = await _userService.LoginAsync(user);
+            var result = await _userService.LoginAsync(user1);
 
             if (!result.Succeeded)
             {
@@ -64,14 +64,14 @@ namespace ChatApp.Controllers.Account
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register(MainViewModel user)
+        public async Task<IActionResult> Register(MainVM user1)
         {
             if (!ModelState.IsValid)
             {
                 return View();
             }
 
-            var result = await _userService.CreateUserAsync(user);
+            var result = await _userService.CreateUserAsync(user1);
 
             if (!result.Succeeded)
             {

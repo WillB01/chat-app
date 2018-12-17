@@ -9,17 +9,17 @@ namespace ChatApp.Services
 {
     public interface IUserService
     {
-        IEnumerable<AppUser> GetAppUsers { get; }
+        Task<IdentityUserVM[]> GetAppUsers();
 
-        Task<IdentityResult> CreateUserAsync(MainViewModel newUser);
+        Task<IdentityResult> CreateUserAsync(MainVM newUser);
 
-        Task<SignInResult> LoginAsync(MainViewModel user);
+        Task<SignInResult> LoginAsync(MainVM user);
 
         Task LogoutAsync();
 
         Task<IdentityUserVM> GetloggedinUser(ClaimsPrincipal user);
 
-        Task<AppUser> GetUserByUserName(string name);
+        Task<IdentityUserVM> GetUserByUserName(string name);
 
         Task<string> GetUserId(string name);
     }

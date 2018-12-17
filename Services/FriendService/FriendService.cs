@@ -1,9 +1,9 @@
 ﻿using ChatApp.Models.Entities;
-using ChatApp.Models.Identity;
 using ChatApp.ViewModels;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace ChatApp.Services.FriendService
 {
@@ -18,14 +18,19 @@ namespace ChatApp.Services.FriendService
             _userService = userService;
         }
 
-        private async Task<IDictionary<string, string>> GetFriendsFromDb(IdentityUserVM user) => await Task.Run(() => _chatContext.Friends
+        private async Task<IDictionary<string, string>> GetFriendsFromDb(IdentityUserVM user)
+        {
+            var result = await Task.Run(() => _chatContext.Friends
+                 .Include(e => e.Friend)
                  .Where(p => p.IdentityId == user.Id)
                  .ToDictionary(p => p.Friend.UserName, i => i.FriendId));
+            return result;
+        }
 
-        public async Task<FriendsViewModel[]> GetFriends(IdentityUserVM user)
+        public async Task<FriendsVM[]> GetFriends(IdentityUserVM user)
         {
             var friends = await GetFriendsFromDb(user);
-            var viewModel = friends.Select(p => new FriendsViewModel
+            var viewModel = friends.Select(p => new FriendsVM
             {
                 AmountOfFriends = friends.Count(),
                 Name = p.Key,

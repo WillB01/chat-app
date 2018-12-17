@@ -1,5 +1,4 @@
-﻿using ChatApp.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -10,6 +9,7 @@ namespace ChatApp.Hubs
         Task ReceiveMessage(string user, DateTimeOffset time, IEnumerable<string> message);
 
         Task ReceiveMessage(string message, DateTime time, bool isLoggedIn);
+
         Task ReceiveMessage(string message, DateTime time, bool isLoggedIn, string fromFriend);
 
         Task ReceiveMessage(string message);
@@ -17,7 +17,5 @@ namespace ChatApp.Hubs
         Task ReceiveMessage(string ConnectionId, string groupName);
 
         Task ReceiveMessage(string sendFromId, string userId, string sendFromName, string userName, string message);
-
-        
     }
 }

@@ -2,7 +2,7 @@
 
 namespace ChatApp.ViewModels
 {
-    public class LoginUserViewModel
+    public class LoginUserVM
     {
         [Required]
         public string Name { get; set; }

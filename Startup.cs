@@ -31,7 +31,7 @@ namespace ChatApp
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IChatService, ChatService>();
             services.AddTransient<IFriendService, FriendService>();
-            services.AddTransient<IViewModelService, MainViewModel>();
+            services.AddTransient<IViewModelService, MainVM>();
 
             services.AddDbContext<DataContext>(options =>
             {
