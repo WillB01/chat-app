@@ -15,5 +15,7 @@ namespace ChatApp.ViewModels
         public FriendsVM[] FriendsVM { get; set; }
 
         public IdentityUserVM[] IdentityUserVM { get; set; }
+
+        public TypeaheadUsersVM[] TypeaheadUsersVM { get; set; }
     }
 }

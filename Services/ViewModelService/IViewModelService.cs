@@ -11,5 +11,6 @@ namespace ChatApp.Services.ViewModelService
         Task<IEnumerable<MessageVM>> MessageVM { get; set; }
         FriendsVM[] FriendsVM { get; set; }
         IdentityUserVM[] IdentityUserVM { get; set; }
+        TypeaheadUsersVM[] TypeaheadUsersVM { get; set; }
     }
 }

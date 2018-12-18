@@ -1,14 +1,32 @@
-﻿var countries = new Bloodhound({
-    datumTokenizer: Bloodhound.tokenizers.whitespace,
+﻿
+var viewModel = new Bloodhound({
+    datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
     queryTokenizer: Bloodhound.tokenizers.whitespace,
-    // url points to a json file that contains an array of country names, see
-    // https://github.com/twitter/typeahead.js/blob/gh-pages/data/countries.json
-    prefetch: '../search/friends'
+   
+
+    remote: {
+        url: '../search/friends/?q=%QUERY',
+        wildcard: '%QUERY',
+        filter: (list) => {
+           
+            let test = [...list];
+            console.log(test);
+            return $.map(test, (name) => {
+                return { user: name.userName };
+            })
+            
+        },
+        rateLimitby: 3
+    }
 });
+
+
 
 // passing in `null` for the `options` arguments will result in the default
 // options being used
-$('#prefetch .typeahead').typeahead(null, {
-    name: 'countries',
-    source: countries
+$('#remote .typeahead').typeahead(null, {
+    name: 'viewModel',
+    displayKey: 'user',
+    source: viewModel
 });
+
