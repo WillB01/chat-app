@@ -19,9 +19,10 @@ namespace ChatApp.Controllers.Search
 
         [HttpGet]
         public async Task<TypeaheadUsersVM[]>  Friends([FromQuery] string q)
-        {   
+        {
+            var queryString = q.ToLower();
             var users = await _userService.GetAppUsers();
-            var viewModel = users.Where(u => u.UserName.Contains(q))
+            var viewModel = users.Where(u => u.UserName.ToLower().StartsWith(queryString))
                 .Select(p =>  new TypeaheadUsersVM
             {
                 UserName = p.UserName,
@@ -29,6 +30,12 @@ namespace ChatApp.Controllers.Search
             }).ToArray();
             
             return viewModel;
+        }
+
+        [HttpPost]
+        public async Task PostSearchResult([FromBody] TypeaheadUsersVM person)
+        {
+            var b = person;
         }
     }
 }

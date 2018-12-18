@@ -1,4 +1,8 @@
-﻿
+﻿const searchInput = document.querySelector('#search-input');
+
+
+
+let searchFriend = [];
 var viewModel = new Bloodhound({
     datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
     queryTokenizer: Bloodhound.tokenizers.whitespace,
@@ -7,26 +11,74 @@ var viewModel = new Bloodhound({
     remote: {
         url: '../search/friends/?q=%QUERY',
         wildcard: '%QUERY',
-        filter: (list) => {
+        filter: (resut) => {
            
-            let test = [...list];
-            console.log(test);
-            return $.map(test, (name) => {
-                return { user: name.userName };
+            const friends = [...resut];
+            searchFriend = friends;
+           
+            return $.map(friends, (res) => {
+
+                return { userName: res.userName, id: res.id };
             })
             
         },
-        rateLimitby: 3
+        rateLimitby: 3,
+        
+        
     }
 });
 
-
-
-// passing in `null` for the `options` arguments will result in the default
-// options being used
 $('#remote .typeahead').typeahead(null, {
     name: 'viewModel',
-    displayKey: 'user',
-    source: viewModel
+    displayKey: 'userName',
+    source: viewModel,
+
 });
+
+const fetchPost = (itemToSend) => {
+    fetch("/search/PostSearchResult",
+        {
+
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            method: "POST",
+
+            body: JSON.stringify(itemToSend)
+        })
+        .then(function (res) { console.log(res); })
+        .catch(function (res) { console.log(res); });
+
+};
+
+
+$('input.typeahead').on('typeahead:selected', function (event, selection) {
+    fetchPost(selection);
+});
+
+
+
+//document.querySelector('.tt-menu').addEventListener('click', (e) => {
+//    console.log(e.target.innerHTML);
+//});
+
+//document.querySelector(' .tt-suggestion.tt-cursor ).addEventListener('keypress', (e) => {
+//    console.log(e.target.innerHTML);
+//});
+
+
+
+
+//searchInput.addEventListener('keypress', (e) => {
+//    if (e.keyCode === 13) {
+//        console.log(searchFriend);
+//        fetchPost(e.target.innerHTML);
+//    }
+//});
+
+
+
+
+
 
