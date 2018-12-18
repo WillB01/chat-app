@@ -1,4 +1,5 @@
 ﻿using ChatApp.Hubs;
+using ChatApp.Hubs.FriendRequestHub;
 using ChatApp.Models.Context;
 using ChatApp.Models.Entities;
 using ChatApp.Models.Identity;
@@ -80,6 +81,7 @@ namespace ChatApp
             app.UseSignalR(routes =>
             {
                 routes.MapHub<ChatHub>("/chatHub");
+                routes.MapHub<FriendRequestHub>("/friendRequestHub");
             });
 
             app.UseMvcWithDefaultRoute();

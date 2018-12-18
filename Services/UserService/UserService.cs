@@ -98,5 +98,12 @@ namespace ChatApp.Services
                 .FirstOrDefault().Id);
             return result;
         }
+
+        public async Task<string> GetUserNameById(string id)
+        {
+            var result = await Task.Run(() => _dataContext.Users.Where(p => p.Id == id)
+            .Select(e => e.UserName).FirstOrDefault());
+            return result;
+        }
     }
 }

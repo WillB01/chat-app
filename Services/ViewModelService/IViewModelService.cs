@@ -10,7 +10,8 @@ namespace ChatApp.Services.ViewModelService
         RegisterNewUserVM RegisterNewVM { get; set; }
         Task<IEnumerable<MessageVM>> MessageVM { get; set; }
         FriendsVM[] FriendsVM { get; set; }
-        IdentityUserVM[] IdentityUserVM { get; set; }
+        IdentityUserVM[] IdentityUsersVM { get; set; }
+        IdentityUserVM IdentityUserVM { get; set; }
         TypeaheadUsersVM[] TypeaheadUsersVM { get; set; }
         FriendRequestVM[] FriendRequestVM { get; set; }
     }

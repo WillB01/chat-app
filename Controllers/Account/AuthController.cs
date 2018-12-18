@@ -22,6 +22,10 @@ namespace ChatApp.Controllers.Account
         [AllowAnonymous]
         public IActionResult Index()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             return View();
         }
 
@@ -29,6 +33,10 @@ namespace ChatApp.Controllers.Account
         [AllowAnonymous]
         public IActionResult Login()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             return View();
         }
 
@@ -36,12 +44,17 @@ namespace ChatApp.Controllers.Account
         [AllowAnonymous]
         public IActionResult Register()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             return View();
         }
 
         [HttpPost]
         public async Task<IActionResult> Login(MainVM user1)
         {
+            
             if (!ModelState.IsValid)
             {
                 return View();

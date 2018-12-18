@@ -36,7 +36,7 @@ $('#remote .typeahead').typeahead(null, {
 });
 
 const fetchPost = (itemToSend) => {
-    fetch("/search/PostSearchResult",
+    fetch("/search/postsearchresult",
         {
 
             headers: {
@@ -48,7 +48,12 @@ const fetchPost = (itemToSend) => {
             body: JSON.stringify(itemToSend)
         })
         .then(function (res) { console.log(res); })
-        .catch(function (res) { console.log(res); });
+        //.then(function () {
+      
+        //    window.location.replace('/profile/');
+        //})
+        .catch(function (res) { console.log(res); })
+       
 
 };
 

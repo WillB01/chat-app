@@ -22,5 +22,7 @@ namespace ChatApp.Services
         Task<IdentityUserVM> GetUserByUserName(string name);
 
         Task<string> GetUserId(string name);
+
+        Task<string> GetUserNameById(string id);
     }
 }

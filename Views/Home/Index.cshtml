@@ -1,18 +1,27 @@
 ﻿
 @model MainVM
+<div id="friend-request-container">
+    @{
+        await Html.RenderPartialAsync("_FriendRequest", Model);
+    }
+</div>
 <div id="search-container">
     @{
         await Html.RenderPartialAsync("_Search", Model);
     }
 </div>
 
-<ul>
+
+
+<div id="friends-container">
+
 
     @foreach (var friend in Model.FriendsVM)
     {
-        <li class="friends" data-friend="@friend.Name">@friend.Name</li>
+        <p class="friends" data-friend="@friend.Name">@friend.Name</p>
     }
-</ul>
+
+</div>
 
 
 <div id="chat-container">
@@ -33,5 +42,6 @@
     <script src="~/lib/typeahead.js/typeahead.bundle.min.js"></script>
     <script src="~/lib/typeahead.js/bloodhound.min.js"></script>
     <script src="~/js/chathub.js"></script>
+    <script src="~/js/friendRequestHub.js"></script>
     <script src="~/js/Search.js"></script>
 }

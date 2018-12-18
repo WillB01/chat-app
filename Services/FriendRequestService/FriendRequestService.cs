@@ -1,5 +1,8 @@
-﻿using ChatApp.Models.Entities;
+﻿using ChatApp.Hubs.FriendRequestHub;
+using ChatApp.Models.Entities;
 using ChatApp.ViewModels;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,12 +13,14 @@ namespace ChatApp.Services.FriendRequestService
     public class FriendRequestService : IFriendRequestService
     {
         private readonly ChatContext _chatContext;
-        
+        private readonly IUserService _userService;
+        IHubContext<FriendRequestHub, IFriendClient> _friendRequestHubContext;
 
-
-        public FriendRequestService(ChatContext chatContext)
+        public FriendRequestService(ChatContext chatContext, IUserService userService, IHubContext<FriendRequestHub, IFriendClient> friendRequestHubContext)
         {
             _chatContext = chatContext;
+            _userService = userService;
+            _friendRequestHubContext = friendRequestHubContext;
         }
 
         public async Task<FriendRequestVM[]> CheckFriendRequest(IdentityUserVM user) // todo add Name to DB
@@ -67,15 +72,19 @@ namespace ChatApp.Services.FriendRequestService
 
         public async Task SendFriendRequest(FriendRequestVM friendRequest)
         {
-            var dbModel = new FriendRequest
+           await  _friendRequestHubContext.Clients.User(friendRequest.ToUser).ReceiveFriendRequest(true);
+             var dbModel = new FriendRequest
             {
                 FromUser = friendRequest.FromUser,
                 ToUser = friendRequest.ToUser,
+                
             };
-           await Task.Run( () =>_chatContext.FriendRequest.Add(dbModel));
-           await _chatContext.SaveChangesAsync();
+           //await Task.Run( () =>_chatContext.FriendRequest.Add(dbModel));
+           //await _chatContext.SaveChangesAsync();
 
         }
+
+        
 
     }
 }

@@ -1,7 +1,11 @@
 ﻿#chat-container {
     background: #efefef;
-    width: 70%;
+    min-width: 500px;
     min-height: 400px;
+    grid-area: chat;
+    margin: 20px auto 0 100px;
+  
+
 }
 
 .user-message-container {
