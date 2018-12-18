@@ -3,6 +3,7 @@ using ChatApp.Models.Context;
 using ChatApp.Models.Entities;
 using ChatApp.Models.Identity;
 using ChatApp.Services;
+using ChatApp.Services.FriendRequestService;
 using ChatApp.Services.FriendService;
 using ChatApp.Services.ViewModelService;
 using ChatApp.ViewModels;
@@ -32,6 +33,7 @@ namespace ChatApp
             services.AddTransient<IChatService, ChatService>();
             services.AddTransient<IFriendService, FriendService>();
             services.AddTransient<IViewModelService, MainVM>();
+            services.AddTransient<IFriendRequestService, FriendRequestService>();
 
             services.AddDbContext<DataContext>(options =>
             {

@@ -40,7 +40,7 @@ namespace ChatApp.Services
               .Select((b) =>
               new MessageVM
               {
-                 
+
                   Message = b.Message.Message1,
                   Time = b.Message.Time,
                   IsLoggedin = false,

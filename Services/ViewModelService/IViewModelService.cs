@@ -12,5 +12,6 @@ namespace ChatApp.Services.ViewModelService
         FriendsVM[] FriendsVM { get; set; }
         IdentityUserVM[] IdentityUserVM { get; set; }
         TypeaheadUsersVM[] TypeaheadUsersVM { get; set; }
+        FriendRequestVM[] FriendRequestVM { get; set; }
     }
 }

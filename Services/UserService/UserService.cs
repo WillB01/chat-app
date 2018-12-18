@@ -30,7 +30,7 @@ namespace ChatApp.Services
 
         public async Task<IdentityUserVM[]> GetAppUsers()
         {
-            var result = await Task.Run(() => _dataContext.Users
+            var result = await Task.Run(() =>_dataContext.Users
             .Select(e => new IdentityUserVM
             {
                 Id = e.Id,
