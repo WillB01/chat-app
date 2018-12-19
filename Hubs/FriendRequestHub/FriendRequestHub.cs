@@ -35,6 +35,7 @@ namespace ChatApp.Hubs.FriendRequestHub
             var user =  await _userService.GetloggedinUser();
 
             var requests = await _friendRequestService.CheckFriendRequest(user);
+            
             var hasRequests = requests.Length == 0 ? false : true;
             await Clients.Caller.ReceiveFriendRequest(hasRequests, requests);
 
@@ -51,9 +52,25 @@ namespace ChatApp.Hubs.FriendRequestHub
             await Clients.Caller.ReceiveFriendRequest(true);
         }
 
-        public async Task SendUserResponse(FriendRequestVM[] response)
+        public async Task SendUserResponse(FriendRequestVM response)
         {
-            //await Clients.Caller.RecieveUserResponse(hasAccepted, requests);
+            
+
+            //var user = await _userService.GetloggedinUser();
+            //response.ToUser = user.Id;
+            //response.ToUserName = response.ToUserName;
+
+            if (response.HasAccepted == true)
+            {
+                await _friendRequestService.AcceptFriendRequest(response);
+
+            }
+            else if (response.HasAccepted == false)
+            {
+                await _friendRequestService.DeclineFriendRequest(response);
+
+            }
+            await Clients.User(response.FromUser).RecieveUserResponse(response.FromUserName, response.FromUser);
         }
 
 

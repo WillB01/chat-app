@@ -39,5 +39,28 @@ namespace ChatApp.Services.FriendService
             }).ToArray();
             return viewModel;
         }
+
+        public async Task AddNewFriend(FriendRequestVM friendRequest)
+        {
+
+            var dbModelFirstFriend = new Friends
+            {
+                IdentityId = friendRequest.FromUser,
+                FriendId = friendRequest.ToUser,
+
+            };
+            var dbModelSecondFriend= new Friends
+            {
+                IdentityId = friendRequest.ToUser,
+                FriendId = friendRequest.FromUser,
+
+            };
+
+            _chatContext.Friends.Add(dbModelFirstFriend);
+            _chatContext.Friends.Add(dbModelSecondFriend);
+
+            await _chatContext.SaveChangesAsync();
+
+        }
     }
 }

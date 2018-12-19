@@ -22,9 +22,10 @@ namespace ChatApp.Controllers.Search
         [HttpGet]
         public async Task<TypeaheadUsersVM[]> Friends([FromQuery] string q)
         {
+            var loggedinUser = await _userService.GetloggedinUser();
             var queryString = q.ToLower();
             var users = await _userService.GetAppUsers();
-            var viewModel = users.Where(u => u.UserName.ToLower().StartsWith(queryString))
+            var viewModel = users.Where(u => u.UserName.ToLower().StartsWith(queryString) && u.UserName != loggedinUser.UserName)
                 .Select(p =>  new TypeaheadUsersVM
             {
                 UserName = p.UserName,
@@ -44,8 +45,6 @@ namespace ChatApp.Controllers.Search
                 FromUser = loggedinUser.Id,
                 ToUser = person.Id,
                 FromUserName = loggedinUser.UserName,
-                HasAccepted = false
-                
             };
 
             await _friendRequestService.SendFriendRequest(friendRequestVM);

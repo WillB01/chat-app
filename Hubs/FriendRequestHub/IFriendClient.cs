@@ -12,7 +12,7 @@ namespace ChatApp.Hubs.FriendRequestHub
         Task ReceiveFriendRequest(bool sentRequest, string fromUser);
         Task ReceiveFriendRequest(bool sentRequest, FriendRequestVM[] requests);
 
-        Task RecieveUserResponse(bool hasAccepted, FriendRequestVM[] requests);
+        Task RecieveUserResponse(string fromUserName,string fromUserId);
 
     }
 }
