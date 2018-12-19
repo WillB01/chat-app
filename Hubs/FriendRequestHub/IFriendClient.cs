@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ChatApp.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,6 +10,7 @@ namespace ChatApp.Hubs.FriendRequestHub
     {
         Task ReceiveFriendRequest(bool sentRequest);
         Task ReceiveFriendRequest(bool sentRequest, string fromUser);
+        Task ReceiveFriendRequest(bool sentRequest, FriendRequestVM[] requests);
 
     }
 }

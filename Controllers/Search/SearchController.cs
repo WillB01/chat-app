@@ -41,9 +41,11 @@ namespace ChatApp.Controllers.Search
 
             var friendRequestVM = new FriendRequestVM
             {
-                FromUser = loggedinUser.Id.ToString(),
+                FromUser = loggedinUser.Id,
                 ToUser = person.Id,
+                FromUserName = loggedinUser.UserName,
                 HasAccepted = false
+                
             };
 
             await _friendRequestService.SendFriendRequest(friendRequestVM);

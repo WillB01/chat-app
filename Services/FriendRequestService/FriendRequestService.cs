@@ -30,10 +30,12 @@ namespace ChatApp.Services.FriendRequestService
             .Where(p => p.ToUser == user.Id)
             .Select(e => new FriendRequestVM
             {
-                FromUser = e.FromUser
+                FromUser = e.FromUser,
+                FromUserName = e.FromUserName
+                
 
             }).ToArray());
-
+           
             return requests;
             
         }
@@ -74,13 +76,16 @@ namespace ChatApp.Services.FriendRequestService
         public async Task SendFriendRequest(FriendRequestVM friendRequest)
         {
             var fromUser = await _userService.GetloggedinUser();
+            
            
            await _friendRequestHubContext.Clients.User(friendRequest.ToUser)
                 .ReceiveFriendRequest(true, fromUser.UserName);
-             var dbModel = new FriendRequest
+
+            var dbModel = new FriendRequest
             {
                 FromUser = friendRequest.FromUser,
                 ToUser = friendRequest.ToUser,
+                FromUserName = friendRequest.FromUserName
                 
             };
            //await Task.Run( () =>_chatContext.FriendRequest.Add(dbModel));

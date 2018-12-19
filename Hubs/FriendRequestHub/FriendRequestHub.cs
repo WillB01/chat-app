@@ -1,4 +1,6 @@
-﻿using ChatApp.Services;
+﻿using ChatApp.Models.Entities;
+using ChatApp.Services;
+using ChatApp.Services.FriendRequestService;
 using ChatApp.Services.FriendService;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.SignalR;
@@ -14,21 +16,27 @@ namespace ChatApp.Hubs.FriendRequestHub
         private readonly IUserService _userService;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IFriendService _friendService;
+        private readonly IFriendRequestService _friendRequestService;
 
 
         public FriendRequestHub(IChatService chatService, IUserService userService,
-            IHttpContextAccessor httpContextAccessor, IFriendService friendService)
+            IHttpContextAccessor httpContextAccessor, IFriendService friendService, IFriendRequestService friendRequestService)
         {
            
             _userService = userService;
             _httpContextAccessor = httpContextAccessor;
             _friendService = friendService;
-          
+            _friendRequestService = friendRequestService;
         }
 
         public override async Task OnConnectedAsync()
         {
-            await Clients.Caller.ReceiveFriendRequest(false);
+            var user =  await _userService.GetloggedinUser();
+
+            var requests = await _friendRequestService.CheckFriendRequest(user);
+            var hasRequests = requests.Length == 0 ? false : true;
+            await Clients.Caller.ReceiveFriendRequest(hasRequests, requests);
+
             await base.OnConnectedAsync();
         }
 

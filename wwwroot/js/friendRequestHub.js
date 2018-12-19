@@ -7,6 +7,8 @@ const connectionFriend = new signalR.HubConnectionBuilder().withUrl("/friendRequ
 
 const requestResult = (hasRequest, sentfromName) => {
     sentFrom = sentfromName;
+    
+    console.log(sentfromName);
     if (hasRequest) {
        
         friendDiv.classList.add('friend-test');
@@ -20,27 +22,7 @@ const start = () => {
         
 };
 
-const toggle = (elem) => {
 
-    // If the element is visible, hide it
-    if (window.getComputedStyle(elem).display === 'block') {
-        hide(elem);
-        return;
-    }
-
-    // Otherwise, show it
-    show(elem);
-
-};
-
-const show = function (elem) {
-    elem.style.display = 'block';
-};
-
-// Hide an element
-const hide = function (elem) {
-    elem.style.display = 'none';
-};
 
 
 const userClickOnRequest = () => {

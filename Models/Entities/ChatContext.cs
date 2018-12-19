@@ -88,6 +88,8 @@ namespace ChatApp.Models.Entities
             {
                 entity.Property(e => e.FromUser).HasMaxLength(450);
 
+                entity.Property(e => e.FromUserName).HasMaxLength(256);
+
                 entity.Property(e => e.ToUser).HasMaxLength(450);
             });
 

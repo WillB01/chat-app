@@ -9,5 +9,6 @@ namespace ChatApp.Models.Entities
         public string FromUser { get; set; }
         public string ToUser { get; set; }
         public bool? HasAccepted { get; set; }
+        public string FromUserName { get; set; }
     }
 }
