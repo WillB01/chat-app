@@ -11,13 +11,13 @@ namespace ChatApp.Services
     {
         Task<IdentityUserVM[]> GetAppUsers();
 
-        Task<IdentityResult> CreateUserAsync(MainVM newUser);
+        //Task<IdentityResult> CreateUserAsync(MainVM newUser);
 
-        Task<SignInResult> LoginAsync(MainVM user);
+        //Task<SignInResult> LoginAsync(MainVM user);
 
-        Task LogoutAsync();
+        //Task LogoutAsync();
 
-        Task<IdentityUserVM> GetloggedinUser(ClaimsPrincipal user);
+        Task<IdentityUserVM> GetloggedinUser();
 
         Task<IdentityUserVM> GetUserByUserName(string name);
 

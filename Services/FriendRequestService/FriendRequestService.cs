@@ -1,5 +1,6 @@
 ﻿using ChatApp.Hubs.FriendRequestHub;
 using ChatApp.Models.Entities;
+using ChatApp.Models.Identity;
 using ChatApp.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.SignalR;
@@ -72,7 +73,10 @@ namespace ChatApp.Services.FriendRequestService
 
         public async Task SendFriendRequest(FriendRequestVM friendRequest)
         {
-           await  _friendRequestHubContext.Clients.User(friendRequest.ToUser).ReceiveFriendRequest(true);
+            var fromUser = await _userService.GetloggedinUser();
+           
+           await _friendRequestHubContext.Clients.User(friendRequest.ToUser)
+                .ReceiveFriendRequest(true, fromUser.UserName);
              var dbModel = new FriendRequest
             {
                 FromUser = friendRequest.FromUser,

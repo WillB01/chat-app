@@ -2,6 +2,7 @@
 using ChatApp.Models.Identity;
 using ChatApp.Services.ViewModelService;
 using ChatApp.ViewModels;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,22 +15,21 @@ namespace ChatApp.Services
     {
         private readonly DataContext _dataContext;
         private readonly UserManager<AppUser> _userManager;
-        private readonly SignInManager<AppUser> _signInManager;
         private readonly IViewModelService _viewModelService;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-       
-
-        public UserService(DataContext dataContext, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager,
-            IViewModelService viewModelService)
+        public UserService(DataContext dataContext, UserManager<AppUser> userManager, IViewModelService viewModelService,
+             IHttpContextAccessor httpContextAccessor)
         {
             _dataContext = dataContext;
             _userManager = userManager;
-            _signInManager = signInManager;
             _viewModelService = viewModelService;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<IdentityUserVM[]> GetAppUsers()
         {
+            
             var result = await Task.Run(() =>_dataContext.Users
             .Select(e => new IdentityUserVM
             {
@@ -42,31 +42,10 @@ namespace ChatApp.Services
             return result;
         }
 
-        public async Task<IdentityResult> CreateUserAsync(MainVM user)
+       
+        public async Task<IdentityUserVM> GetloggedinUser()
         {
-            var appUser = new AppUser
-            {
-                UserName = user.RegisterNewVM.Name,
-                Email = user.RegisterNewVM.Email,
-            };
-
-            var result = await _userManager.CreateAsync(appUser, user.RegisterNewVM.Password);
-            return result;
-        }
-
-        public async Task<SignInResult> LoginAsync(MainVM user)
-        {
-            var result = await _signInManager.PasswordSignInAsync(user.UserLoginVM.Name, user.UserLoginVM.Password, false, false);
-            return result;
-        }
-
-        public async Task LogoutAsync()
-        {
-            await _signInManager.SignOutAsync();
-        }
-
-        public async Task<IdentityUserVM> GetloggedinUser(ClaimsPrincipal user)
-        {
+            var user = _httpContextAccessor.HttpContext.User;
             var result = await _userManager.GetUserAsync(user);
             var viewModel = new IdentityUserVM
             {

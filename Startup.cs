@@ -4,6 +4,7 @@ using ChatApp.Models.Context;
 using ChatApp.Models.Entities;
 using ChatApp.Models.Identity;
 using ChatApp.Services;
+using ChatApp.Services.AuthService;
 using ChatApp.Services.FriendRequestService;
 using ChatApp.Services.FriendService;
 using ChatApp.Services.ViewModelService;
@@ -29,7 +30,7 @@ namespace ChatApp
 
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddSingleton<IUserIdProvider, CustomUserIdProvider>();
+            services.AddTransient<IAuthService, AuthService>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IChatService, ChatService>();
             services.AddTransient<IFriendService, FriendService>();
@@ -60,7 +61,6 @@ namespace ChatApp
                 options.SlidingExpiration = true;
             });
             services.AddSignalR();
-            services.AddSingleton<IUserIdProvider, CustomUserIdProvider>();
 
             services.AddMvc();
             services.AddHttpContextAccessor();

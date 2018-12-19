@@ -1,9 +1,11 @@
-﻿using ChatApp.Services;
+﻿using ChatApp.Models.Identity;
+using ChatApp.Services;
 using ChatApp.Services.FriendRequestService;
 using ChatApp.Services.FriendService;
 using ChatApp.Services.ViewModelService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -18,14 +20,18 @@ namespace ChatApp.Controllers.Home
         private readonly IViewModelService _viewModelService;
         private readonly IFriendRequestService _friendRequestService;
 
+        private readonly UserManager<AppUser> _userManager;
+
         public HomeController(IUserService userService, IChatService chatService, 
-            IFriendService friendService, IViewModelService viewModelService, IFriendRequestService friendRequestService)
+            IFriendService friendService, IViewModelService viewModelService, IFriendRequestService friendRequestService
+            ,UserManager<AppUser> userManager)
         {
             _userService = userService;
             _chatService = chatService;
             _friendService = friendService;
             _viewModelService = viewModelService;
             _friendRequestService = friendRequestService;
+            _userManager = userManager;
         }
 
         [HttpGet]
@@ -33,7 +39,8 @@ namespace ChatApp.Controllers.Home
         public async Task<IActionResult> Index()
         {
             var loggedinUser = HttpContext.User;
-            var user = await _userService.GetloggedinUser(loggedinUser);
+            var user = await _userService.GetloggedinUser(); 
+            //var user = await _userService.GetloggedinUser(loggedinUser);
             var friends = await _friendService.GetFriends(user);
             var friendRequests = await _friendRequestService.CheckFriendRequest(user);
 

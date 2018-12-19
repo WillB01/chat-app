@@ -1,4 +1,5 @@
 ﻿using ChatApp.Services;
+using ChatApp.Services.AuthService;
 using ChatApp.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -8,14 +9,14 @@ namespace ChatApp.Controllers.Account
 {
     public class AuthController : Controller
     {
-        private readonly IUserService _userService;
+        private readonly IAuthService _authService;
 
         private const string INDEX = "Index";
         private const string HOME = "Home";
 
-        public AuthController(IUserService userService)
+        public AuthController(IAuthService authService)
         {
-            _userService = userService;
+            _authService = authService;
         }
 
         [HttpGet]
@@ -60,7 +61,7 @@ namespace ChatApp.Controllers.Account
                 return View();
             }
 
-            var result = await _userService.LoginAsync(user1);
+            var result = await _authService.LoginAsync(user1);
 
             if (!result.Succeeded)
             {
@@ -72,7 +73,7 @@ namespace ChatApp.Controllers.Account
         [HttpPost]
         public async Task<IActionResult> Logout()
         {
-            await _userService.LogoutAsync();
+            await _authService.LogoutAsync();
             return RedirectToAction(nameof(Index));
         }
 
@@ -84,7 +85,7 @@ namespace ChatApp.Controllers.Account
                 return View();
             }
 
-            var result = await _userService.CreateUserAsync(user1);
+            var result = await _authService.CreateUserAsync(user1);
 
             if (!result.Succeeded)
             {

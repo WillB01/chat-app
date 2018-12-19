@@ -1,4 +1,5 @@
-﻿using ChatApp.ViewModels;
+﻿using ChatApp.Models.Identity;
+using ChatApp.ViewModels;
 using System.Threading.Tasks;
 
 namespace ChatApp.Services.FriendService

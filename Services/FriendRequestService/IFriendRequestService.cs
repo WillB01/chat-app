@@ -1,4 +1,5 @@
 ﻿using ChatApp.Models.Entities;
+using ChatApp.Models.Identity;
 using ChatApp.ViewModels;
 using System;
 using System.Collections.Generic;

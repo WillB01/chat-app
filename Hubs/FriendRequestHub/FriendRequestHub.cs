@@ -14,9 +14,7 @@ namespace ChatApp.Hubs.FriendRequestHub
         private readonly IUserService _userService;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IFriendService _friendService;
-        private HashSet<UserConnections> _uList = new HashSet<UserConnections>();
 
-        public IUserIdProvider _UserIdProvider { get; }
 
         public FriendRequestHub(IChatService chatService, IUserService userService,
             IHttpContextAccessor httpContextAccessor, IFriendService friendService)
