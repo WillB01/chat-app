@@ -22,7 +22,7 @@
     padding: 8px 0;
     background-color: #fff;
     display: grid;
-    grid-template-columns: 1fr, 1fr;
+    /*grid-template-columns: 1fr, 1fr;*/
     background: black;
     border-radius: 8px;
     box-sizing: border-box;
@@ -44,7 +44,7 @@
         background-color: white;
         height: 200px;
         display: grid;
-        grid-template-columns: 1fr, 1fr;
+        /*grid-template-columns: 1fr, 1fr;*/
         box-sizing: border-box;
     }
 

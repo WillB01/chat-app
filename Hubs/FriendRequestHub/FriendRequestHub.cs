@@ -2,6 +2,7 @@
 using ChatApp.Services;
 using ChatApp.Services.FriendRequestService;
 using ChatApp.Services.FriendService;
+using ChatApp.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.SignalR;
 using System;
@@ -50,6 +51,11 @@ namespace ChatApp.Hubs.FriendRequestHub
             await Clients.Caller.ReceiveFriendRequest(true);
         }
 
-        
+        public async Task SendUserResponse(FriendRequestVM[] response)
+        {
+            //await Clients.Caller.RecieveUserResponse(hasAccepted, requests);
+        }
+
+
     }
 }

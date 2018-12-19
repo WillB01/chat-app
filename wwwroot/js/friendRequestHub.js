@@ -1,5 +1,9 @@
 ﻿const friendDiv = document.querySelector('#friend');
 const friendRequestResultDiv = document.querySelector('#friend-request-result');
+let acceptBtn = '';
+let declineBtn = '';
+
+
 let sentFrom = '';
 let toggleBtn = false;
 const connectionFriend = new signalR.HubConnectionBuilder().withUrl("/friendRequestHub").build();
@@ -11,7 +15,7 @@ const requestResult = (hasRequest, sentfromName) => {
     console.log(sentfromName);
     if (hasRequest) {
        
-        friendDiv.classList.add('friend-test');
+        friendDiv.classList.add('has-friend-request');
     }
 };
 
@@ -22,33 +26,90 @@ const start = () => {
         
 };
 
+const friendRequestItems = (item) => {
+    const newDiv = document.createElement('div');
+    acceptBtn = document.createElement('button');
+    declineBtn = document.createElement('button');
+    acceptBtn.className = 'accept';
+    declineBtn.className = 'ignore';
+    acceptBtn.innerHTML = 'Accept';
+    declineBtn.innerHTML = 'Ignore';
+    const text = document.createTextNode(`Accept friend request from  ${item.fromUserName}`);
+    newDiv.appendChild(text);
+    newDiv.appendChild(acceptBtn);
+    newDiv.appendChild(declineBtn);
 
+    return newDiv;
+};
+
+const getUserResponse = (response) => {
+    acceptBtn.addEventListener('click', () => {
+        response.hasAccepted = true;
+        connectionFriend.invoke('SendUserResponse', response);
+        console.log(response);
+        //postUserResponse(response);
+});
+
+declineBtn.addEventListener('click', () => {
+    response.hasAccepted = false;
+    //postUserResponse(response);
+});
+
+};
 
 
 const userClickOnRequest = () => {
     toggleBtn = !toggleBtn ? toggleBtn = true : toggleBtn = false;
-    
-    console.log(toggleBtn);
-    
-    const newDiv = document.createElement('div');
-    const p = document.createElement('p');
-
 
     if (toggleBtn) {
-        !sentFrom
-            ? friendRequestResultDiv.innerHTML = `<p> no new request </p>`
-            : friendRequestResultDiv.innerHTML = `<p> new request from ${sentFrom}</p>`;
 
-    } else {
-        friendRequestResultDiv.innerHTML = '';
+        if (sentFrom.length === 0) {
+            friendRequestResultDiv.innerHTML = '';
+
+        } else {
+            sentFrom.map(item => {
+                friendRequestResultDiv.appendChild(friendRequestItems(item));
+                getUserResponse(item);
+            });
+            friendRequestResultDiv.setAttribute('style', "background: gray; padding: 10px; margin-bottom: 10px");
+        }
     }
-   
-    newDiv.appendChild(p);
-    friendDiv.appendChild(p);
+    else {
+        friendRequestResultDiv.innerHTML = '';
+        friendRequestResultDiv.removeAttribute('style');
+        friendRequestResultDiv.setAttribute('style', "display: none");
+    }
+    
 };
 
+const postUserResponse = (userResponse) => {
+    fetch("/search/postsearchresult",
+        {
+
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            method: "POST",
+
+            body: JSON.stringify(userResponse)
+        })
+        .then(function (res) { console.log(res); })
+        //.then(function () {
+
+        //    window.location.replace('/profile/');
+        //})
+        .catch(function (res) { console.log(res); });
+};
 
 friendDiv.addEventListener('click', userClickOnRequest);
+
+
+
+
+
+
+
 connectionFriend.on('ReceiveFriendRequest', requestResult);
 start();
 

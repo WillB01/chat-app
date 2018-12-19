@@ -27,7 +27,7 @@ namespace ChatApp.Services.FriendRequestService
         public async Task<FriendRequestVM[]> CheckFriendRequest(IdentityUserVM user) // todo add Name to DB
         {
             var requests = await Task.Run(() => _chatContext.FriendRequest
-            .Where(p => p.ToUser == user.Id)
+            .Where(p => p.ToUser == user.Id && p.HasAccepted != true )
             .Select(e => new FriendRequestVM
             {
                 FromUser = e.FromUser,
@@ -88,8 +88,8 @@ namespace ChatApp.Services.FriendRequestService
                 FromUserName = friendRequest.FromUserName
                 
             };
-           //await Task.Run( () =>_chatContext.FriendRequest.Add(dbModel));
-           //await _chatContext.SaveChangesAsync();
+            _chatContext.FriendRequest.Add(dbModel);
+            await _chatContext.SaveChangesAsync();
 
         }
 

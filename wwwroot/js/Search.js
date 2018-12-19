@@ -49,10 +49,10 @@ const fetchPost = (itemToSend) => {
         })
         .then(function (res) { console.log(res); })
         //.then(function () {
-      
+
         //    window.location.replace('/profile/');
         //})
-        .catch(function (res) { console.log(res); })
+        .catch(function (res) { console.log(res); });
        
 
 };
@@ -62,25 +62,6 @@ $('input.typeahead').on('typeahead:selected', function (event, selection) {
     fetchPost(selection);
 });
 
-
-
-//document.querySelector('.tt-menu').addEventListener('click', (e) => {
-//    console.log(e.target.innerHTML);
-//});
-
-//document.querySelector(' .tt-suggestion.tt-cursor ).addEventListener('keypress', (e) => {
-//    console.log(e.target.innerHTML);
-//});
-
-
-
-
-//searchInput.addEventListener('keypress', (e) => {
-//    if (e.keyCode === 13) {
-//        console.log(searchFriend);
-//        fetchPost(e.target.innerHTML);
-//    }
-//});
 
 
 
