@@ -1,4 +1,5 @@
-﻿using ChatApp.Services;
+﻿
+using ChatApp.Services;
 using ChatApp.Services.FriendService;
 using ChatApp.ViewModels;
 using Microsoft.AspNetCore.SignalR;
