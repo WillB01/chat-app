@@ -42,6 +42,7 @@ namespace ChatApp.Services.FriendService
 
         public async Task AddNewFriend(FriendRequestVM friendRequest)
         {
+            
             var dbModelFirstFriend = new Friends
             {
                 IdentityId = friendRequest.FromUser,
@@ -52,6 +53,7 @@ namespace ChatApp.Services.FriendService
                 IdentityId = friendRequest.ToUser,
                 FriendId = friendRequest.FromUser,
             };
+
 
             _chatContext.Friends.Add(dbModelFirstFriend);
             _chatContext.Friends.Add(dbModelSecondFriend);

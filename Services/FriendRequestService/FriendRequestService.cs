@@ -48,8 +48,6 @@ namespace ChatApp.Services.FriendRequestService
             update.HasAccepted = true;
 
             await _chatContext.SaveChangesAsync();
-
-            await _friendService.AddNewFriend(friendRequest);
         }
 
         public async Task DeclineFriendRequest(FriendRequestVM friendRequest)
@@ -88,13 +86,16 @@ namespace ChatApp.Services.FriendRequestService
                     ToUser = friendRequest.ToUser,
                     FromUserName = friendRequest.FromUserName
                 };
-                var signalRModel = new FriendRequestVM[] { friendRequest };
-                await _friendRequestHubContext.Clients.User(friendRequest.ToUser)
-               .ReceiveFriendRequest(true, signalRModel);
+               
 
                 _chatContext.FriendRequest.Add(dbModel);
 
                 await _chatContext.SaveChangesAsync();
+
+                var signalRModel = new FriendRequestVM[] { friendRequest };
+                await _friendRequestHubContext.Clients.User(friendRequest.ToUser)
+                    .ReceiveFriendRequest(true, signalRModel);
+              
 
             }
 

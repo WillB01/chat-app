@@ -24,6 +24,7 @@ const startChat = () => {
             userName = name;
         });
 };
+
 const button = document.createElement("button");
 var buttonText = document.createTextNode("Send");
 const input = document.createElement("input");
@@ -57,7 +58,6 @@ const clickHandlerFriendItem = () => {
             history.then(result => {
                 flattenMsgHistory(result).map((item, index) => {
                     const p = document.createElement("p");
-
                     const text = document.createTextNode(`${Object.keys(item)} - ${item[Object.keys(item)][0]}`);
                     if (item[Object.keys(item)][1]) {
                         p.classList.add('user-message-container');

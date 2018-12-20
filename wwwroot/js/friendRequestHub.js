@@ -7,12 +7,14 @@ let sentFrom = '';
 let toggleBtn = false;
 const connectionFriend = new signalR.HubConnectionBuilder().withUrl("/friendRequestHub").build();
 
-const requestResult = (hasRequest, sentfromName) => {
-    sentFrom = sentfromName;
-
-    console.log(sentfromName);
+const requestResult = (hasRequest, friendRequestsArray, friends) => {
+    sentFrom = friendRequestsArray;
+    checkIfFriendDivHasCorrectClass();
+    console.log(hasRequest);
+    console.log(friendRequestsArray);
+    console.log(friends);
     if (hasRequest) {
-        friendDiv.classList.add('has-friend-request');
+        checkIfFriendDivHasCorrectClass();
     }
 };
 
@@ -23,8 +25,8 @@ const start = () => {
 };
 
 const checkIfFriendDivHasCorrectClass = () => {
-    console.log(sentFrom);
-    !sentFrom
+
+    sentFrom.length === 0
         ? friendDiv.classList.remove('has-friend-request')
         : friendDiv.classList.add('has-friend-request');
 };
@@ -48,34 +50,26 @@ const friendRequestItems = (item) => {
 const getUserResponse = (response) => {
     acceptBtn.addEventListener('click', (e) => {
         response.hasAccepted = true;
-
         connectionFriend.invoke('SendUserResponse', response);
         e.target.parentNode.innerHTML = `Your are now friends with ${response.fromUserName}`;
         checkIfFriendDivHasCorrectClass();
-        
-      
-        
-
-      
-      
     });
 
     declineBtn.addEventListener('click', (e) => {
         response.hasAccepted = false;
         connectionFriend.invoke('SendUserResponse', response);
-        e.target.parentNode.innerHTML = `Your are now friends with ${response.fromUserName}`;
+        e.target.parentNode.innerHTML = `You declined ${response.fromUserName}`;
         checkIfFriendDivHasCorrectClass();
     });
 };
 
 const userClickOnRequest = () => {
     toggleBtn = !toggleBtn ? toggleBtn = true : toggleBtn = false;
-    connectionFriend.invoke('CheckFriendRequests')
-        .then(res => sentFrom = res);
-   
+
     if (toggleBtn) {
         if (sentFrom.length === 0) {
-            friendRequestResultDiv.innerHTML = '';
+            friendRequestResultDiv.setAttribute('style', "display: block");
+            friendRequestResultDiv.innerHTML = 'no friend requests';
         } else {
             sentFrom.map(item => {
                 friendRequestResultDiv.appendChild(friendRequestItems(item));
@@ -93,25 +87,8 @@ const userClickOnRequest = () => {
 
 
 
-//const postUserResponse = (userResponse) => {
-//    fetch("/search/postsearchresult",
-//        {
-//            headers: {
-//                'Accept': 'application/json',
-//                'Content-Type': 'application/json',
-//            },
-//            method: "POST",
-
-//            body: JSON.stringify(userResponse)
-//        })
-//        .then(function (res) { console.log(res); })
-//        //.then(function () {
-//        //    window.location.replace('/profile/');
-//        //})
-//        .catch(function (res) { console.log(res); });
-//};
-
 friendDiv.addEventListener('click', userClickOnRequest);
 
 connectionFriend.on('ReceiveFriendRequest', requestResult);
+
 start();
