@@ -22,9 +22,9 @@ namespace ChatApp.Controllers.Home
 
         private readonly UserManager<AppUser> _userManager;
 
-        public HomeController(IUserService userService, IChatService chatService, 
+        public HomeController(IUserService userService, IChatService chatService,
             IFriendService friendService, IViewModelService viewModelService, IFriendRequestService friendRequestService
-            ,UserManager<AppUser> userManager)
+            , UserManager<AppUser> userManager)
         {
             _userService = userService;
             _chatService = chatService;
@@ -39,7 +39,7 @@ namespace ChatApp.Controllers.Home
         public async Task<IActionResult> Index()
         {
             var loggedinUser = HttpContext.User;
-            var user = await _userService.GetloggedinUser(); 
+            var user = await _userService.GetloggedinUser();
             //var user = await _userService.GetloggedinUser(loggedinUser);
             var friends = await _friendService.GetFriends(user);
             var friendRequests = await _friendRequestService.CheckFriendRequest(user);
@@ -49,7 +49,5 @@ namespace ChatApp.Controllers.Home
 
             return View(_viewModelService);
         }
-
-
     }
 }

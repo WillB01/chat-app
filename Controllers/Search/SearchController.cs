@@ -1,5 +1,4 @@
-﻿
-using ChatApp.Services;
+﻿using ChatApp.Services;
 using ChatApp.Services.FriendRequestService;
 using ChatApp.ViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -12,7 +11,7 @@ namespace ChatApp.Controllers.Search
     {
         private readonly IUserService _userService;
         private readonly IFriendRequestService _friendRequestService;
-       
+
         public SearchController(IUserService userService, IFriendRequestService friendRequestService)
         {
             _userService = userService;
@@ -26,12 +25,12 @@ namespace ChatApp.Controllers.Search
             var queryString = q.ToLower();
             var users = await _userService.GetAppUsers();
             var viewModel = users.Where(u => u.UserName.ToLower().StartsWith(queryString) && u.UserName != loggedinUser.UserName)
-                .Select(p =>  new TypeaheadUsersVM
-            {
-                UserName = p.UserName,
-                Id = p.Id
-            }).ToArray();
-            
+                .Select(p => new TypeaheadUsersVM
+                {
+                    UserName = p.UserName,
+                    Id = p.Id
+                }).ToArray();
+
             return viewModel;
         }
 

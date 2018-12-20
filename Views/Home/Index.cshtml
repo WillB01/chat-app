@@ -1,11 +1,9 @@
-﻿
-@model MainVM
+﻿@model MainVM
 <div id="friend-request-container">
     @{
         await Html.RenderPartialAsync("_FriendRequest", Model);
     }
     <div id="friend-request-result">
-
     </div>
 </div>
 <div id="search-container">
@@ -14,18 +12,13 @@
     }
 </div>
 
-
-
 <div id="friends-container">
-
 
     @foreach (var friend in Model.FriendsVM)
     {
         <p class="friends" data-friend="@friend.Name">@friend.Name</p>
     }
-
 </div>
-
 
 <div id="chat-container">
     @{

@@ -1,5 +1,4 @@
 ﻿using ChatApp.Models.Entities;
-using ChatApp.Models.Identity;
 using ChatApp.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -23,7 +22,7 @@ namespace ChatApp.Services
         {
             var toUserId = await _userService.GetUserId(getSecondUser);
 
-            var fromUser = await Task.Run(() => _chatContext.Conversation
+            var fromUser = await _chatContext.Conversation
               .Include(p => p.Message)
               .Where(p => p.UserId == loggedinUser.Id && p.ToUserId == toUserId)
               .Select((b) =>
@@ -33,20 +32,19 @@ namespace ChatApp.Services
                   Time = b.Message.Time,
                   IsLoggedin = true,
                   IdentityId = b.Message.IdentityId
-              }).ToArray());
+              }).ToArrayAsync();
 
-            var toUser = await Task.Run(() => _chatContext.Conversation
+            var toUser = await  _chatContext.Conversation
               .Include(p => p.Message)
               .Where(p => p.UserId == toUserId && p.ToUserId == loggedinUser.Id)
               .Select((b) =>
               new MessageVM
               {
-
                   Message = b.Message.Message1,
                   Time = b.Message.Time,
                   IsLoggedin = false,
                   IdentityId = b.Message.IdentityId
-              }).ToArray());
+              }).ToArrayAsync();
 
             var conversation = fromUser.Concat(toUser).ToArray().OrderBy(e => e.Time).ToArray();
 

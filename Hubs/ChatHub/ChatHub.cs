@@ -1,12 +1,8 @@
-﻿using ChatApp.Models.Identity;
-using ChatApp.Services;
+﻿using ChatApp.Services;
 using ChatApp.Services.FriendService;
 using ChatApp.ViewModels;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SignalR;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace ChatApp.Hubs
@@ -38,7 +34,7 @@ namespace ChatApp.Hubs
         {
             var toSendId = await _userService.GetUserId(user);
             var loggedInUser = await _userService.GetloggedinUser();
-            
+
             await _chatService.SaveConversation(loggedInUser.Id, toSendId, message, DateTime.Now);
 
             await Clients.User(toSendId).ReceiveMessage(message, DateTime.Now, false, loggedInUser.UserName);

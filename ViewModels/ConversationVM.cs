@@ -10,7 +10,5 @@
         public virtual MessageVM Chat { get; set; }
         public virtual IdentityUserVM ToUser { get; set; }
         public virtual IdentityUserVM User { get; set; }
-
-
     }
 }

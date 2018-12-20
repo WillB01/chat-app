@@ -1,5 +1,4 @@
-﻿using ChatApp.Services;
-using ChatApp.Services.AuthService;
+﻿using ChatApp.Services.AuthService;
 using ChatApp.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -55,7 +54,6 @@ namespace ChatApp.Controllers.Account
         [HttpPost]
         public async Task<IActionResult> Login(MainVM user1)
         {
-            
             if (!ModelState.IsValid)
             {
                 return View();

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace ChatApp.ViewModels
+﻿namespace ChatApp.ViewModels
 {
     public class FriendRequestVM
     {
@@ -13,6 +8,5 @@ namespace ChatApp.ViewModels
 
         public string FromUserName { get; set; }
         public string ToUserName { get; set; }
-
     }
 }

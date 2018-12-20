@@ -2,9 +2,6 @@
 using ChatApp.Services.ViewModelService;
 using ChatApp.ViewModels;
 using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace ChatApp.Services.AuthService
@@ -15,15 +12,12 @@ namespace ChatApp.Services.AuthService
         private readonly UserManager<AppUser> _userManager;
         private readonly IViewModelService _viewModelService;
 
-
         public AuthService(SignInManager<AppUser> signInManager, UserManager<AppUser> userManager, IViewModelService viewModelService)
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _viewModelService = viewModelService;
         }
-
-
 
         public async Task<IdentityResult> CreateUserAsync(MainVM user)
         {
@@ -47,6 +41,5 @@ namespace ChatApp.Services.AuthService
         {
             await _signInManager.SignOutAsync();
         }
-
     }
 }

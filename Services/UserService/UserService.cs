@@ -4,9 +4,8 @@ using ChatApp.Services.ViewModelService;
 using ChatApp.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace ChatApp.Services
@@ -29,20 +28,18 @@ namespace ChatApp.Services
 
         public async Task<IdentityUserVM[]> GetAppUsers()
         {
-            
-            var result = await Task.Run(() =>_dataContext.Users
+            var result = await _dataContext.Users
             .Select(e => new IdentityUserVM
             {
                 Id = e.Id,
                 UserName = e.UserName,
                 Email = e.Email,
             })
-            .ToArray());
+            .ToArrayAsync();
 
             return result;
         }
 
-       
         public async Task<IdentityUserVM> GetloggedinUser()
         {
             var user = _httpContextAccessor.HttpContext.User;
@@ -58,30 +55,29 @@ namespace ChatApp.Services
 
         public async Task<IdentityUserVM> GetUserByUserName(string name)
         {
-            var result = await Task.Run(() => _dataContext.Users.Where(p => p.UserName == name)
-                .FirstOrDefault());
+            var result = await _dataContext.Users.Where(p => p.UserName == name)
+                .FirstOrDefaultAsync();
             var viewModel = new IdentityUserVM
             {
                 Id = result.Id,
                 UserName = result.UserName,
                 Email = result.Email
             };
-            
 
             return viewModel;
         }
 
         public async Task<string> GetUserId(string name)
         {
-            var result = await Task.Run(() => _dataContext.Users.Where(p => p.UserName == name)
-                .FirstOrDefault().Id);
-            return result;
+            var result = await _dataContext.Users.Where(p => p.UserName == name)
+                .FirstOrDefaultAsync();
+            return result.Id;
         }
 
         public async Task<string> GetUserNameById(string id)
         {
-            var result = await Task.Run(() => _dataContext.Users.Where(p => p.Id == id)
-            .Select(e => e.UserName).FirstOrDefault());
+            var result = await _dataContext.Users.Where(p => p.Id == id)
+            .Select(e => e.UserName).FirstOrDefaultAsync();
             return result;
         }
     }

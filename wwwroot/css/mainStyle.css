@@ -6,6 +6,7 @@
 a {
     text-decoration: none;
 }
+
 li {
     list-style: none;
 }
@@ -27,9 +28,9 @@ body {
 #main-content {
     /*display: grid;*/
     /*grid-template-columns: 1fr ;*/
-    grid-auto-rows:auto;
-    /*grid-template-areas: 
-        "friends search"  
+    grid-auto-rows: auto;
+    /*grid-template-areas:
+        "friends search"
         none "chat";*/
     /*background: red;*/
     width: 90%;
@@ -44,10 +45,8 @@ body {
     height: 100%;
     grid-area: friends;
     padding: 4px;
- 
-    
 }
 
-.has-friend-request{
+.has-friend-request {
     color: green;
 }
