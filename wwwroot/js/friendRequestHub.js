@@ -17,13 +17,10 @@ const printFriends = (friend) => {
 };
 
 const mapFriends = (friends) => {
-    console.log(friends + ' ' + 'inside mapFirneds');
- 
     friends ? friends.map(item => printFriends(item.name)) : '';
 };
 
 const requestResult = (hasRequest, friendRequestsArray, friends) => {
-    console.log(friends);
     sentFrom = friendRequestsArray;
     checkIfFriendDivHasCorrectClass();
     mapFriends(friends);
@@ -67,6 +64,8 @@ const getUserResponse = (response) => {
         connectionFriend.invoke('SendUserResponse', response);
         e.target.parentNode.innerHTML = `Your are now friends with ${response.fromUserName}`;
         checkIfFriendDivHasCorrectClass();
+        resetFriendContainer();
+      
        
     });
 
@@ -107,3 +106,7 @@ friendDiv.addEventListener('click', userClickOnRequest);
 connectionFriend.on('ReceiveFriendRequest', requestResult);
 
 start();
+
+function resetFriendContainer() {
+    friendsContainer.innerHTML = '';
+};
