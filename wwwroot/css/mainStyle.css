@@ -38,6 +38,24 @@ body {
     margin: 0 auto;
 }
 
+
+
+
+/*friends stuff*/
+
+#friend-request-container {
+    color: #fff;
+    padding: 5px;
+    font-size: 2vh;
+    cursor: pointer;
+    font-weight: 600;
+    background: #FF6138;
+    height: auto;
+    max-width: 200px;
+    display: grid;
+    justify-content: center;
+}
+
 #friends-container {
     background: #eaeaea;
     position: fixed;
@@ -48,5 +66,17 @@ body {
 }
 
 .has-friend-request {
-    color: green;
+    color: #79BD8F;
+    width: 100%;
+    display: grid;
+    justify-content: center;
 }
+
+.friend-request-item {
+    border: 4px solid #333;
+    margin-bottom: 2px;
+    background: #0285A8;
+    padding: 3px;
+    box-sizing: border-box;
+}
+

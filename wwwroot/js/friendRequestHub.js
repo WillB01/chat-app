@@ -1,6 +1,9 @@
 ﻿const friendDiv = document.querySelector('#friend');
 const friendRequestResultDiv = document.querySelector('#friend-request-result');
 const friendsContainer = document.querySelector('#friends-container');
+const friendRequestBadge = document.querySelector('#friend-request-badge');
+friendRequestBadge.setAttribute('style', "display: none");
+let hasRequests = false;
 let acceptBtn = '';
 let declineBtn = '';
 let friendsArr = [];
@@ -15,12 +18,6 @@ const printFriends = (friend) => {
     pf.className = 'friends';
     pf.setAttribute('data-friend', friend);
     friendsContainer.appendChild(pf);
-
-
-    //friendsContainer.innerHTML += '';
-    //friendsContainer.innerHTML += `<p class="friends" data-friend=${friend}>${friend}</p>`;
-
-
 }; // creates elements in the friend list
 
 const mapFriends = (friends) => {
@@ -31,6 +28,8 @@ const mapFriends = (friends) => {
 
 const requestResult = (hasRequest, friendRequestsArray, friends, hasAccepted) => {
     console.log(friendRequestsArray);
+    hasRequests = hasRequest;
+ 
     if (hasAccepted || hasAccepted === false) {
         resetFriendContainer();
     }
@@ -38,10 +37,9 @@ const requestResult = (hasRequest, friendRequestsArray, friends, hasAccepted) =>
     friendsArr = friends;
     sentFrom = friendRequestsArray;
     checkIfFriendDivHasCorrectClass();
-   
-    if (hasRequest) {
-        checkIfFriendDivHasCorrectClass();
-    }
+    //if (hasRequest) {
+    //    checkIfFriendDivHasCorrectClass();
+    //}
 };
 
 const start = () => {
@@ -51,16 +49,26 @@ const start = () => {
 };
 
 const checkIfFriendDivHasCorrectClass = () => {
+    if (sentFrom.length === 0) {
+        friendDiv.classList.remove('has-friend-request');
+        friendRequestBadge.setAttribute('style', "display: none");
 
-    sentFrom.length === 0
-        ? friendDiv.classList.remove('has-friend-request')
-        : friendDiv.classList.add('has-friend-request');
+    } else {
+        friendDiv.classList.add('has-friend-request');  
+        addFriendRequestBadge();
+    }
+    
+
+
 };
+
+
 
 const friendRequestItems = (item) => {
     const newDiv = document.createElement('div');
     acceptBtn = document.createElement('button');
     declineBtn = document.createElement('button');
+    newDiv.className = "friend-request-item";
     acceptBtn.className = 'accept';
     declineBtn.className = 'ignore';
     acceptBtn.innerHTML = 'Accept';
@@ -103,7 +111,7 @@ const userClickOnRequest = () => {
                 friendRequestResultDiv.appendChild(friendRequestItems(item));
                 getUserResponse(item);
             });
-            friendRequestResultDiv.setAttribute('style', "background: gray; padding: 10px; margin-bottom: 10px");
+            friendRequestResultDiv.setAttribute('style', "width: 80%; color: #fff; justify-self: center;;");
         }
     }
     else {
@@ -124,3 +132,10 @@ start();
 function resetFriendContainer() {
     friendsContainer.innerHTML = '';
 };
+
+function addFriendRequestBadge() {
+    friendRequestBadge.setAttribute('style', "display: block");
+};
+
+
+
