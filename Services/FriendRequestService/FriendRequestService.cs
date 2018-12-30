@@ -52,17 +52,12 @@ namespace ChatApp.Services.FriendRequestService
 
         public async Task DeclineFriendRequest(FriendRequestVM friendRequest)
         {
-            var theRequest = await _chatContext.FriendRequest
-               .Where(p => p.FromUser == friendRequest.FromUser && p.ToUser == friendRequest.ToUser)
-               .FirstOrDefaultAsync();
-            var dbModel = new FriendRequest
-            {
-                FromUser = theRequest.FromUser,
-                ToUser = theRequest.ToUser,
-                HasAccepted = false
-            };
+            var update = await _chatContext.FriendRequest
+                .Where(p => p.FromUser == friendRequest.FromUser && p.ToUser == friendRequest.ToUser)
+                .FirstOrDefaultAsync();
 
-            _chatContext.FriendRequest.Update(dbModel);
+            update.HasAccepted = false;
+
             await _chatContext.SaveChangesAsync();
         }
 
@@ -84,7 +79,9 @@ namespace ChatApp.Services.FriendRequestService
                 {
                     FromUser = friendRequest.FromUser,
                     ToUser = friendRequest.ToUser,
-                    FromUserName = friendRequest.FromUserName
+                    FromUserName = friendRequest.FromUserName,
+                    ToUserName = friendRequest.ToUserName
+                    
                 };
                
 

@@ -1,4 +1,7 @@
-﻿namespace ChatApp.Models.Entities
+﻿using System;
+using System.Collections.Generic;
+
+namespace ChatApp.Models.Entities
 {
     public partial class FriendRequest
     {
@@ -7,5 +10,6 @@
         public string ToUser { get; set; }
         public bool? HasAccepted { get; set; }
         public string FromUserName { get; set; }
+        public string ToUserName { get; set; }
     }
 }

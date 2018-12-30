@@ -10,49 +10,28 @@ let toggleBtn = false;
 const connectionFriend = new signalR.HubConnectionBuilder().withUrl("/friendRequestHub").build();
 
 const printFriends = (friend) => {
-   
-    let newArr = [];
-   
- 
-    //alreadyPrinted.forEach(item => {
-    //    console.log(item.innerHTML)
-    //});
+    const pf = document.createElement('p');
+    pf.appendChild(document.createTextNode(`${friend}`));
+    pf.className = 'friends';
+    pf.setAttribute('data-friend', friend);
+    friendsContainer.appendChild(pf);
 
 
-    //const pf = document.createElement('p');
-    //pf.appendChild(document.createTextNode(`${friend}`));
-    //pf.className = 'friends';
-    //pf.setAttribute('data-friend', friend);
-
-    ////friendsContainer.childNodes.forEach(item => console.log(item))
-   
-    //friendsContainer.appendChild(pf);
-    friendsContainer.innerHTML += '';
-    friendsContainer.innerHTML += `<p class="friends" data-friend=${friend}>${friend}</p>`;
+    //friendsContainer.innerHTML += '';
+    //friendsContainer.innerHTML += `<p class="friends" data-friend=${friend}>${friend}</p>`;
 
 
-
-    
 }; // creates elements in the friend list
 
 const mapFriends = (friends) => {
-   
-    //let newFriendListToPrint = [];
-
-
-    console.log(friendsArr);
     friends ? friends.map(item => printFriends(item.name)) : '';
-    const alreadyPrinted = document.querySelectorAll('.friends');
-    console.log(friends);
-    console.log(alreadyPrinted);
-    //const alreadyPrinted = document.querySelectorAll('.friends');
-    //alreadyPrinted.forEach(item => console.log(item.innerHTML));
-    //console.log(alreadyPrinted);
+
+
 };
 
 const requestResult = (hasRequest, friendRequestsArray, friends, hasAccepted) => {
-    console.log(hasAccepted);
-    if (hasAccepted) {
+    console.log(friendRequestsArray);
+    if (hasAccepted || hasAccepted === false) {
         resetFriendContainer();
     }
     mapFriends(friends);

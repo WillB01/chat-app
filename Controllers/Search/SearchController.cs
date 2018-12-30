@@ -44,6 +44,7 @@ namespace ChatApp.Controllers.Search
                 FromUser = loggedinUser.Id,
                 ToUser = person.Id,
                 FromUserName = loggedinUser.UserName,
+                ToUserName = person.UserName
             };
 
             await _friendRequestService.SendFriendRequest(friendRequestVM);

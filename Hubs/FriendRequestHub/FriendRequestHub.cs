@@ -45,35 +45,53 @@ namespace ChatApp.Hubs.FriendRequestHub
 
         public async Task SendUserResponse(FriendRequestVM response)
         {
+            await SaveToDb(response);
+            await SendToLoggedinUser(response);
+            await SendToOtherUser(response);
+        }
 
+        public async Task SaveToDb(FriendRequestVM response)
+        {
             if (response.HasAccepted == true)
             {
                 await _friendRequestService.AcceptFriendRequest(response);
                 await _friendService.AddNewFriend(response);
-
             }
             else if (response.HasAccepted == false)
             {
                 await _friendRequestService.DeclineFriendRequest(response);
             }
-
-            var history = await CheckFriendRequests();
-            var hasRequests = history.Length == 0 ? false : true;
-
-            var user = await _userService.GetloggedinUser();
-            var friends = await _friendService.GetFriends(user);
-            var toUser = await _userService.GetUserByUserName(response.FromUserName);
-            var toUserFriends = await _friendService.GetFriends(toUser);
-
-            await Clients.Caller.ReceiveFriendRequest(hasRequests, history, friends, response.HasAccepted);
-            await Clients.User(response.FromUser).ReceiveFriendRequest(hasRequests, history, toUserFriends, response.HasAccepted);
         }
 
-        public async Task<FriendRequestVM[]> CheckFriendRequests()
+        public async Task<FriendRequestVM[]> CheckFriendRequests(IdentityUserVM user)
         {
-            var user = await _userService.GetloggedinUser();
-            var requests = await _friendRequestService.CheckFriendRequest(user);
+            var toUser = await _userService.GetUserByUserName(user.UserName);
+            var requests = await _friendRequestService.CheckFriendRequest(toUser);
             return requests;
         }
+
+        public async Task SendToLoggedinUser(FriendRequestVM response)
+        {
+            var user = await _userService.GetloggedinUser();
+            var userHistory = await CheckFriendRequests(user);
+            var userHasRequests = userHistory.Length == 0 ? false : true;
+            var userFriends = await _friendService.GetFriends(user);
+            await Clients.Caller.ReceiveFriendRequest(userHasRequests, userHistory, userFriends, response.HasAccepted);
+        }
+
+        public async Task SendToOtherUser(FriendRequestVM response)
+        {
+            var toUser = await _userService.GetUserByUserName(response.FromUserName);
+            var toUserhistory = await CheckFriendRequests(toUser);
+            var toUserHasRequests = toUserhistory.Length == 0 ? false : true;
+            var toUserFriends = await _friendService.GetFriends(toUser);
+            await Clients.User(response.FromUser).ReceiveFriendRequest(toUserHasRequests, toUserhistory, toUserFriends, response.HasAccepted);
+        }
+
+        
+       
+
+        
+
     }
 }
