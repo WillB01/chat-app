@@ -17,17 +17,16 @@ const printFriends = (friend) => {
 };
 
 const mapFriends = (friends) => {
-   
-    friends.map(item => printFriends(item.name));
+    console.log(friends + ' ' + 'inside mapFirneds');
+ 
+    friends ? friends.map(item => printFriends(item.name)) : '';
 };
 
 const requestResult = (hasRequest, friendRequestsArray, friends) => {
+    console.log(friends);
     sentFrom = friendRequestsArray;
     checkIfFriendDivHasCorrectClass();
     mapFriends(friends);
-    //console.log(hasRequest);
-    //console.log(friendRequestsArray);
-    //console.log(friends);
     if (hasRequest) {
         checkIfFriendDivHasCorrectClass();
     }

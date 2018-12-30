@@ -60,9 +60,13 @@ namespace ChatApp.Hubs.FriendRequestHub
             var history = await CheckFriendRequests();
             var hasRequests = history.Length == 0 ? false : true;
 
-            await Clients.Caller.ReceiveFriendRequest(hasRequests, history);
-            await Clients.User(response.FromUser)
-                   .ReceiveFriendRequest(hasRequests, history);
+            var user = await _userService.GetloggedinUser();
+            var friends = await _friendService.GetFriends(user);
+            var toUser = await _userService.GetUserByUserName(response.FromUserName);
+            var toUserFriends = await _friendService.GetFriends(toUser);
+
+            await Clients.Caller.ReceiveFriendRequest(hasRequests, history, friends);
+            await Clients.User(response.FromUser).ReceiveFriendRequest(hasRequests, history, toUserFriends);
         }
 
         public async Task<FriendRequestVM[]> CheckFriendRequests()

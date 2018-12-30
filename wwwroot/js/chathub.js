@@ -23,6 +23,7 @@ const startChat = () => {
         )
         .then((name) => {
             userName = name;
+          
         });
 };
 
@@ -39,12 +40,14 @@ const flattenMsgHistory = (history) => {
     return stageOne;
 };
 
-const clickHandlerFriendItem = (friendItem) => {
+const clickHandlerFriendItem = () => {
+    const friendItem = document.querySelectorAll('.friends');
+    console.log(friendItem);
     for (var i = 0; i < friendItem.length; i++) {
         friendItem[i].addEventListener('click', (e) => {
             friendDataValue = e.target.dataset.friend;
             textToPrintDiv.innerHTML = '';
-
+            console.log('dfd');
             const value = e.target.innerHTML;
 
             button.append(buttonText);
@@ -76,12 +79,7 @@ const clickHandlerFriendItem = (friendItem) => {
 
 connection.on('ReceiveMessage', renderMessage);
 startChat();
-window.addEventListener('load', () => {
-    alert('');
-    const friendItem = document.querySelectorAll('.friends');
-
-    clickHandlerFriendItem(friendItem);
-});
+//clickHandlerFriendItem();
 
 
 button.addEventListener('click', () => {
@@ -120,3 +118,4 @@ connection.onclose(function (e) {
 async function sleep(msec) {
     return new Promise(resolve => setTimeout(resolve, msec));
 }
+
