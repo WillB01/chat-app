@@ -3,27 +3,63 @@ const friendRequestResultDiv = document.querySelector('#friend-request-result');
 const friendsContainer = document.querySelector('#friends-container');
 let acceptBtn = '';
 let declineBtn = '';
+let friendsArr = [];
 
 let sentFrom = '';
 let toggleBtn = false;
 const connectionFriend = new signalR.HubConnectionBuilder().withUrl("/friendRequestHub").build();
 
 const printFriends = (friend) => {
-    const pf = document.createElement('p');
-    pf.appendChild(document.createTextNode(`${friend}`));
-    pf.className = 'friends';
-    pf.setAttribute('data-friend', friend);
-    friendsContainer.appendChild(pf);
-};
+   
+    let newArr = [];
+   
+ 
+    //alreadyPrinted.forEach(item => {
+    //    console.log(item.innerHTML)
+    //});
+
+
+    //const pf = document.createElement('p');
+    //pf.appendChild(document.createTextNode(`${friend}`));
+    //pf.className = 'friends';
+    //pf.setAttribute('data-friend', friend);
+
+    ////friendsContainer.childNodes.forEach(item => console.log(item))
+   
+    //friendsContainer.appendChild(pf);
+    friendsContainer.innerHTML += '';
+    friendsContainer.innerHTML += `<p class="friends" data-friend=${friend}>${friend}</p>`;
+
+
+
+    
+}; // creates elements in the friend list
 
 const mapFriends = (friends) => {
+   
+    //let newFriendListToPrint = [];
+
+
+    console.log(friendsArr);
     friends ? friends.map(item => printFriends(item.name)) : '';
+    const alreadyPrinted = document.querySelectorAll('.friends');
+    console.log(friends);
+    console.log(alreadyPrinted);
+    //const alreadyPrinted = document.querySelectorAll('.friends');
+    //alreadyPrinted.forEach(item => console.log(item.innerHTML));
+    //console.log(alreadyPrinted);
 };
 
-const requestResult = (hasRequest, friendRequestsArray, friends) => {
+const requestResult = (hasRequest, friendRequestsArray, friends, hasAccepted) => {
+    console.log(hasAccepted);
+    if (hasAccepted) {
+        resetFriendContainer();
+    }
+    mapFriends(friends);
+    friendsArr = friends;
     sentFrom = friendRequestsArray;
     checkIfFriendDivHasCorrectClass();
-    mapFriends(friends);
+   
     if (hasRequest) {
         checkIfFriendDivHasCorrectClass();
     }
@@ -60,13 +96,11 @@ const friendRequestItems = (item) => {
 
 const getUserResponse = (response) => {
     acceptBtn.addEventListener('click', (e) => {
+        resetFriendContainer(); 
         response.hasAccepted = true;
         connectionFriend.invoke('SendUserResponse', response);
         e.target.parentNode.innerHTML = `Your are now friends with ${response.fromUserName}`;
         checkIfFriendDivHasCorrectClass();
-        resetFriendContainer();
-      
-       
     });
 
     declineBtn.addEventListener('click', (e) => {

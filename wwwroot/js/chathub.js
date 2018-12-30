@@ -23,6 +23,7 @@ const startChat = () => {
         )
         .then((name) => {
             userName = name;
+           
           
         });
 };
@@ -42,7 +43,6 @@ const flattenMsgHistory = (history) => {
 
 const clickHandlerFriendItem = () => {
     const friendItem = document.querySelectorAll('.friends');
-    console.log(friendItem);
     for (var i = 0; i < friendItem.length; i++) {
         friendItem[i].addEventListener('click', (e) => {
             friendDataValue = e.target.dataset.friend;
@@ -79,7 +79,10 @@ const clickHandlerFriendItem = () => {
 
 connection.on('ReceiveMessage', renderMessage);
 startChat();
-//clickHandlerFriendItem();
+waitForElement(".friends").then((element) => {
+    clickHandlerFriendItem();
+});
+
 
 
 button.addEventListener('click', () => {
@@ -117,5 +120,31 @@ connection.onclose(function (e) {
 
 async function sleep(msec) {
     return new Promise(resolve => setTimeout(resolve, msec));
+}
+
+function waitForElement(selector) {
+    return new Promise(function (resolve, reject) {
+        var element = document.querySelector(selector);
+
+        if (element) {
+            resolve(element);
+            return;
+        }
+
+        var observer = new MutationObserver(function (mutations) {
+            mutations.forEach(function (mutation) {
+                var nodes = Array.from(mutation.addedNodes);
+                for (var node of nodes) {
+                    if (node.matches && node.matches(selector)) {
+                        observer.disconnect();
+                        resolve(node);
+                        return;
+                    }
+                };
+            });
+        });
+
+        observer.observe(document.documentElement, { childList: true, subtree: true });
+    });
 }
 

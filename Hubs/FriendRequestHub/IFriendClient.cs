@@ -14,6 +14,9 @@ namespace ChatApp.Hubs.FriendRequestHub
         Task ReceiveFriendRequest(bool sentRequest, FriendRequestVM[] requests, FriendsVM[] friends);
 
 
+        Task ReceiveFriendRequest(bool sentRequest, FriendRequestVM[] requests, FriendsVM[] friends, bool? hasAccepted);
+
+
         Task ReceiveFriendRequest(string fromUserName, string fromUserId);
 
 

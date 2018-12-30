@@ -65,8 +65,8 @@ namespace ChatApp.Hubs.FriendRequestHub
             var toUser = await _userService.GetUserByUserName(response.FromUserName);
             var toUserFriends = await _friendService.GetFriends(toUser);
 
-            await Clients.Caller.ReceiveFriendRequest(hasRequests, history, friends);
-            await Clients.User(response.FromUser).ReceiveFriendRequest(hasRequests, history, toUserFriends);
+            await Clients.Caller.ReceiveFriendRequest(hasRequests, history, friends, response.HasAccepted);
+            await Clients.User(response.FromUser).ReceiveFriendRequest(hasRequests, history, toUserFriends, response.HasAccepted);
         }
 
         public async Task<FriendRequestVM[]> CheckFriendRequests()
