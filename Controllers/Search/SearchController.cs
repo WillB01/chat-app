@@ -1,7 +1,9 @@
-﻿using ChatApp.Services;
+﻿using ChatApp.Hubs.FriendRequestHub;
+using ChatApp.Services;
 using ChatApp.Services.FriendRequestService;
 using ChatApp.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -11,11 +13,13 @@ namespace ChatApp.Controllers.Search
     {
         private readonly IUserService _userService;
         private readonly IFriendRequestService _friendRequestService;
+        private readonly IHubContext<FriendRequestHub, IFriendClient> _friendRequestHubContext;
 
-        public SearchController(IUserService userService, IFriendRequestService friendRequestService)
+        public SearchController(IUserService userService, IFriendRequestService friendRequestService, IHubContext<FriendRequestHub, IFriendClient> friendRequestHubContext)
         {
             _userService = userService;
             _friendRequestService = friendRequestService;
+            _friendRequestHubContext = friendRequestHubContext;
         }
 
         [HttpGet]
@@ -48,6 +52,10 @@ namespace ChatApp.Controllers.Search
             };
 
             await _friendRequestService.SendFriendRequest(friendRequestVM);
+            var signalRModel = new FriendRequestVM[] { friendRequestVM };
+            await _friendRequestHubContext.Clients.User(friendRequestVM.ToUser)
+                .ReceiveFriendRequest(true, signalRModel);
+
         }
     }
 }

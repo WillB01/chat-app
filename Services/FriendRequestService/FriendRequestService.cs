@@ -14,13 +14,11 @@ namespace ChatApp.Services.FriendRequestService
         private readonly ChatContext _chatContext;
         private readonly IUserService _userService;
         private readonly IFriendService _friendService;
-        private IHubContext<FriendRequestHub, IFriendClient> _friendRequestHubContext;
 
-        public FriendRequestService(ChatContext chatContext, IUserService userService, IHubContext<FriendRequestHub, IFriendClient> friendRequestHubContext, IFriendService friendService)
+        public FriendRequestService(ChatContext chatContext, IUserService userService, IFriendService friendService)
         {
             _chatContext = chatContext;
             _userService = userService;
-            _friendRequestHubContext = friendRequestHubContext;
             _friendService = friendService;
         }
 
@@ -89,24 +87,7 @@ namespace ChatApp.Services.FriendRequestService
 
                 await _chatContext.SaveChangesAsync();
 
-                var signalRModel = new FriendRequestVM[] { friendRequest };
-                await _friendRequestHubContext.Clients.User(friendRequest.ToUser)
-                    .ReceiveFriendRequest(true, signalRModel);
-              
-
             }
-
-
-
-
         }
-
-
-
-
-
-
-
-
     }
 }

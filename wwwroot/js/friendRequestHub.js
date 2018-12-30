@@ -75,7 +75,6 @@ const friendRequestItems = (item) => {
 
 const getUserResponse = (response) => {
     acceptBtn.addEventListener('click', (e) => {
-        resetFriendContainer(); 
         response.hasAccepted = true;
         connectionFriend.invoke('SendUserResponse', response);
         e.target.parentNode.innerHTML = `Your are now friends with ${response.fromUserName}`;
@@ -98,6 +97,8 @@ const userClickOnRequest = () => {
             friendRequestResultDiv.setAttribute('style', "display: block");
             friendRequestResultDiv.innerHTML = 'no friend requests';
         } else {
+            console.log(sentFrom);
+
             sentFrom.map(item => {
                 friendRequestResultDiv.appendChild(friendRequestItems(item));
                 getUserResponse(item);

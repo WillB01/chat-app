@@ -47,7 +47,6 @@ const clickHandlerFriendItem = () => {
         friendItem[i].addEventListener('click', (e) => {
             friendDataValue = e.target.dataset.friend;
             textToPrintDiv.innerHTML = '';
-            console.log('dfd');
             const value = e.target.innerHTML;
 
             button.append(buttonText);
