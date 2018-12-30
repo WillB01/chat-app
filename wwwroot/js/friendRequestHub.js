@@ -8,25 +8,26 @@ let sentFrom = '';
 let toggleBtn = false;
 const connectionFriend = new signalR.HubConnectionBuilder().withUrl("/friendRequestHub").build();
 
-//const addFriends = (friend) => {
-//    const pf = document.createElement('p');
-//    pf.appendChild(document.createTextNode(`${friend}`));
-//    pf.className = 'friends';
-//    pf.setAttribute('data-friend', friend);
-//    friendsContainer.appendChild(pf);
-//};
+const printFriends = (friend) => {
+    const pf = document.createElement('p');
+    pf.appendChild(document.createTextNode(`${friend}`));
+    pf.className = 'friends';
+    pf.setAttribute('data-friend', friend);
+    friendsContainer.appendChild(pf);
+};
 
-//const mapFriends = (friends) => {
-//    friends.map(item => addFriends(item.name));
-//}
+const mapFriends = (friends) => {
+   
+    friends.map(item => printFriends(item.name));
+};
 
 const requestResult = (hasRequest, friendRequestsArray, friends) => {
     sentFrom = friendRequestsArray;
     checkIfFriendDivHasCorrectClass();
-    //mapFriends(friends);
-    console.log(hasRequest);
-    console.log(friendRequestsArray);
-    console.log(friends);
+    mapFriends(friends);
+    //console.log(hasRequest);
+    //console.log(friendRequestsArray);
+    //console.log(friends);
     if (hasRequest) {
         checkIfFriendDivHasCorrectClass();
     }

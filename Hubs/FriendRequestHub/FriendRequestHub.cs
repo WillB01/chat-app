@@ -49,7 +49,7 @@ namespace ChatApp.Hubs.FriendRequestHub
             if (response.HasAccepted == true)
             {
                 await _friendRequestService.AcceptFriendRequest(response);
-                //await _friendService.AddNewFriend(response);
+                await _friendService.AddNewFriend(response);
 
             }
             else if (response.HasAccepted == false)

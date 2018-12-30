@@ -1,7 +1,8 @@
 ﻿const chatBox = document.querySelector('#chat-container');
 const textToPrintDiv = document.querySelector('#text-print');
 const sendMsgBtn = document.querySelector('#send-msg');
-const friendItem = document.querySelectorAll('.friends');
+
+
 const chatText = document.querySelector('#chat-text');
 
 let userConnectionId = '';
@@ -38,7 +39,7 @@ const flattenMsgHistory = (history) => {
     return stageOne;
 };
 
-const clickHandlerFriendItem = () => {
+const clickHandlerFriendItem = (friendItem) => {
     for (var i = 0; i < friendItem.length; i++) {
         friendItem[i].addEventListener('click', (e) => {
             friendDataValue = e.target.dataset.friend;
@@ -75,7 +76,13 @@ const clickHandlerFriendItem = () => {
 
 connection.on('ReceiveMessage', renderMessage);
 startChat();
-clickHandlerFriendItem();
+window.addEventListener('load', () => {
+    alert('');
+    const friendItem = document.querySelectorAll('.friends');
+
+    clickHandlerFriendItem(friendItem);
+});
+
 
 button.addEventListener('click', () => {
     let text = input.value;

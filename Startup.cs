@@ -79,8 +79,8 @@ namespace ChatApp
             app.UseAuthentication();
             app.UseSignalR(routes =>
             {
-                routes.MapHub<ChatHub>("/chatHub");
                 routes.MapHub<FriendRequestHub>("/friendRequestHub");
+                routes.MapHub<ChatHub>("/chatHub");
             });
 
             app.UseMvcWithDefaultRoute();
