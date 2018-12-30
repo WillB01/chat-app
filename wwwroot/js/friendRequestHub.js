@@ -22,14 +22,12 @@ const printFriends = (friend) => {
 
 const mapFriends = (friends) => {
     friends ? friends.map(item => printFriends(item.name)) : '';
-
-
 };
 
 const requestResult = (hasRequest, friendRequestsArray, friends, hasAccepted) => {
     console.log(friendRequestsArray);
     hasRequests = hasRequest;
- 
+
     if (hasAccepted || hasAccepted === false) {
         resetFriendContainer();
     }
@@ -52,17 +50,11 @@ const checkIfFriendDivHasCorrectClass = () => {
     if (sentFrom.length === 0) {
         friendDiv.classList.remove('has-friend-request');
         friendRequestBadge.setAttribute('style', "display: none");
-
     } else {
-        friendDiv.classList.add('has-friend-request');  
+        friendDiv.classList.add('has-friend-request');
         addFriendRequestBadge();
     }
-    
-
-
 };
-
-
 
 const friendRequestItems = (item) => {
     const newDiv = document.createElement('div');
@@ -121,8 +113,6 @@ const userClickOnRequest = () => {
     }
 };
 
-
-
 friendDiv.addEventListener('click', userClickOnRequest);
 
 connectionFriend.on('ReceiveFriendRequest', requestResult);
@@ -136,6 +126,3 @@ function resetFriendContainer() {
 function addFriendRequestBadge() {
     friendRequestBadge.setAttribute('style', "display: block");
 };
-
-
-
