@@ -18,10 +18,12 @@ const printFriends = (friend) => {
     pf.className = 'friends';
     pf.setAttribute('data-friend', friend);
     friendsContainer.appendChild(pf);
+
 }; // creates elements in the friend list
 
 const mapFriends = (friends) => {
     friends ? friends.map(item => printFriends(item.name)) : '';
+    clickHandlerFriendItem();
 };
 
 const requestResult = (hasRequest, friendRequestsArray, friends, hasAccepted) => {
@@ -125,6 +127,5 @@ function resetFriendContainer() {
 
 function addFriendRequestBadge() {
     friendRequestBadge.setAttribute('style', "display: block");
-    console.log(sentFrom.length);
     friendRequestBadge.innerHTML = sentFrom.length;
 };

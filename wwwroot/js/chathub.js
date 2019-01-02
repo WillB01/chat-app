@@ -40,8 +40,11 @@ const flattenMsgHistory = (history) => {
 
 const clickHandlerFriendItem = () => {
     const friendItem = document.querySelectorAll('.friends');
+    friendListItemStyle(friendItem);
+    
     for (var i = 0; i < friendItem.length; i++) {
         friendItem[i].addEventListener('click', (e) => {
+   
             friendDataValue = e.target.dataset.friend;
             textToPrintDiv.innerHTML = '';
             const value = e.target.innerHTML;
@@ -64,7 +67,8 @@ const clickHandlerFriendItem = () => {
                         p.setAttribute('data-user', friendDataValue);
                     }
                     p.appendChild(text);
-                    console.log(divToPrint);
+                   
+                   
                     textToPrintDiv.appendChild(p);
                 });
             });
@@ -76,8 +80,9 @@ const clickHandlerFriendItem = () => {
 connection.on('ReceiveMessage', renderMessage);
 startChat();
 waitForElement(".friends").then((element) => {
-    clickHandlerFriendItem();
+    //clickHandlerFriendItem();
 });
+//clickHandlerFriendItem();
 
 button.addEventListener('click', () => {
     let text = input.value;
@@ -105,7 +110,7 @@ async function connect(conn) {
         console.log("Reconnecting Socket");
         connect(conn);
     }
-    )
+    );
 }
 
 connection.onclose(function (e) {
@@ -139,5 +144,19 @@ function waitForElement(selector) {
         });
 
         observer.observe(document.documentElement, { childList: true, subtree: true });
+    });
+} // checks if element is created.
+
+function friendListItemStyle(el) {
+    //const css = 'div p:hover{ background-color: blue }';
+    //const style = document.createElement('style');
+
+    //style.styleSheet
+    //    ? style.styleSheet.cssText = css
+    //    : style.appendChild(document.createTextNode(css));
+    
+    el.forEach(item => {
+        item.setAttribute('style', 'cursor: pointer');
+        //item.appendChild(style);
     });
 }

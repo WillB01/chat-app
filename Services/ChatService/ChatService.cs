@@ -22,33 +22,34 @@ namespace ChatApp.Services
         {
             var toUserId = await _userService.GetUserId(getSecondUser);
 
-            var fromUser = await _chatContext.Conversation
-              .Include(p => p.Message)
-              .Where(p => p.UserId == loggedinUser.Id && p.ToUserId == toUserId)
-              .Select((b) =>
-              new MessageVM
-              {
-                  Message = b.Message.Message1,
-                  Time = b.Message.Time,
-                  IsLoggedin = true,
-                  IdentityId = b.Message.IdentityId
-              }).ToArrayAsync();
+                var fromUser = await _chatContext.Conversation
+                  .Include(p => p.Message)
+                  .Where(p => p.UserId == loggedinUser.Id && p.ToUserId == toUserId)
+                  .Select((b) =>
+                  new MessageVM
+                  {
+                      Message = b.Message.Message1,
+                      Time = b.Message.Time,
+                      IsLoggedin = true,
+                      IdentityId = b.Message.IdentityId
+                  }).ToArrayAsync();
 
-            var toUser = await _chatContext.Conversation
-              .Include(p => p.Message)
-              .Where(p => p.UserId == toUserId && p.ToUserId == loggedinUser.Id)
-              .Select((b) =>
-              new MessageVM
-              {
-                  Message = b.Message.Message1,
-                  Time = b.Message.Time,
-                  IsLoggedin = false,
-                  IdentityId = b.Message.IdentityId
-              }).ToArrayAsync();
+                var toUser = await _chatContext.Conversation
+                  .Include(p => p.Message)
+                  .Where(p => p.UserId == toUserId && p.ToUserId == loggedinUser.Id)
+                  .Select((b) =>
+                  new MessageVM
+                  {
+                      Message = b.Message.Message1,
+                      Time = b.Message.Time,
+                      IsLoggedin = false,
+                      IdentityId = b.Message.IdentityId
+                  }).ToArrayAsync();
 
-            var conversation = fromUser.Concat(toUser).ToArray().OrderBy(e => e.Time).ToArray();
+                var conversation = fromUser.Concat(toUser).ToArray().OrderBy(e => e.Time).ToArray();
 
-            return conversation;
+                return conversation;
+            
         }
 
         public async Task SaveConversation(string userLoggedin, string userId, string message, DateTime time)
