@@ -33,7 +33,8 @@ const input = document.createElement("input");
 const flattenMsgHistory = (history) => {
     const stageOne = [];
     for (var i = 0; i < history.length; i++) {
-        stageOne.push({ [history[i].time]: [history[i].message, history[i].isLoggedin] });
+        let timeRemake = timeChanger(history[i].time);
+        stageOne.push({ [timeRemake]: [history[i].message, history[i].isLoggedin] });
     }
     return stageOne;
 };
@@ -61,12 +62,16 @@ const clickHandlerFriendItem = () => {
             history.then(result => {
                 flattenMsgHistory(result).map((item, index) => {
                     const p = document.createElement("p");
-                    const text = document.createTextNode(`${Object.keys(item)} - ${item[Object.keys(item)][0]}`);
+                    //const text = document.createTextNode(`${item[Object.keys(item)][0]}`);
+                    const text = document.createTextNode(`${item[Object.keys(item)][0]} - ${Object.keys(item)} `); //the message!
                     let wrapperDiv = document.createElement('div');
                     if (item[Object.keys(item)][1]) {
                         wrapperDiv.classList.add('user-message-wrapper');
                         p.classList.add('user-message-container');
                         p.setAttribute('data-user', friendDataValue);
+                    }
+                    if (!item[Object.keys(item)][1]) {
+                        wrapperDiv.classList.add('other-message-wrapper');
                     }
                     p.appendChild(text);
                     wrapperDiv.appendChild(p);
@@ -94,14 +99,19 @@ button.addEventListener('click', () => {
 function renderMessage(message, time, isLoggedin, fromFriend) {
     divToPrint = document.querySelectorAll(`[friend-chat=${fromFriend}]`)[0];
     let wrapperDiv = document.createElement('div');
-    wrapperDiv.classList.add('user-message-wrapper');
+    let remakeTime = timeChanger(time);
 
     let testP = document.createElement("p");
-    testP.appendChild(document.createTextNode(`${message}`));
+    testP.appendChild(document.createTextNode(`${message} - ${remakeTime} `));
     wrapperDiv.appendChild(testP);
     
     if (isLoggedin) {
         testP.classList.add('user-message-container');
+        wrapperDiv.classList.add('user-message-wrapper');
+    }
+
+    if (!isLoggedin) {
+        wrapperDiv.classList.add('other-message-wrapper');
     }
 
     if (divToPrint !== undefined) {
@@ -153,15 +163,12 @@ function waitForElement(selector) {
 } // checks if element is created.
 
 function friendListItemStyle(el) {
-    //const css = 'div p:hover{ background-color: blue }';
-    //const style = document.createElement('style');
-
-    //style.styleSheet
-    //    ? style.styleSheet.cssText = css
-    //    : style.appendChild(document.createTextNode(css));
-    
     el.forEach(item => {
         item.setAttribute('style', 'cursor: pointer');
-        //item.appendChild(style);
     });
+}
+
+function timeChanger(time) {
+    let timeRemake = time.substring(time.indexOf("T") + 1);
+    return timeRemake = timeRemake.substring(0, timeRemake.indexOf(".") + 0);
 }

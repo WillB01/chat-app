@@ -19,24 +19,55 @@
 .user-message-wrapper {
     width: 100%;
     background: none;
-    
+    margin-bottom: 3px;
     text-align: right;
     display: grid;
 }
 
-
-
-#friends-and-chat {
-    display: grid;
+.other-message-wrapper {
     width: 100%;
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 10%;
-    height: 90%;
-    background: white;
-    grid-template-columns: minmax(100px, 15%) 80%;
+    background: none;
+    margin-bottom: 3px;
+    text-align: left;
+    display: grid;
 }
+
+    .other-message-wrapper p {
+        background: #A9E8DC;
+        position: relative;
+        justify-self: left;
+        padding: 10px;
+        width: auto;
+        border-radius: .4em;
+    }
+        .other-message-wrapper p:after {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            width: 0;
+            height: 0;
+            border: 20px solid transparent;
+            border-right-color: #A9E8DC;
+            border-left: 0;
+            border-bottom: 0;
+            margin-top: -16.5px;
+            margin-left: -10px;
+        }
+
+
+
+    #friends-and-chat {
+        display: grid;
+        width: 100%;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 10%;
+        height: 90%;
+        background: white;
+        grid-template-columns: minmax(100px, 15%) 80%;
+    }
 
 
 #send-msg {
