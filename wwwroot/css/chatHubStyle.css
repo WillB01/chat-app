@@ -4,13 +4,29 @@
     position: relative;
     /*height: 99vh;*/
     font-size: 2vh;
+    display: grid;
+    padding: 20px;
+   
 }
 
 .user-message-container {
     background: green;
+    justify-self: right;
+    padding: 10px;
+    width: auto;
 }
 
-#friends-and-chat{
+.user-message-wrapper {
+    width: 100%;
+    background: none;
+    
+    text-align: right;
+    display: grid;
+}
+
+
+
+#friends-and-chat {
     display: grid;
     width: 100%;
     position: absolute;
@@ -19,8 +35,7 @@
     top: 10%;
     height: 90%;
     background: white;
-    grid-template-columns: 20% 80%;
-   
+    grid-template-columns: minmax(100px, 15%) 80%;
 }
 
 

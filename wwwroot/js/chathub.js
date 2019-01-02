@@ -62,14 +62,17 @@ const clickHandlerFriendItem = () => {
                 flattenMsgHistory(result).map((item, index) => {
                     const p = document.createElement("p");
                     const text = document.createTextNode(`${Object.keys(item)} - ${item[Object.keys(item)][0]}`);
+                    let wrapperDiv = document.createElement('div');
                     if (item[Object.keys(item)][1]) {
+                        wrapperDiv.classList.add('user-message-wrapper');
                         p.classList.add('user-message-container');
                         p.setAttribute('data-user', friendDataValue);
                     }
                     p.appendChild(text);
+                    wrapperDiv.appendChild(p);
                    
-                   
-                    textToPrintDiv.appendChild(p);
+
+                    textToPrintDiv.appendChild(wrapperDiv);
                 });
             });
             userToChatWith = e.target.innerHTML;
@@ -90,15 +93,19 @@ button.addEventListener('click', () => {
 
 function renderMessage(message, time, isLoggedin, fromFriend) {
     divToPrint = document.querySelectorAll(`[friend-chat=${fromFriend}]`)[0];
-    var testP = document.createElement("p");
+    let wrapperDiv = document.createElement('div');
+    wrapperDiv.classList.add('user-message-wrapper');
 
-    testP.appendChild(document.createTextNode(`${time} - ${message}`));
+    let testP = document.createElement("p");
+    testP.appendChild(document.createTextNode(`${message}`));
+    wrapperDiv.appendChild(testP);
+    
     if (isLoggedin) {
         testP.classList.add('user-message-container');
     }
 
     if (divToPrint !== undefined) {
-        divToPrint.appendChild(testP);
+        divToPrint.appendChild(wrapperDiv);
     }
 };
 

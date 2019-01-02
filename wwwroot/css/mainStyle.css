@@ -45,7 +45,7 @@ body, html {
         "friends search"
         none "chat";*/
     /*background: red;*/
-    max-width: 1400px;
+    max-width: 2400px;
     width: 100%;
     height: 100%;
     box-sizing: border-box;
@@ -62,9 +62,13 @@ body, html {
     float: right;
     text-align: center;
     height: 100%;
-    padding: 10px;
+    padding: 4px;
     font-size: 2vh;
- 
+    font-weight: 600;
+    color: #fff;
+    -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 #auth-navbar input {
     background: #02BEC4;
@@ -84,8 +88,8 @@ body, html {
     color: #fff;
     padding: 4px;
     font-size: 2vh;
-    cursor: pointer;
     font-weight: 600;
+    cursor: pointer;
     background: #FF6138;
     height: 100%;
     width: 20%;
@@ -95,6 +99,9 @@ body, html {
     box-sizing: border-box;
     z-index: 10;
     float: right;
+    -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
 #friend-request-result {
@@ -104,13 +111,20 @@ body, html {
 #friends-container {
     background: #2f2f2f;
     width: 100%;
+    min-width: 50px;
     box-sizing: border-box;
+   
     /*height: 100%;*/
     padding: 4px;
     justify-content: center;
-    font-size: 2vh;
+    font-size: 1.6em;
     color: #fff;
 
+}
+
+.friends {
+    margin-left: 5px;
+    margin-bottom: 3px;
 }
 
 .has-friend-request {
