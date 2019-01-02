@@ -6,14 +6,15 @@
     font-size: 2vh;
     display: grid;
     padding: 20px;
-   
 }
 
 .user-message-container {
-    background: green;
+    background: #4EBA6F;
     justify-self: right;
     padding: 10px;
     width: auto;
+    position: relative;
+    border-radius: .4em;
 }
 
 .user-message-wrapper {
@@ -23,6 +24,23 @@
     text-align: right;
     display: grid;
 }
+
+.user-message-container:after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 50%;
+    width: 0;
+    height: 0;
+    border: 20px solid transparent;
+    border-left-color: #4EBA6F;
+    border-right: 0;
+    border-bottom: 0;
+    margin-top: -16.5px;
+    margin-right: -10px;
+}
+
+
 
 .other-message-wrapper {
     width: 100%;
@@ -40,6 +58,7 @@
         width: auto;
         border-radius: .4em;
     }
+
         .other-message-wrapper p:after {
             content: '';
             position: absolute;
@@ -57,17 +76,17 @@
 
 
 
-    #friends-and-chat {
-        display: grid;
-        width: 100%;
-        position: absolute;
-        left: 0;
-        right: 0;
-        top: 10%;
-        height: 90%;
-        background: white;
-        grid-template-columns: minmax(100px, 15%) 80%;
-    }
+#friends-and-chat {
+    display: grid;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 10%;
+    height: 90%;
+    background: white;
+    grid-template-columns: minmax(100px, 15%) 80%;
+}
 
 
 #send-msg {
