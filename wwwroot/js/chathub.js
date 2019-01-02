@@ -79,10 +79,8 @@ const clickHandlerFriendItem = () => {
 
 connection.on('ReceiveMessage', renderMessage);
 startChat();
-waitForElement(".friends").then((element) => {
-    //clickHandlerFriendItem();
-});
-//clickHandlerFriendItem();
+waitForElement(".friends").then((element) => {});
+
 
 button.addEventListener('click', () => {
     let text = input.value;

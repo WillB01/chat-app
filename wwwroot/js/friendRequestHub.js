@@ -23,11 +23,10 @@ const printFriends = (friend) => {
 
 const mapFriends = (friends) => {
     friends ? friends.map(item => printFriends(item.name)) : '';
-    clickHandlerFriendItem();
+    clickHandlerFriendItem(); // find method in chathub.js
 };
 
 const requestResult = (hasRequest, friendRequestsArray, friends, hasAccepted) => {
-    console.log(friendRequestsArray);
     hasRequests = hasRequest;
 
     if (hasAccepted || hasAccepted === false) {
@@ -37,9 +36,6 @@ const requestResult = (hasRequest, friendRequestsArray, friends, hasAccepted) =>
     friendsArr = friends;
     sentFrom = friendRequestsArray;
     checkIfFriendDivHasCorrectClass();
-    //if (hasRequest) {
-    //    checkIfFriendDivHasCorrectClass();
-    //}
 };
 
 const start = () => {
@@ -80,14 +76,12 @@ const getUserResponse = (response) => {
         response.hasAccepted = true;
         connectionFriend.invoke('SendUserResponse', response);
         e.target.parentNode.innerHTML = `Your are now friends with ${response.fromUserName}`;
-        //checkIfFriendDivHasCorrectClass();
     });
 
     declineBtn.addEventListener('click', (e) => {
         response.hasAccepted = false;
         connectionFriend.invoke('SendUserResponse', response);
         e.target.parentNode.innerHTML = `You declined ${response.fromUserName}`;
-        //checkIfFriendDivHasCorrectClass();
     });
 };
 

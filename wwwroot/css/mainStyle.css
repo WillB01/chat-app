@@ -21,45 +21,91 @@ li {
     cursor: pointer;
 }
 
-body {
+body, html {
     font-family: 'Open Sans', sans-serif;
+    height: 100%;
+    background: #0285A8;
 }
+
+/*#body-container {
+    background: red;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+}*/
 
 #main-content {
     /*display: grid;*/
     /*grid-template-columns: 1fr ;*/
-    grid-auto-rows: auto;
+    /*grid-auto-rows: auto;*/
     /*grid-template-areas:
         "friends search"
         none "chat";*/
     /*background: red;*/
-    width: 90%;
-    height: 100%;
+    max-width: 1400px;
+    width: 100%;
+    height: 100vh;
+    box-sizing: border-box;
     margin: 0 auto;
+  
 }
 
+
+/*Auth nav bar*/
+#auth-navbar {
+    background: #02BEC4;
+    display: grid;
+    min-width: 20px;
+    max-width: 200px;
+    text-align: center;
+    position: fixed;
+    right: 0;
+    padding: 10px;
+    font-size: 2vh;
+ 
+}
+#auth-navbar input {
+    background: #02BEC4;
+   
+    font-size: 2vh;
+}
 /*friends stuff*/
+#k {
+   
+    display: grid;
+    box-sizing: border-box;
+    position: fixed;
+    left: 0;
+    width: 10%;
+}
 
 #friend-request-container {
     color: #fff;
-    padding: 5px;
+    padding: 4px;
     font-size: 2vh;
     cursor: pointer;
     font-weight: 600;
     background: #FF6138;
     height: auto;
-    max-width: 200px;
+    width: 100%;
     display: grid;
+    text-align: center;
     justify-content: center;
+    box-sizing: border-box;
 }
 
 #friends-container {
-    background: #eaeaea;
-    position: fixed;
-    width: 60px;
-    height: 100%;
-    grid-area: friends;
+    background: #2f2f2f;
+    width: 100%;
+    box-sizing: border-box;
+    /*height: 100%;*/
     padding: 4px;
+    justify-content: center;
+    font-size: 2vh;
+    color: #fff;
 }
 
 .has-friend-request {

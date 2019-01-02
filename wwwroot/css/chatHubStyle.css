@@ -1,11 +1,40 @@
 ﻿#chat-container {
-    background: #efefef;
-    min-width: 500px;
-    min-height: 400px;
-    grid-area: chat;
-    margin: 20px auto 0 100px;
+    background: #fafafa;
+    width: 100%;
+    position: relative;
+    height: 85vh;
+    font-size: 2vh;
 }
 
 .user-message-container {
     background: green;
+}
+
+#friends-and-chat{
+    display: grid;
+    width: 100%;
+    margin-top: 100px;
+    background: white;
+    grid-template-columns: 20% 80%;
+}
+
+/*#chat-input{
+    background: black;
+    position: absolute;
+    bottom: 0;
+}*/
+
+#send-msg {
+    font-size: 2vh;
+    width: 20%;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+
+#chat-text {
+    font-size: 2vh;
+    width: 80%;
+    position: absolute;
+    bottom: 0;
 }
