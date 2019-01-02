@@ -1,8 +1,6 @@
-﻿using ChatApp.Hubs.FriendRequestHub;
-using ChatApp.Models.Entities;
+﻿using ChatApp.Models.Entities;
 using ChatApp.Services.FriendService;
 using ChatApp.ViewModels;
-using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
@@ -24,7 +22,7 @@ namespace ChatApp.Services.FriendRequestService
 
         public async Task<FriendRequestVM[]> CheckFriendRequest(IdentityUserVM user) // todo add Name to DB
         {
-            var requests = await  _chatContext.FriendRequest
+            var requests = await _chatContext.FriendRequest
            .Where(p => p.ToUser == user.Id && p.HasAccepted == null)
            .Select(e => new FriendRequestVM
            {
@@ -61,7 +59,6 @@ namespace ChatApp.Services.FriendRequestService
 
         public async Task SendFriendRequest(FriendRequestVM friendRequest)
         {
-
             var loggedInUserHasAlreadySent = await _chatContext.FriendRequest
                 .Where(p => p.FromUser == friendRequest.FromUser)
                 .AnyAsync(e => e.ToUser == friendRequest.ToUser);
@@ -79,14 +76,11 @@ namespace ChatApp.Services.FriendRequestService
                     ToUser = friendRequest.ToUser,
                     FromUserName = friendRequest.FromUserName,
                     ToUserName = friendRequest.ToUserName
-                    
                 };
-               
 
                 _chatContext.FriendRequest.Add(dbModel);
 
                 await _chatContext.SaveChangesAsync();
-
             }
         }
     }

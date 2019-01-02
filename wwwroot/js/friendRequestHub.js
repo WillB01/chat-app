@@ -78,14 +78,14 @@ const getUserResponse = (response) => {
         response.hasAccepted = true;
         connectionFriend.invoke('SendUserResponse', response);
         e.target.parentNode.innerHTML = `Your are now friends with ${response.fromUserName}`;
-        checkIfFriendDivHasCorrectClass();
+        //checkIfFriendDivHasCorrectClass();
     });
 
     declineBtn.addEventListener('click', (e) => {
         response.hasAccepted = false;
         connectionFriend.invoke('SendUserResponse', response);
         e.target.parentNode.innerHTML = `You declined ${response.fromUserName}`;
-        checkIfFriendDivHasCorrectClass();
+        //checkIfFriendDivHasCorrectClass();
     });
 };
 
@@ -125,4 +125,6 @@ function resetFriendContainer() {
 
 function addFriendRequestBadge() {
     friendRequestBadge.setAttribute('style', "display: block");
+    console.log(sentFrom.length);
+    friendRequestBadge.innerHTML = sentFrom.length;
 };

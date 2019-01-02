@@ -87,11 +87,5 @@ namespace ChatApp.Hubs.FriendRequestHub
             var toUserFriends = await _friendService.GetFriends(toUser);
             await Clients.User(response.FromUser).ReceiveFriendRequest(toUserHasRequests, toUserhistory, toUserFriends, response.HasAccepted);
         }
-
-        
-       
-
-        
-
     }
 }

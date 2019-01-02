@@ -34,7 +34,7 @@ namespace ChatApp.Services
                   IdentityId = b.Message.IdentityId
               }).ToArrayAsync();
 
-            var toUser = await  _chatContext.Conversation
+            var toUser = await _chatContext.Conversation
               .Include(p => p.Message)
               .Where(p => p.UserId == toUserId && p.ToUserId == loggedinUser.Id)
               .Select((b) =>

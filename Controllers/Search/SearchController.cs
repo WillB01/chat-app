@@ -42,6 +42,7 @@ namespace ChatApp.Controllers.Search
         public async Task PostSearchResult([FromBody] TypeaheadUsersVM person)
         {
             var loggedinUser = await _userService.GetloggedinUser();
+            var user = await _userService.GetUserByUserName(person.UserName);
 
             var friendRequestVM = new FriendRequestVM
             {
@@ -52,10 +53,11 @@ namespace ChatApp.Controllers.Search
             };
 
             await _friendRequestService.SendFriendRequest(friendRequestVM);
-            var signalRModel = new FriendRequestVM[] { friendRequestVM };
-            await _friendRequestHubContext.Clients.User(friendRequestVM.ToUser)
-                .ReceiveFriendRequest(true, signalRModel);
+            var friendRequests = await _friendRequestService.CheckFriendRequest(user);
 
+            //var signalRModel = new FriendRequestVM[] { friendRequestVM };
+            await _friendRequestHubContext.Clients.User(friendRequestVM.ToUser)
+                .ReceiveFriendRequest(true, friendRequests);
         }
     }
 }

@@ -2,7 +2,6 @@
 const textToPrintDiv = document.querySelector('#text-print');
 const sendMsgBtn = document.querySelector('#send-msg');
 
-
 const chatText = document.querySelector('#chat-text');
 
 let userConnectionId = '';
@@ -23,8 +22,6 @@ const startChat = () => {
         )
         .then((name) => {
             userName = name;
-           
-          
         });
 };
 
@@ -81,8 +78,6 @@ startChat();
 waitForElement(".friends").then((element) => {
     clickHandlerFriendItem();
 });
-
-
 
 button.addEventListener('click', () => {
     let text = input.value;
@@ -146,4 +141,3 @@ function waitForElement(selector) {
         observer.observe(document.documentElement, { childList: true, subtree: true });
     });
 }
-
