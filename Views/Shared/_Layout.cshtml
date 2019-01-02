@@ -5,19 +5,11 @@
     <meta http-equiv="cache-control" content="max-age=0" />
     <meta http-equiv="cache-control" content="no-cache" />
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" media="screen" href="~/css/mainStyle.css" />
     @await RenderSectionAsync("styles", false)
 </head>
 <body>
-
-        <nav>
-            <div id="auth-container">
-                @{
-                    await Html.RenderPartialAsync("_Auth");
-                }
-            </div>
-        </nav>
-
         <div id="main-content">
             @RenderBody()
         </div>

@@ -1,0 +1,22 @@
+﻿@model MainVM
+
+<nav id="navbar">
+   
+        @{
+            await Html.RenderPartialAsync("_Auth");
+        }
+
+
+    <div id="friend-request-container">
+        @{
+            await Html.RenderPartialAsync("_FriendRequest", Model);
+        }
+        <div id="friend-request-result">
+        </div>
+    </div>
+    <div id="search-container">
+        @{
+            await Html.RenderPartialAsync("_Search", Model);
+        }
+    </div>
+</nav>

@@ -2,7 +2,7 @@
     background: #fafafa;
     width: 100%;
     position: relative;
-    height: 85vh;
+    /*height: 99vh;*/
     font-size: 2vh;
 }
 
@@ -13,22 +13,22 @@
 #friends-and-chat{
     display: grid;
     width: 100%;
-    margin-top: 100px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 10%;
+    height: 90%;
     background: white;
     grid-template-columns: 20% 80%;
+   
 }
 
-/*#chat-input{
-    background: black;
-    position: absolute;
-    bottom: 0;
-}*/
 
 #send-msg {
     font-size: 2vh;
     width: 20%;
     position: absolute;
-    bottom: 0;
+    bottom: 2px;
     right: 0;
 }
 
@@ -36,5 +36,5 @@
     font-size: 2vh;
     width: 80%;
     position: absolute;
-    bottom: 0;
+    bottom: 2px;
 }

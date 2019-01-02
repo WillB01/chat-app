@@ -90,7 +90,7 @@ const userClickOnRequest = () => {
 
     if (toggleBtn) {
         if (sentFrom.length === 0) {
-            friendRequestResultDiv.setAttribute('style', "display: block");
+            friendRequestResultDiv.setAttribute('style', "display: block; z-index: 20;");
             friendRequestResultDiv.innerHTML = 'no friend requests';
         } else {
             console.log(sentFrom);
@@ -99,7 +99,7 @@ const userClickOnRequest = () => {
                 friendRequestResultDiv.appendChild(friendRequestItems(item));
                 getUserResponse(item);
             });
-            friendRequestResultDiv.setAttribute('style', "width: 80%; color: #fff; justify-self: center;;");
+            friendRequestResultDiv.setAttribute('style', "width: 80%; color: #fff; justify-self: center; z-index: 10;");
         }
     }
     else {

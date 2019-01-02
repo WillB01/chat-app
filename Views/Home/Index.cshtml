@@ -1,24 +1,8 @@
 ﻿@model MainVM
 
-<div id="k">
-    <div id="friend-request-container">
-        @{
-            await Html.RenderPartialAsync("_FriendRequest", Model);
-        }
-        <div id="friend-request-result">
-        </div>
-    </div>
-
-</div>
-
-
-
-<div id="search-container">
     @{
-        await Html.RenderPartialAsync("_Search", Model);
+        await Html.RenderPartialAsync("_Navbar", Model);
     }
-</div>
-
 
 <div id="friends-and-chat">
     <div id="friends-container">
@@ -36,6 +20,8 @@
 @section styles{
     <link rel="stylesheet" type="text/css" media="screen" href="~/css/chatHubStyle.css" />
     <link rel="stylesheet" type="text/css" media="screen" href="~/css/searchStyle.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="~/css/navbar.css" />
+
 }
 @section scripts{
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"
