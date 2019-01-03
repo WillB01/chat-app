@@ -97,11 +97,19 @@ startChat();
 waitForElement(".friends").then((element) => {});
 
 
+input.addEventListener('keydown', e => {
+    if (e.keyCode === 13) { submitMessage();}
+});
+
 button.addEventListener('click', () => {
+    submitMessage();
+});
+
+function submitMessage() {
     let text = input.value;
     input.value = '';
     connection.invoke('SendPrivateMessage', userToChatWith, text);
-});
+};
 
 function scrollToBottom() {
     const isScrolledToBottom = friendsAndChatDiv.scrollHeight - friendsAndChatDiv.clientHeight <= friendsAndChatDiv.scrollTop + 1;
@@ -187,8 +195,4 @@ function friendListItemStyle(el) {
 function timeChanger(time) {
     const dateTime = new Date(time);
     return `${dateTime.getHours()}:${dateTime.getMinutes()}`;
-
-    
-    //let timeRemake = time.substring(time.indexOf("T") + 1);
-    //return timeRemake = timeRemake.substring(0, timeRemake.indexOf(".") + 0);
 }

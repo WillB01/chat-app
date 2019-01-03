@@ -14,25 +14,26 @@
     border: none;
     padding: 5px;
     z-index: 10;
-    -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+   
 }
 
-.fas {
+#search-container .fas {
     box-sizing: border-box;
     padding: 10px;
     width: 42.5px;
     height: 42.5px;
     position: absolute;
-    top: 0;
-    right: 0;
+    top: 4px;
+    right: 5px;
     margin: 0 auto;
     border-radius: 50%;
     color: #fff;
     text-align: center;
     font-size: 1.2em;
     transition: all 1s;
+    /*-webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);*/
 }
 
 .tt-input { /* UPDATE: newer versions use tt-input instead of tt-query */

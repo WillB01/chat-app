@@ -91,12 +91,22 @@
     top: 10%;
     margin: 0 auto;
     
-    height: 89%;
+    height: 90%;
     /*max-height: 500px;*/
     background: white;
-    grid-template-columns: minmax(5%, 15%) 85%;
+   
     overflow-y: scroll;
     overflow-x:hidden;
+}
+
+.change-size-full {
+    grid-template-columns: 100%;
+    background: red;
+}
+
+.change-size-half {
+    grid-template-columns: minmax(5%, 15%) 85%;
+    background: red;
 }
 
 
@@ -109,7 +119,6 @@
     box-sizing: border-box;
     height: 30px;
     border: none;
-   
 }
 
 
@@ -132,7 +141,11 @@
     max-width: 700px;
 }
 
-@media only screen and (max-width: 1200px) {
+.display-none {
+    display: none;
+}
+
+/*@media only screen and (max-width: 1200px) {
     #friends-and-chat {
         width: 100%;
         
@@ -155,4 +168,4 @@
     }
 
     
-}
+}*/

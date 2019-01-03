@@ -13,13 +13,26 @@
     height: 100%;
     width: 100%;
     background: #6C5B7B;
-    position: relative;
-    z-index: 10;
-   
-
-    
+    color: #fff;
+    padding: 4px;
+    font-size: 2vh;
+    font-weight: 600;
+    text-align: center;
+    /*justify-content: center;*/
+    box-sizing: border-box;
+    -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    cursor: pointer;
 }
 
 .fas {
-    margin: 0 auto;
+   font-size: 1.8em;
+   
+    color: #fafafa;
+
+}
+
+#friend-list-menu:hover {
+    background: #b8a6c8;
 }
