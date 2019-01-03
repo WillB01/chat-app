@@ -1,6 +1,7 @@
 ﻿const chatBox = document.querySelector('#chat-container');
 const textToPrintDiv = document.querySelector('#text-print');
 const sendMsgBtn = document.querySelector('#send-msg');
+const friendsAndChatDiv = document.querySelector('#friends-and-chat');
 
 const chatText = document.querySelector('#chat-text');
 
@@ -45,7 +46,7 @@ const clickHandlerFriendItem = () => {
     
     for (var i = 0; i < friendItem.length; i++) {
         friendItem[i].addEventListener('click', (e) => {
-   
+           
             friendDataValue = e.target.dataset.friend;
             textToPrintDiv.innerHTML = '';
             const value = e.target.innerHTML;
@@ -78,9 +79,15 @@ const clickHandlerFriendItem = () => {
                    
 
                     textToPrintDiv.appendChild(wrapperDiv);
+                    scrollToBottom();
                 });
             });
             userToChatWith = e.target.innerHTML;
+          
+            //const isScrolledToBottom = friendsAndChatDiv.scrollHeight - friendsAndChatDiv.clientHeight <= friendsAndChatDiv.scrollTop + 1;
+            //console.log(isScrolledToBottom);
+          
+
         });
     };
 }; // starts when user clicks on a friend
@@ -95,6 +102,13 @@ button.addEventListener('click', () => {
     input.value = '';
     connection.invoke('SendPrivateMessage', userToChatWith, text);
 });
+
+function scrollToBottom() {
+    const isScrolledToBottom = friendsAndChatDiv.scrollHeight - friendsAndChatDiv.clientHeight <= friendsAndChatDiv.scrollTop + 1;
+    console.log(isScrolledToBottom);
+    friendsAndChatDiv.scrollTop = friendsAndChatDiv.scrollHeight - friendsAndChatDiv.clientHeight;
+
+};
 
 function renderMessage(message, time, isLoggedin, fromFriend) {
     divToPrint = document.querySelectorAll(`[friend-chat=${fromFriend}]`)[0];
@@ -117,6 +131,8 @@ function renderMessage(message, time, isLoggedin, fromFriend) {
     if (divToPrint !== undefined) {
         divToPrint.appendChild(wrapperDiv);
     }
+    scrollToBottom();
+
 };
 
 async function connect(conn) {
@@ -169,6 +185,10 @@ function friendListItemStyle(el) {
 }
 
 function timeChanger(time) {
-    let timeRemake = time.substring(time.indexOf("T") + 1);
-    return timeRemake = timeRemake.substring(0, timeRemake.indexOf(".") + 0);
+    const dateTime = new Date(time);
+    return `${dateTime.getHours()}:${dateTime.getMinutes()}`;
+
+    
+    //let timeRemake = time.substring(time.indexOf("T") + 1);
+    //return timeRemake = timeRemake.substring(0, timeRemake.indexOf(".") + 0);
 }

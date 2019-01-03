@@ -1,10 +1,15 @@
 ﻿@model MainVM
 
 <nav id="navbar">
-   
-        @{
-            await Html.RenderPartialAsync("_Auth");
-        }
+
+    <div id="friend-list-menu">
+        <i class="fas fa-user-friends"></i>
+    </div>
+
+    @{
+        await Html.RenderPartialAsync("_Auth");
+    }
+
 
 
     <div id="friend-request-container">

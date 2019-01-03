@@ -1,15 +1,17 @@
 ﻿#search-container {
     position: relative;
-    left: 30%;
-    top: 50%;
-    transform: translate(-50%,-50%);
+    /*left: 40%;*/
+    /*justify-self: bottom;*/
+    /*top: 50%;*/
+    /*transform: translate(-50%,-50%);*/
     transition: all 1s;
-    width: 50px;
-    height: 50px;
+    width: 100%;
+    height: 100%;
     background: none;
     box-sizing: border-box;
-    border-radius: 25px;
-    border: 4px solid #fff;
+    /*border-radius: 25px;*/
+    border: 3px solid #fff;
+    border: none;
     padding: 5px;
     z-index: 10;
     -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
@@ -25,6 +27,7 @@
     position: absolute;
     top: 0;
     right: 0;
+    margin: 0 auto;
     border-radius: 50%;
     color: #fff;
     text-align: center;
@@ -48,6 +51,7 @@
     font-size: 2em;
     width: 100%;
     box-sizing: border-box;
+    background: none;
 }
 
 .tt-menu.tt-open { /* UPDATE: newer versions use tt-menu instead of tt-dropdown-menu */
@@ -55,7 +59,7 @@
     width: 100%;
     height: auto;
     padding: 8px 0;
-    background: none;
+    background: white;
     display: grid;
     
     /*grid-template-columns: 1fr, 1fr;*/
@@ -73,7 +77,6 @@
     height: auto;
     cursor: pointer;
     box-sizing: border-box;
-    background: green;
     -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
@@ -81,7 +84,7 @@
 
     .tt-suggestion.tt-selectable {
         margin: -2px auto;
-        background-color: white;
+        /*background-color: white;*/
         height: 200px;
         display: grid;
         box-sizing: border-box;
@@ -113,14 +116,17 @@
 
 #search-input {
     width: 100%;
+    background: none;
+    color: white;
 }
 
 /*important div*/
 .typeahead {
    
-    border: white 1px solid;
+    /*border: white 1px solid;*/
     width: 100%;
     box-sizing: border-box;
+    color: white;
 
 }
 
@@ -140,9 +146,12 @@
 }
 
 #search-container:hover {
-    width: 40%;
- 
+    width: 100%;
+    position: absolute;
+    height: 10%;
     cursor: pointer;
+    z-index: 20;
+    background: #333;
 }
 
     #search-container:hover #remote {
@@ -150,7 +159,7 @@
         /*width: 100%;*/
         margin: 0 auto;
         box-sizing: border-box;
-        background: white;
+        /*background: white;*/
         display: grid;
     }
 
