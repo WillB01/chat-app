@@ -30,7 +30,7 @@ namespace ChatApp.Services.ProfileService
             await _chatContext.SaveChangesAsync();
         }
 
-        public async Task<ProfileImageVM> GetProfileImage()
+        public async Task<byte[]> GetProfileImage()
         {
             var user = await _userService.GetloggedinUser();
             var profileImage = await _chatContext.ProfileImage
@@ -41,7 +41,10 @@ namespace ChatApp.Services.ProfileService
                     UserId = e.UserId
                 })
                 .FirstOrDefaultAsync();
-            return profileImage;
+
+
+
+            return profileImage.ProfileImage1;
         }
     }
 }

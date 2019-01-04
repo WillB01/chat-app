@@ -30,39 +30,41 @@ namespace ChatApp.Controllers.Profile
         public async Task<IActionResult> Index()
         {
 
-            _viewModelService.IdentityUserVM = await _userService.GetloggedinUser();
-            return View(_viewModelService);
+            //_viewModelService.IdentityUserVM = await _userService.GetloggedinUser();
+
+            return View(new AddProfileImageVM());
         }
 
-        [HttpPost]
-        [AutoValidateAntiforgeryToken]
-        public async Task<IActionResult> UploadProfileImage(List<IFormFile> files)
-        {
-            long size = files.Sum(f => f.Length);
+        //[HttpPost]
+        //[AutoValidateAntiforgeryToken]
+        //public async Task<IActionResult> UploadProfileImage(List<IFormFile> files)
+        //{
+        //    long size = files.Sum(f => f.Length);
 
-            // full path to file in temp location
-            var filePath = Path.GetTempFileName();
+        //    // full path to file in temp location
+        //    var filePath = Path.GetTempFileName();
 
-            foreach (var formFile in files)
-            {
-                if (formFile.Length > 0)
-                {
-                    using (var stream = new FileStream(filePath, FileMode.Create))
-                    {
-                        await formFile.CopyToAsync(stream);
-                    }
-                }
-            }
+        //    foreach (var formFile in files)
+        //    {
+        //        if (formFile.Length > 0)
+        //        {
+        //            using (var stream = new FileStream(filePath, FileMode.Create))
+        //            {
+        //                await formFile.CopyToAsync(stream);
+        //            }
+        //        }
+        //    }
 
-            // process uploaded files
-            // Don't rely on or trust the FileName property without validation.
+        //    // process uploaded files
+        //    // Don't rely on or trust the FileName property without validation.
 
-            return Ok(new { count = files.Count, size, filePath });
-        }
+        //    return Ok(new { count = files.Count, size, filePath });
+        //}
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task Register(AddProfileImageVM model)
+        
+        public async Task<IActionResult> Register(AddProfileImageVM AddProfileImageVM)
         {
             //ViewData["ReturnUrl"] = returnUrl;
             var user = await _userService.GetloggedinUser();
@@ -75,16 +77,27 @@ namespace ChatApp.Controllers.Profile
 
                 using (var memoryStream = new MemoryStream())
                 {
-                    await model.AvatarImage.CopyToAsync(memoryStream);
+                    await AddProfileImageVM.ProfileImage.CopyToAsync(memoryStream);
                     profileImage.ProfileImage1 = memoryStream.ToArray();
-                    //_profileImageService.
-                    
-                }
-                // additional logic omitted
+                    await _profileImageService.SaveProfileImageAsync(profileImage);
 
-                // Don't rely on or trust the model.AvatarImage.FileName property 
+
+                }
+
+                var b = profileImage;
+                //additional logic omitted
+
+                //Don't rely on or trust the model.AvatarImage.FileName property 
                 // without validation.
             }
+            return Ok();
+
+
+        }
+
+        public async Task<IActionResult> GetImage()
+        {
+            return File(await _profileImageService.GetProfileImage(), "image/*");
         }
     }
 }

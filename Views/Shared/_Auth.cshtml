@@ -4,12 +4,16 @@
 <div id="auth-navbar">
     @if (User.Identity.IsAuthenticated)
     {
-    <a asp-controller="Profile" asp-action="Index">@User.Identity.Name</a>  
-       
+        @*<a asp-controller="Profile" asp-action="Index">@User.Identity.Name</a>*@
+    <a asp-controller="Profile" asp-action="Index">
+        <img  src="@Url.Action("GetImage", "Profile")" style="width: 100%; height: 100%;" alt="Profile picture" />
+    </a>
+
+
         <form id="auth-form-loggedin" method="post" asp-controller="Auth" asp-action="Logout">
-           <input type="submit" value="Logout" />
-           
+            <input type="submit" value="Logout" />
+
         </form>
     }
-   
+
 </div>
