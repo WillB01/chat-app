@@ -21,7 +21,7 @@ namespace ChatApp.ViewModels
         public FriendRequestVM[] FriendRequestVM { get; set; }
         public IdentityUserVM IdentityUserVM { get; set; }
 
-        public AddProfileImageVM AddProfileImageVM { get; set; }
+        //public AddProfileImageVM AddProfileImageVM { get; set; }
 
 
     }

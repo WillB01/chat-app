@@ -39,6 +39,7 @@ namespace ChatApp
             services.AddTransient<IProfileImageService, ProfileImageService>();
 
             services.AddDbContext<DataContext>(options =>
+            
             {
                 options.UseSqlServer(Configuration.GetConnectionString("ChatAppDb"));
             });

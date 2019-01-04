@@ -1,4 +1,5 @@
 ﻿using ChatApp.Services;
+using ChatApp.Services.FriendService;
 using ChatApp.Services.ProfileService;
 using ChatApp.Services.ViewModelService;
 using ChatApp.ViewModels;
@@ -18,48 +19,22 @@ namespace ChatApp.Controllers.Profile
         private readonly IUserService _userService;
         private readonly IProfileImageService _profileImageService;
         private readonly IViewModelService _viewModelService;
+        private readonly IFriendService _friendService;
 
-        public ProfileController(IUserService userService, IViewModelService viewModelService, IProfileImageService profileImageService)
+        public ProfileController(IUserService userService, IViewModelService viewModelService, IProfileImageService profileImageService, IFriendService friendService)
         {
             _userService = userService;
             _viewModelService = viewModelService;
             _profileImageService = profileImageService;
+            _friendService = friendService;
         }
 
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-
-            //_viewModelService.IdentityUserVM = await _userService.GetloggedinUser();
-
             return View(new AddProfileImageVM());
         }
 
-        //[HttpPost]
-        //[AutoValidateAntiforgeryToken]
-        //public async Task<IActionResult> UploadProfileImage(List<IFormFile> files)
-        //{
-        //    long size = files.Sum(f => f.Length);
-
-        //    // full path to file in temp location
-        //    var filePath = Path.GetTempFileName();
-
-        //    foreach (var formFile in files)
-        //    {
-        //        if (formFile.Length > 0)
-        //        {
-        //            using (var stream = new FileStream(filePath, FileMode.Create))
-        //            {
-        //                await formFile.CopyToAsync(stream);
-        //            }
-        //        }
-        //    }
-
-        //    // process uploaded files
-        //    // Don't rely on or trust the FileName property without validation.
-
-        //    return Ok(new { count = files.Count, size, filePath });
-        //}
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -79,25 +54,26 @@ namespace ChatApp.Controllers.Profile
                 {
                     await AddProfileImageVM.ProfileImage.CopyToAsync(memoryStream);
                     profileImage.ProfileImage1 = memoryStream.ToArray();
-                    await _profileImageService.SaveProfileImageAsync(profileImage);
+                    await _profileImageService.AddProfileImage(profileImage);
 
 
                 }
 
-                var b = profileImage;
-                //additional logic omitted
-
-                //Don't rely on or trust the model.AvatarImage.FileName property 
-                // without validation.
             }
-            return Ok();
-
+            return RedirectToAction(nameof(Index));
 
         }
 
         public async Task<IActionResult> GetImage()
         {
             return File(await _profileImageService.GetProfileImage(), "image/*");
+            
+        }
+
+        public async Task GetFreindsProfileImages()
+        {
+           
+            await _profileImageService.GetFriendsProfileImagesAsync();
         }
     }
 }

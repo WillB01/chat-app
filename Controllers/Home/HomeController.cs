@@ -19,7 +19,6 @@ namespace ChatApp.Controllers.Home
         private readonly IFriendService _friendService;
         private readonly IViewModelService _viewModelService;
         private readonly IFriendRequestService _friendRequestService;
-
         private readonly UserManager<AppUser> _userManager;
 
         public HomeController(IUserService userService, IChatService chatService,
@@ -46,6 +45,7 @@ namespace ChatApp.Controllers.Home
 
             _viewModelService.FriendsVM = friends;
             _viewModelService.FriendRequestVM = friendRequests;
+            
 
             return View(_viewModelService);
         }

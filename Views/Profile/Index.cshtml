@@ -4,7 +4,7 @@
 }
 
 @*<p>@Model.IdentityUserVM.UserName</p>*@
-
+<a asp-controller="Home" asp-action="Index">Home</a>
 <form enctype="multipart/form-data" asp-controller="Profile" asp-action="Register">
     <div class="form-group">
         <div class="col-md-10">
@@ -12,6 +12,7 @@
             <label asp-for="@Model.ProfileImage"></label>
             <input asp-for="@Model.ProfileImage" accept="image/*">
             <img class="rounded" src="@Url.Action("GetImage", "Profile")" style="width: 240px; height: 240px;" alt="Profile picture" />
+            <img id="blah" src="#" alt="your image" />
             @*<input type="file" name="ProfileImage" accept="image/*">*@
 
         </div>
@@ -23,3 +24,6 @@
     </div>
 </form>
 
+@section scripts{
+    <script src="~/js/showImageInput.js"></script>
+}

@@ -8,7 +8,8 @@ namespace ChatApp.Services.ProfileService
 {
     public interface IProfileImageService
     {
-        Task SaveProfileImageAsync(ProfileImageVM profileImageVM);
         Task<byte[]> GetProfileImage();
+        Task AddProfileImage(ProfileImageVM profileImageVM);
+        Task GetFriendsProfileImagesAsync();
     }
 }
