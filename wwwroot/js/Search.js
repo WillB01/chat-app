@@ -34,7 +34,7 @@ const fetchPost = (itemToSend) => {
                 'Content-Type': 'application/json',
             },
             method: "POST",
-
+            
             body: JSON.stringify(itemToSend)
         })
         .then(function (res) { console.log(res); })

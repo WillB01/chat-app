@@ -2,17 +2,27 @@
 @{
     ViewData["Title"] = "Login";
 }
+<div>
+    <a asp-controller="Auth"  asp-action="Index">Home</a>
+</div>
 
 <div id="login-user">
-    <form asp-action="Login" method="post" autocomplete="off">
-        <label asp-for="UserLoginVM.Name"></label>
-        <input asp-for="UserLoginVM.Name" type="text" />
-        <label asp-for="UserLoginVM.Password"></label>
-        <input asp-for="UserLoginVM.Password" type="password" />
-        <input type="submit" />
-    </form>
+    <div>
+        <form id="login-form" asp-action="Login" method="post" autocomplete="off">
+            <label asp-for="UserLoginVM.Name"></label>
+            <input asp-for="UserLoginVM.Name" type="text" />
+            <label asp-for="UserLoginVM.Password"></label>
+            <input asp-for="UserLoginVM.Password" type="password" />
+            <input type="submit" />
+        </form>
+    </div>
     <div>
         <span asp-validation-for="UserLoginVM.Name"></span>
         <span asp-validation-for="UserLoginVM.Password"></span>
     </div>
 </div>
+
+@section styles{
+    <link rel="stylesheet" type="text/css" media="screen" href="~/css/authLoginStyle.css" />
+
+}

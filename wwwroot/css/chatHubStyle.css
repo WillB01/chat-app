@@ -101,12 +101,14 @@
 
 .change-size-full {
     grid-template-columns: 100%;
-    background: red;
 }
 
 .change-size-half {
-    grid-template-columns: minmax(5%, 15%) 85%;
-    background: red;
+    grid-template-columns: minmax(75px, 15%) 85%;
+}
+
+#friend-item {
+    position: fixed;
 }
 
 
@@ -119,6 +121,8 @@
     box-sizing: border-box;
     height: 30px;
     border: none;
+    height: 40px;
+    text-align: center;
 }
 
 
@@ -126,7 +130,7 @@
 #chat-text {
     font-size: 2.5vh;
     width: 80%;
-    height: 30px;
+    height: 40px;
     position: absolute;
     bottom: 2px;
     outline: none;

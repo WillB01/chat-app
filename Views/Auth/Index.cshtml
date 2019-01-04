@@ -1,8 +1,21 @@
-﻿@{
-    ViewData["Title"] = "Index";
+﻿@{ ViewData["Title"] = "Shut-App";
 }
 
-<h1>Shut-App</h1>
+<div id="welcome-container">
+    <div id="header">
+        <h1>Shut-App</h1>
+        <p>Chat with kewl people!</p>
+    </div>
+    <div id="links-container">
+        <a asp-controller="Auth" asp-action="Login">Login</a>
+        <a asp-controller="Auth" asp-action="Register">Register</a>
+    </div>
+</div>
 
-<a asp-controller="Auth" asp-action="Login">Login</a>
-<a asp-controller="Auth" asp-action="Register">Register</a>
+@section styles{
+    <link rel="stylesheet" type="text/css" media="screen" href="~/css/authHomeStyle.css" />
+
+}
+
+
+

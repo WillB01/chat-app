@@ -1,0 +1,24 @@
+﻿#welcome-container {
+    width: 80%;
+    height: 90%;
+    margin: 10px auto;
+    background: #fafafa;
+    display: grid;
+}
+
+#header{
+    text-align: center;
+}
+
+#links-container {
+    background: #333;
+    padding: 20px;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+#links-container a {
+    color: #fafafa;
+    border: 2px solid #ff6a00;
+    padding: 10px;
+}

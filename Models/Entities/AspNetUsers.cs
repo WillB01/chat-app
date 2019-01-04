@@ -12,6 +12,7 @@ namespace ChatApp.Models.Entities
             FriendsFriend = new HashSet<Friends>();
             FriendsIdentity = new HashSet<Friends>();
             Message = new HashSet<Message>();
+            ProfileImage = new HashSet<ProfileImage>();
         }
 
         public string Id { get; set; }
@@ -35,5 +36,6 @@ namespace ChatApp.Models.Entities
         public virtual ICollection<Friends> FriendsFriend { get; set; }
         public virtual ICollection<Friends> FriendsIdentity { get; set; }
         public virtual ICollection<Message> Message { get; set; }
+        public virtual ICollection<ProfileImage> ProfileImage { get; set; }
     }
 }

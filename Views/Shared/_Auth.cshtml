@@ -1,9 +1,10 @@
 ﻿@using System.Security.Authentication
 
+
 <div id="auth-navbar">
     @if (User.Identity.IsAuthenticated)
     {
-        <div>@User.Identity.Name</div>
+    <a asp-controller="Profile" asp-action="Index">@User.Identity.Name</a>  
        
         <form id="auth-form-loggedin" method="post" asp-controller="Auth" asp-action="Logout">
            <input type="submit" value="Logout" />

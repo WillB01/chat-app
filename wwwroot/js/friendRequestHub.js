@@ -1,6 +1,7 @@
 ﻿const friendDiv = document.querySelector('#friend');
 const friendRequestResultDiv = document.querySelector('#friend-request-result');
 const friendsContainer = document.querySelector('#friends-container');
+const friendListContainer = document.querySelector('#friend-item');
 const friendRequestBadge = document.querySelector('#friend-request-badge');
 friendRequestBadge.setAttribute('style', "display: none");
 let hasRequests = false;
@@ -17,7 +18,8 @@ const printFriends = (friend) => {
     pf.appendChild(document.createTextNode(`${friend}`));
     pf.className = 'friends';
     pf.setAttribute('data-friend', friend);
-    friendsContainer.appendChild(pf);
+
+    friendListContainer.appendChild(pf);
 
 }; // creates elements in the friend list
 
@@ -116,7 +118,7 @@ connectionFriend.on('ReceiveFriendRequest', requestResult);
 start();
 
 function resetFriendContainer() {
-    friendsContainer.innerHTML = '';
+    friendListContainer.innerHTML = '';
 };
 
 function addFriendRequestBadge() {

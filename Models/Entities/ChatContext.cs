@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace ChatApp.Models.Entities
 {
@@ -18,6 +20,7 @@ namespace ChatApp.Models.Entities
         public virtual DbSet<FriendRequest> FriendRequest { get; set; }
         public virtual DbSet<Friends> Friends { get; set; }
         public virtual DbSet<Message> Message { get; set; }
+        public virtual DbSet<ProfileImage> ProfileImage { get; set; }
 
 //        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 //        {
@@ -126,6 +129,23 @@ namespace ChatApp.Models.Entities
                     .HasForeignKey(d => d.IdentityId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__Message__Identit__160F4887");
+            });
+
+            modelBuilder.Entity<ProfileImage>(entity =>
+            {
+                entity.Property(e => e.ProfileImage1)
+                    .IsRequired()
+                    .HasColumnName("ProfileImage");
+
+                entity.Property(e => e.UserId)
+                    .IsRequired()
+                    .HasMaxLength(450);
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.ProfileImage)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__ProfileIm__UserI__503BEA1C");
             });
         }
     }
