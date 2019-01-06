@@ -10,6 +10,6 @@ namespace ChatApp.Services.ProfileService
     {
         Task<byte[]> GetProfileImage();
         Task AddProfileImage(ProfileImageVM profileImageVM);
-        Task GetFriendsProfileImagesAsync();
+        Task<ProfileImageVM[]> GetFriendsProfileImagesAsync();
     }
 }

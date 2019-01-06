@@ -2,6 +2,7 @@
 using ChatApp.Services;
 using ChatApp.Services.FriendRequestService;
 using ChatApp.Services.FriendService;
+using ChatApp.Services.ProfileService;
 using ChatApp.Services.ViewModelService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -19,10 +20,11 @@ namespace ChatApp.Controllers.Home
         private readonly IFriendService _friendService;
         private readonly IViewModelService _viewModelService;
         private readonly IFriendRequestService _friendRequestService;
+        private readonly IProfileImageService _profileImageService;
         private readonly UserManager<AppUser> _userManager;
 
         public HomeController(IUserService userService, IChatService chatService,
-            IFriendService friendService, IViewModelService viewModelService, IFriendRequestService friendRequestService
+            IFriendService friendService, IViewModelService viewModelService, IFriendRequestService friendRequestService, IProfileImageService profileImageService
             , UserManager<AppUser> userManager)
         {
             _userService = userService;
@@ -30,6 +32,7 @@ namespace ChatApp.Controllers.Home
             _friendService = friendService;
             _viewModelService = viewModelService;
             _friendRequestService = friendRequestService;
+            _profileImageService = profileImageService;
             _userManager = userManager;
         }
 
@@ -45,6 +48,7 @@ namespace ChatApp.Controllers.Home
 
             _viewModelService.FriendsVM = friends;
             _viewModelService.FriendRequestVM = friendRequests;
+            await _profileImageService.GetFriendsProfileImagesAsync();
             
 
             return View(_viewModelService);

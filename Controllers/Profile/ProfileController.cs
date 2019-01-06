@@ -70,10 +70,10 @@ namespace ChatApp.Controllers.Profile
             
         }
 
-        public async Task GetFreindsProfileImages()
+        public async Task<IActionResult> GetFreindsProfileImages()
         {
-           
-            await _profileImageService.GetFriendsProfileImagesAsync();
+
+            return Ok(Json(await _profileImageService.GetFriendsProfileImagesAsync()));
         }
     }
 }

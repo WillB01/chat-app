@@ -11,26 +11,67 @@ let friendsArr = [];
 
 let sentFrom = '';
 let toggleBtn = false;
+
+let profileImage = [];
+
 const connectionFriend = new signalR.HubConnectionBuilder().withUrl("/friendRequestHub").build();
 
-const printFriends = (friend) => {
+const printFriends = (friend, id, dataItem) => {
+    
+    
+        //.then(() => {
+           
+          
+        //    const profileImg = document.createElement('img');
+        //    profileImg.setAttribute('src', `data:image/png;base64,${profileImage}`);
+        //    profileImg.classList.add('friend-profile-image');
+
+          
+        //    friendListContainer.appendChild(profileImg);
+
+    //});
+    console.log(dataItem);
+    const profileImg = document.createElement('img');
+    const div = document.createElement('div');
+
+    if (dataItem !== null) {
+        profileImg.setAttribute('src', `data:image/png;base64,${dataItem.profileImage1}`);
+        profileImg.classList.add('friend-profile-image');
+        div.appendChild(profileImg);
+
+    } else {
+        const i = document.createElement('i');
+        i.classList.add('fas', 'fa-user-circle', 'friend-no-profile-image');
+        div.appendChild(i);
+    }
+   
     const pf = document.createElement('p');
+    div.classList.add('friend-div');
     pf.appendChild(document.createTextNode(`${friend}`));
     pf.className = 'friends';
     pf.setAttribute('data-friend', friend);
+    div.appendChild(pf);
+  
+    friendListContainer.appendChild(div);
 
-    friendListContainer.appendChild(pf);
+  
 
 }; // creates elements in the friend list
 
 const mapFriends = (friends) => {
-    friends ? friends.map(item => printFriends(item.name)) : '';
-    clickHandlerFriendItem(); // find method in chathub.js
+    fetchFriendsProfileImage().then(data => {
+        console.log(data);
+        friends ? friends.map((item, index) => printFriends(item.name, item.identityId, data[index])) : '';
+        clickHandlerFriendItem(); // find method in chathub.js
+
+    });
+   
+    
 };
 
 const requestResult = (hasRequest, friendRequestsArray, friends, hasAccepted) => {
     hasRequests = hasRequest;
-
+    
     if (hasAccepted || hasAccepted === false) {
         resetFriendContainer();
     }
@@ -125,3 +166,10 @@ function addFriendRequestBadge() {
     friendRequestBadge.setAttribute('style', "display: block");
     friendRequestBadge.innerHTML = sentFrom.length;
 };
+
+function fetchFriendsProfileImage() {
+    return fetch("/profile/GetFreindsProfileImages")
+        .then(res => res.json())
+        .then(data => data.value);
+      
+}

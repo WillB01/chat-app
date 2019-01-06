@@ -104,12 +104,9 @@
 }
 
 .change-size-half {
-    grid-template-columns: minmax(75px, 15%) 85%;
+    grid-template-columns: minmax(130px, 15%) 85%;
 }
 
-#friend-item {
-    position: fixed;
-}
 
 
 #send-msg {

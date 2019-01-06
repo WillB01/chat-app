@@ -52,9 +52,9 @@ namespace ChatApp.Services.ProfileService
                 .FirstOrDefaultAsync();
             if (profileImage == null)
             {
-                var webRootPath = _hostingEnvironment.WebRootPath + "/img/test.png";
-                var bytes = File.ReadAllBytes(webRootPath);
-                return bytes;
+                //var webRootPath = _hostingEnvironment.WebRootPath + "/img/test.png";
+                //var bytes = File.ReadAllBytes(webRootPath);
+                return null;
             }
           
             return profileImage.ProfileImage1;
@@ -84,7 +84,7 @@ namespace ChatApp.Services.ProfileService
 
         }
 
-        public async Task GetFriendsProfileImagesAsync()
+        public async Task<ProfileImageVM[]> GetFriendsProfileImagesAsync()
         {
             var friends = await _friendService.GetFriends(await _userService.GetloggedinUser());
             var profileImageVMs = new List<ProfileImageVM>();
@@ -99,7 +99,7 @@ namespace ChatApp.Services.ProfileService
                     .FirstOrDefaultAsync());
             }
 
-            var test = profileImageVMs; //TODO FIIIIIIIX
+            return profileImageVMs.ToArray();
 
         }
     }
