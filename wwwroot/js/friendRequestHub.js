@@ -17,20 +17,6 @@ let profileImage = [];
 const connectionFriend = new signalR.HubConnectionBuilder().withUrl("/friendRequestHub").build();
 
 const printFriends = (friend, id, dataItem) => {
-    
-    
-        //.then(() => {
-           
-          
-        //    const profileImg = document.createElement('img');
-        //    profileImg.setAttribute('src', `data:image/png;base64,${profileImage}`);
-        //    profileImg.classList.add('friend-profile-image');
-
-          
-        //    friendListContainer.appendChild(profileImg);
-
-    //});
-    console.log(dataItem);
     const profileImg = document.createElement('img');
     const div = document.createElement('div');
 
@@ -53,7 +39,8 @@ const printFriends = (friend, id, dataItem) => {
     pf.className = 'friends';
     pf.setAttribute('data-friend', friend);
     div.appendChild(pf);
-  
+    pf.setAttribute('draggable', true);
+
     friendListContainer.appendChild(div);
 
   

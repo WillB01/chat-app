@@ -113,7 +113,6 @@ function submitMessage() {
 
 function scrollToBottom() {
     const isScrolledToBottom = friendsAndChatDiv.scrollHeight - friendsAndChatDiv.clientHeight <= friendsAndChatDiv.scrollTop + 1;
-    console.log(isScrolledToBottom);
     friendsAndChatDiv.scrollTop = friendsAndChatDiv.scrollHeight - friendsAndChatDiv.clientHeight;
 
 };
@@ -196,3 +195,88 @@ function timeChanger(time) {
     const dateTime = new Date(time);
     return `${dateTime.getHours()}:${dateTime.getMinutes()}`;
 }
+
+
+
+////////////////////////////////////////////////////
+//////GROUP MESSAGE/////////////////////////////////
+////////////////////////////////////////////////////
+
+const inputNewGroup = document.querySelector('#new-group');
+const newGroupBtn = document.querySelector('#new-group-btn');
+
+const grouptContainer = document.querySelector('#group-container');
+
+
+
+inputNewGroup.addEventListener('keydown', e => {
+
+    if (e.keyCode === 13) {
+        e.preventDefault();
+        createNewGroup();
+    }
+});
+
+newGroupBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    createNewGroup();
+});
+
+function createNewGroup() {
+    const input = inputNewGroup.value;
+    const specificGroup = document.createElement('div');
+    specificGroup.classList.add('group-name');
+    specificGroup.innerHTML = input;
+    grouptContainer.appendChild(specificGroup);
+    getElement(specificGroup);
+  
+   
+}
+const newDiv = document.createElement('div');
+
+
+function getElement(el) {
+    el.addEventListener('click', (ev) => {
+        createGroupInviteToFriends(el);
+
+    });
+}
+
+function createGroupInviteToFriends(el) {
+    newDiv.innerHTML = '';
+    const friendItem = document.querySelectorAll('.friends');
+    for (var i = 0; i < friendItem.length; i++) {
+        let checkbox = document.createElement("INPUT");
+        let label = document.createElement("label");
+        checkbox.setAttribute("type", "checkbox");
+        checkbox.value = friendItem[i].innerHTML;
+        label.appendChild(document.createTextNode(friendItem[i].innerHTML));
+        newDiv.appendChild(label);
+        newDiv.appendChild(checkbox);
+    }
+
+   
+    const h1 = document.createElement('h3');
+    h1.appendChild(document.createTextNode(el.innerHTML));
+    newDiv.appendChild(h1);
+    document.body.appendChild(newDiv);
+}
+
+
+
+function allowDrop(ev) {
+    ev.preventDefault();
+}
+
+function drag(ev) {
+    ev.dataTransfer.setData("Text", ev.target.id);
+}
+
+//function drop(ev) {
+//    ev.preventDefault();
+//    var data = ev.dataTransfer.getData("Text");
+//    ev.target.appendChild(document.getElementById(data));
+
+//}
+
+

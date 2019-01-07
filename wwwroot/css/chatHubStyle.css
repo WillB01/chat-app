@@ -148,10 +148,39 @@
 
 
 #group-container {
-    background: #575757;
-    margin-top: 10px;
     width: 100%;
-    height: auto;
+    position: sticky;
+    padding-top: 4px;
+    min-width: 120px;
+    box-sizing: border-box;
+    background: #333;
+    display: grid;
+    grid-template-columns: 100%;
+}
+
+    #group-container form {
+        width: 100%;
+        margin: 0 auto;
+    }
+
+    #group-container input {
+        margin: 0 auto;
+        font-size: 3vh;
+        padding: 3px;
+        width: 100%;
+        background: #575757;
+        color: white;
+        box-sizing: border-box;
+    }
+
+#new-group-btn{
+    overflow: hidden;
+    width: 50px;
+    box-sizing: border-box;
+    padding: 4px;
+    border: none;
+    justify-self: center;
+
 }
 
 /*@media only screen and (max-width: 1200px) {
