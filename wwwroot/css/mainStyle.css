@@ -67,35 +67,11 @@ body, html {
   
 }
 
-
-/*Auth nav bar*/
-#auth-navbar {
-    background: #02BEC4;
-    display: grid;
-    width: 100%;
-    text-align: center;
-    height: 100%;
-    padding: 4px;
-    font-size: 2vh;
-    font-weight: 600;
-    color: #fff;
-    -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+#auth-form-loggedin {
+    display: none;
 }
-#auth-navbar input {
-    background: #02BEC4;
-   
-    font-size: 2vh;
-}
+    
 
-    #auth-navbar:hover #auth-form-loggedin {
-        display: block;
-    }
-
-    #auth-form-loggedin {
-        display: none;
-    }
 /*friends stuff*/
 #friend-request-container {
     color: #fff;
@@ -112,9 +88,7 @@ body, html {
     box-sizing: border-box;
     z-index: 10;
    
-    -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  
 }
 
 #friend-request-result {
@@ -137,10 +111,11 @@ body, html {
     min-width: 50px;
     box-sizing: border-box;
     /*height: 100%;*/
-    padding: 4px;
+    
     justify-content: center;
     font-size: 1.1em;
     color: #fff;
+    z-index: 110;
     /*display: grid;*/
 
   
@@ -149,10 +124,18 @@ body, html {
 
 
 .friends {
-    margin: 0 auto 0 auto;
-    padding: 5px;
+    margin: 10px auto 0 auto;
+    /*padding: 5px;*/
     overflow: hidden;
-    background: #304753;
+    /*background: #304753;*/
+
+     /*position: absolute;
+    top: 43%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 7vh;
+    width: 100%;
+    overflow: hidden;*/
 
    
     
@@ -186,4 +169,15 @@ body, html {
     .friend-request-item:first-child {
        margin-top: 10px;
     }
+
+
+.backdrop {
+    background: rgba(0, 0, 0, 0.15);
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+}
 

@@ -12,7 +12,7 @@
 #friend-list-menu {
     height: 100%;
     width: 100%;
-    background: #6C5B7B;
+    background: #54a66d;
     color: #fff;
     padding: 4px;
     font-size: 2vh;
@@ -20,19 +20,63 @@
     text-align: center;
     /*justify-content: center;*/
     box-sizing: border-box;
-    -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    /*z-index: 110;*/
     cursor: pointer;
 }
 
-.fas {
-   font-size: 1.8em;
-   
+ .fa-user-friends{
+    font-size: 1.8em;
+    margin: 0 auto;
     color: #fafafa;
-
+    font-size: 5vh;
 }
 
 #friend-list-menu:hover {
-    background: #b8a6c8;
+    background: #6BB983;
+    z-index: 110;
 }
+
+
+/*Auth nav bar*/
+#auth-navbar {
+    background: #02BEC4;
+    display: grid;
+    width: 100%;
+    text-align: center;
+    height: 100%;
+    padding: 4px;
+    font-size: 2vh;
+    font-weight: 600;
+    color: #fff;
+    
+    position: relative;
+}
+
+    #auth-navbar input {
+        background: #02BEC4;
+        font-size: 2vh;
+    }
+
+    #auth-navbar:hover #auth-form-loggedin {
+        display: block;
+        margin-top: 20px;
+        z-index: 200;
+    }
+
+#auth-navbar a {
+    position: absolute;
+    height: 100%;
+    bottom: 0;
+}
+
+#profile {
+    width: 100%;
+}
+
+.navbar-no-profile-image p  {
+    background: red;
+    margin: 0 auto;
+    width: 100%;
+}
+
+

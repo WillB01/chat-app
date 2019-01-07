@@ -4,6 +4,7 @@ using ChatApp.Services.ProfileService;
 using ChatApp.Services.ViewModelService;
 using ChatApp.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -20,13 +21,16 @@ namespace ChatApp.Controllers.Profile
         private readonly IProfileImageService _profileImageService;
         private readonly IViewModelService _viewModelService;
         private readonly IFriendService _friendService;
+        private readonly IHostingEnvironment _hostingEnvironment;
 
-        public ProfileController(IUserService userService, IViewModelService viewModelService, IProfileImageService profileImageService, IFriendService friendService)
+        public ProfileController(IUserService userService, IViewModelService viewModelService, IProfileImageService profileImageService, 
+            IFriendService friendService, IHostingEnvironment hostingEnvironment)
         {
             _userService = userService;
             _viewModelService = viewModelService;
             _profileImageService = profileImageService;
             _friendService = friendService;
+            _hostingEnvironment = hostingEnvironment;
         }
 
         [HttpGet]
@@ -66,7 +70,17 @@ namespace ChatApp.Controllers.Profile
 
         public async Task<IActionResult> GetImage()
         {
-            return File(await _profileImageService.GetProfileImage(), "image/*");
+            //if (await _profileImageService.GetProfileImage() == null)
+            //{
+            //    var webRootPath = _hostingEnvironment.WebRootPath + "/img/test3.png";
+            //    var bytes = System.IO.File.ReadAllBytes(webRootPath);
+            //    return null;
+
+            //}
+            //return File( await _profileImageService.GetProfileImage(), "image/*");
+            var userName = await _userService.GetloggedinUser();
+            return Ok(Json(new { img = await _profileImageService.GetProfileImage(), userName = userName.UserName}));
+
             
         }
 

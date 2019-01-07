@@ -41,8 +41,10 @@ const printFriends = (friend, id, dataItem) => {
 
     } else {
         const i = document.createElement('i');
-        i.classList.add('fas', 'fa-user-circle', 'friend-no-profile-image');
-        div.appendChild(i);
+        profileImg.setAttribute('src', `../img/test3.png`);
+        profileImg.classList.add('friend-profile-image');
+        //i.classList.add('fas', 'fa-user-circle', 'friend-no-profile-image');
+        div.appendChild(profileImg);
     }
    
     const pf = document.createElement('p');

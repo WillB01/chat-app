@@ -5,8 +5,10 @@
     @if (User.Identity.IsAuthenticated)
     {
         @*<a asp-controller="Profile" asp-action="Index">@User.Identity.Name</a>*@
-    <a asp-controller="Profile" asp-action="Index">
-            <img src="@Url.Action("GetImage", "Profile")" style="width: 50px; height: 50px; border-radius: 50px" alt="Profile picture" />
+    <a id="profile" asp-controller="Profile" asp-action="Index">
+            @*<p class="centered-text">@User.Identity.Name </p>*@
+            @*<img id="navbar-profile-image" src="@Url.Action("GetImage", "Profile")" alt="Profile picture" />*@
+    
     </a>
 
         <form id="auth-form-loggedin" method="post" asp-controller="Auth" asp-action="Logout">

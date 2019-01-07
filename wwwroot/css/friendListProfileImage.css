@@ -1,10 +1,9 @@
 ﻿.friend-profile-image {
     width: 100%;
-    height: auto;
-    max-height: 80px;
+    height: 100%;
     margin: 0px auto;
     object-fit: cover;
-
+    opacity: 0.7;
 }
 
 .friend-no-profile-image {
@@ -20,25 +19,63 @@
     /*background: green;*/
     width: 90%;
     max-width: 300px;
-    height: 127px;
+    height: 100px;
     /*display: inline-block;*/
     /*border-radius: 50%;*/
     /*background-size: cover;
     background-position: center;*/
     margin: 2px auto;
+    position: relative;
+
+
 
 }
+
+    .friend-div p {
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    text-align: center;
+    transform: translate(-50%, -50%);
+    font-size: 3vh;
+    width: 100%;
+    overflow: hidden;
+    }
 
 #friend-item {
     position: sticky;
     top: 7.5px;
     margin: 3px auto 0 auto;
     width: 98%;
-
+    padding-top: 4px;
     min-width: 120px;
     /*max-width: 150px;*/
     
     box-sizing: border-box;
    
     
+}
+
+.navbar-profile-image {
+    width: 100%;
+    /*border-radius: 50%;*/
+    height: auto;   
+    height: 96%;
+    object-fit: cover;
+}
+
+.centered-text {
+    position: absolute;
+    text-align: center;
+    /*margin: 0px auto;*/
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 3vh;
+    width: 100%;
+    overflow: hidden;
+    z-index: 1000;
+   
+
+
 }
