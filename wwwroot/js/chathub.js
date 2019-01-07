@@ -244,39 +244,59 @@ function getElement(el) {
 
 function createGroupInviteToFriends(el) {
     newDiv.innerHTML = '';
+    newDiv.classList.add('group-chat-invite');
+    const h1 = document.createElement('h3');
+    const myBtn = document.createElement('button');
+    myBtn.appendChild(document.createTextNode('Add'));
+    myBtn.classList.add('send-to-friends-group-chat');
+    h1.appendChild(document.createTextNode(`Add friends to group - ${el.innerHTML}`));
+    newDiv.appendChild(h1);
+    newDiv.appendChild(myBtn);
     const friendItem = document.querySelectorAll('.friends');
     for (var i = 0; i < friendItem.length; i++) {
         let checkbox = document.createElement("INPUT");
         let label = document.createElement("label");
         checkbox.setAttribute("type", "checkbox");
+        checkbox.classList.add('friend-add-group-chat');
         checkbox.value = friendItem[i].innerHTML;
         label.appendChild(document.createTextNode(friendItem[i].innerHTML));
         newDiv.appendChild(label);
         newDiv.appendChild(checkbox);
     }
 
-   
-    const h1 = document.createElement('h3');
-    h1.appendChild(document.createTextNode(el.innerHTML));
-    newDiv.appendChild(h1);
+
+    
     document.body.appendChild(newDiv);
+
+    getFriendsToStartGroup(el.innerHTML);
+
+}
+
+function getFriendsToStartGroup(groupName) {
+    let friendsToSend = [];
+    const groupChatInvite = document.querySelectorAll('.friend-add-group-chat');
+    console.log(groupChatInvite);
+
+    for (var i = 0; i < groupChatInvite.length; i++) {
+        
+        groupChatInvite[i].addEventListener('change', (e) => {
+            if (e.target.checked) {
+                friendsToSend.push(e.target.value);
+            } else {
+                friendsToSend = friendsToSend.filter(item => item !== e.target.value);
+            }
+
+        });
+    }
+
+    const sendBtn = document.querySelector('.send-to-friends-group-chat');
+    sendBtn.addEventListener('click', () => {
+        console.log(groupName + "" + friendsToSend);
+        connection.invoke('AddFriendsToGroup', groupName, friendsToSend);
+    });
+       
 }
 
 
-
-function allowDrop(ev) {
-    ev.preventDefault();
-}
-
-function drag(ev) {
-    ev.dataTransfer.setData("Text", ev.target.id);
-}
-
-//function drop(ev) {
-//    ev.preventDefault();
-//    var data = ev.dataTransfer.getData("Text");
-//    ev.target.appendChild(document.getElementById(data));
-
-//}
 
 

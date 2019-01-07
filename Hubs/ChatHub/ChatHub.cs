@@ -50,5 +50,11 @@ namespace ChatApp.Hubs
 
             return conversation;
         }
+
+
+        public async Task AddFriendsToGroup(string groupName,string[] friendsToAdd)
+        {
+
+        }
     }
 }
