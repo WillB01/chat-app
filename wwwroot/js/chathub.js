@@ -11,6 +11,8 @@ let userName = '';
 let friendDataValue = '';
 let divToPrint = '';
 
+let groupToChatWith = '';
+
 //Signalr stuff ////////////
 const connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
 
@@ -286,6 +288,7 @@ function getElement(el, groupName) {
         }
         else {
             var groupN = e.target.innerHTML;
+            groupToChatWith = groupN;
             connection.invoke('AddToGroup', groupN);
             openGroupChat(groupN);
         }
@@ -379,27 +382,27 @@ function openGroupChat(group) {
     //let history = connection.invoke('GetGroupHistory', group);
     //history.then(result => {
     //    flattenMsgHistory(result).map((item, index) => {
-            //const p = document.createElement("p");
-            //const text = document.createTextNode(`${item[Object.keys(item)][0]}`);
-            //const text1 = document.createTextNode(`${item[Object.keys(item)][0]} - ${Object.keys(item)} `); //the message!
-            //let wrapperDiv = document.createElement('div');
-            //if (item[Object.keys(item)][1]) {
-            //    wrapperDiv.classList.add('user-message-wrapper');
-            //    p.classList.add('user-message-container');
-            //    p.setAttribute('data-user', friendDataValue);
-            //}
-            //if (!item[Object.keys(item)][1]) {
-                wrapperDiv.classList.add('other-message-wrapper');
-            //}
-            p.appendChild(text1);
-            wrapperDiv.appendChild(p);
+    //const p = document.createElement("p");
+    //const text = document.createTextNode(`${item[Object.keys(item)][0]}`);
+    //const text1 = document.createTextNode(`${item[Object.keys(item)][0]} - ${Object.keys(item)} `); //the message!
+    //let wrapperDiv = document.createElement('div');
+    //if (item[Object.keys(item)][1]) {
+    //    wrapperDiv.classList.add('user-message-wrapper');
+    //    p.classList.add('user-message-container');
+    //    p.setAttribute('data-user', friendDataValue);
+    //}
+    //if (!item[Object.keys(item)][1]) {
+    wrapperDiv.classList.add('other-message-wrapper');
+    //}
+    p.appendChild(text1);
+    wrapperDiv.appendChild(p);
 
 
-            textToPrintDiv.appendChild(wrapperDiv);
-            scrollToBottom();
-            //});
-            //});
-            userToChatWith = group;
+    textToPrintDiv.appendChild(wrapperDiv);
+    scrollToBottom();
+    //});
+    //});
+    groupToChatWith = group;
     //    });
 
     //});
@@ -408,7 +411,7 @@ function openGroupChat(group) {
 function submitGroupMessege() {
     let text = input.value;
     input.value = '';
-    connection.invoke('SendGroupMessage', userToChatWith, text);
+    connection.invoke('SendGroupMessage', groupToChatWith, text);
 }
         
 

@@ -80,6 +80,11 @@ namespace ChatApp.Hubs
             await Clients.Group(groupName).GroupReceiveMessage($"{Context.User.Identity.Name} connected");
         }
 
+        public async Task SendGroupMessage(string group, string message)
+        {
+            await Clients.Group(group).GroupReceiveMessage(message);
+        }
+
         public async Task<MessageVM[]> GetGroupHistory(string group)
         {
             var loggedinUser = await _userService.GetloggedinUser();
