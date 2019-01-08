@@ -3,6 +3,8 @@ using ChatApp.Services.FriendService;
 using ChatApp.ViewModels;
 using Microsoft.AspNetCore.SignalR;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ChatApp.Hubs
@@ -54,7 +56,36 @@ namespace ChatApp.Hubs
 
         public async Task AddFriendsToGroup(string groupName,string[] friendsToAdd)
         {
+            var friendsId = new List<string>();
+            var friends = await _friendService.GetFriends(await _userService.GetloggedinUser());
 
+            foreach (var name in friendsToAdd)
+            {
+                friendsId.Add(friends.Where(e => e.Name == name).Select(e => e.IdentityId).FirstOrDefault());
+            }
+
+            foreach (var id in friendsId)
+            {
+                await Clients.User(id).ReceiveGroupInvite(groupName);
+            }
+
+            //await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
+           
+            //await Clients.Group(groupName).ReceiveMessage("kewl");
+        }
+
+        public async Task AddToGroup(string groupName)
+        {
+            await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
+            await Clients.Group(groupName).GroupReceiveMessage($"{Context.User.Identity.Name} connected");
+        }
+
+        public async Task<MessageVM[]> GetGroupHistory(string group)
+        {
+            var loggedinUser = await _userService.GetloggedinUser();
+            var conversation = await _chatService.GetUserConversation(loggedinUser, group);
+
+            return conversation;
         }
     }
 }

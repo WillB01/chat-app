@@ -183,6 +183,10 @@
 
 }
 
+.group-name {
+    cursor: pointer;
+}
+
 /*@media only screen and (max-width: 1200px) {
     #friends-and-chat {
         width: 100%;
