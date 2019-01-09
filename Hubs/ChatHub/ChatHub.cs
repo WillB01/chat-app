@@ -54,7 +54,7 @@ namespace ChatApp.Hubs
         }
 
 
-        public async Task AddFriendsToGroup(string groupName,string[] friendsToAdd)
+        public async Task SendInviteToJoinGroup(string groupName,string[] friendsToAdd)
         {
             var friendsId = new List<string>();
             var friends = await _friendService.GetFriends(await _userService.GetloggedinUser());
@@ -69,20 +69,20 @@ namespace ChatApp.Hubs
                 await Clients.User(id).ReceiveGroupInvite(groupName);
             }
 
-            //await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
-           
-            //await Clients.Group(groupName).ReceiveMessage("kewl");
+            
         }
 
         public async Task AddToGroup(string groupName)
         {
             await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
-            await Clients.Group(groupName).GroupReceiveMessage($"{Context.User.Identity.Name} connected");
+            //await Clients.Group(groupName).GroupReceiveMessage($"{Context.User.Identity.Name} connected");
         }
 
         public async Task SendGroupMessage(string group, string message)
         {
-            await Clients.Group(group).GroupReceiveMessage(message);
+         
+
+            await Clients.Group(group).GroupReceiveMessage(message, Context.User.Identity.Name, DateTime.Now, group);
         }
 
         public async Task<MessageVM[]> GetGroupHistory(string group)
@@ -91,6 +91,11 @@ namespace ChatApp.Hubs
             var conversation = await _chatService.GetUserConversation(loggedinUser, group);
 
             return conversation;
+        }
+
+        public async Task ResopnseFromGroupInvite(string group, bool inviteResponse)
+        {
+
         }
     }
 }

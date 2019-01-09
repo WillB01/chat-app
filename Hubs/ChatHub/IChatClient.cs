@@ -23,5 +23,8 @@ namespace ChatApp.Hubs
         Task ReceiveGroupInvite(string groupName, bool willJoin);
 
         Task GroupReceiveMessage(string message);
+
+
+        Task GroupReceiveMessage(string message, string fromUser, DateTime time, string group);
     }
 }

@@ -211,6 +211,8 @@ function timeChanger(time) {
 ////////////////////////////////////////////////////
 
 connection.on('ReceiveGroupInvite', renderGroupInvite);
+connection.on('GroupReceiveMessage', renderGroupMessage);
+
 
 const btnYes = document.createElement('button');
 const btnNo = document.createElement('button');
@@ -281,7 +283,6 @@ const newDiv = document.createElement('div');
 
 
 function getElement(el, groupName) {
-    console.log(groupName);
     el.addEventListener('click', (e) => {
         if (!e.target.attributes.data && !groupName) {
             createGroupInviteToFriends(el);
@@ -347,14 +348,13 @@ function getFriendsToStartGroup(groupName) {
         const group = document.querySelector(`.${groupName.replace(/\s/g, '')}`);
         const groupChatInviteChecks = document.querySelector('.group-chat-invite');
         group.setAttribute('data', 'sent');
-        connection.invoke('AddFriendsToGroup', groupName, friendsToSend);
+        connection.invoke('SendInviteToJoinGroup', groupName, friendsToSend);
         setTimeout(() => { groupChatInviteChecks.remove(); }, 1000);         
         
     });
        
 }
 
-connection.on('GroupReceiveMessage', test);
 
 function openGroupChat(group) {
 
@@ -371,7 +371,7 @@ function openGroupChat(group) {
     chatBox.append(input);
     chatBox.append(button);
 
-    textToPrintDiv.setAttribute('group-chat', group);
+    textToPrintDiv.setAttribute('group-chat', classRegex(group));
 
     let wrapperDiv = document.createElement('div');
 
@@ -415,6 +415,33 @@ function submitGroupMessege() {
 }
         
 
-function test(id) {
-    console.log(id);
- };
+function renderGroupMessage(message, fromUser, time, group) {
+    const userName = document.querySelector('.centered-text').innerHTML;
+    let isLoggedin = fromUser === userName;
+
+    divToPrint = document.querySelectorAll(`[group-chat=${classRegex(group)}]`)[0];
+    let wrapperDiv = document.createElement('div');
+    let remakeTime = timeChanger(time);
+
+    let testP = document.createElement("p");
+    testP.appendChild(document.createTextNode(`${fromUser} - ${message} - ${remakeTime} `));
+    wrapperDiv.appendChild(testP);
+
+    if (isLoggedin) {
+        testP.classList.add('user-message-container');
+        wrapperDiv.classList.add('user-message-wrapper');
+    }
+
+    if (!isLoggedin) {
+        wrapperDiv.classList.add('other-message-wrapper');
+    }
+
+    if (divToPrint !== undefined) {
+        divToPrint.appendChild(wrapperDiv);
+    }
+    scrollToBottom();
+};
+
+function classRegex(myStr) {
+    return myStr.replace(/\s/g, '');
+}
