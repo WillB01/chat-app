@@ -7,6 +7,7 @@ using ChatApp.Services;
 using ChatApp.Services.AuthService;
 using ChatApp.Services.FriendRequestService;
 using ChatApp.Services.FriendService;
+using ChatApp.Services.GroupChatService;
 using ChatApp.Services.ProfileService;
 using ChatApp.Services.ViewModelService;
 using ChatApp.ViewModels;
@@ -37,6 +38,7 @@ namespace ChatApp
             services.AddTransient<IViewModelService, MainVM>();
             services.AddTransient<IFriendRequestService, FriendRequestService>();
             services.AddTransient<IProfileImageService, ProfileImageService>();
+            services.AddTransient<IGroupChatService, GroupChatService>();
 
             services.AddDbContext<DataContext>(options =>
             

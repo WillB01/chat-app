@@ -11,6 +11,8 @@ namespace ChatApp.Models.Entities
             ConversationUser = new HashSet<Conversation>();
             FriendsFriend = new HashSet<Friends>();
             FriendsIdentity = new HashSet<Friends>();
+            GroupChatGroupAdmin = new HashSet<GroupChat>();
+            GroupChatGroupMember = new HashSet<GroupChat>();
             Message = new HashSet<Message>();
             ProfileImage = new HashSet<ProfileImage>();
         }
@@ -35,6 +37,8 @@ namespace ChatApp.Models.Entities
         public virtual ICollection<Conversation> ConversationUser { get; set; }
         public virtual ICollection<Friends> FriendsFriend { get; set; }
         public virtual ICollection<Friends> FriendsIdentity { get; set; }
+        public virtual ICollection<GroupChat> GroupChatGroupAdmin { get; set; }
+        public virtual ICollection<GroupChat> GroupChatGroupMember { get; set; }
         public virtual ICollection<Message> Message { get; set; }
         public virtual ICollection<ProfileImage> ProfileImage { get; set; }
     }

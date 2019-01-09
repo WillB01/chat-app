@@ -19,17 +19,10 @@ namespace ChatApp.Models.Entities
         public virtual DbSet<Conversation> Conversation { get; set; }
         public virtual DbSet<FriendRequest> FriendRequest { get; set; }
         public virtual DbSet<Friends> Friends { get; set; }
+        public virtual DbSet<GroupChat> GroupChat { get; set; }
         public virtual DbSet<Message> Message { get; set; }
         public virtual DbSet<ProfileImage> ProfileImage { get; set; }
 
-//        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-//        {
-//            if (!optionsBuilder.IsConfigured)
-//            {
-//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-//                optionsBuilder.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=ChatAppDb;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
-//            }
-//        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -112,6 +105,28 @@ namespace ChatApp.Models.Entities
                     .HasForeignKey(d => d.IdentityId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__Friends__Identit__4CA06362");
+            });
+
+            modelBuilder.Entity<GroupChat>(entity =>
+            {
+                entity.Property(e => e.GroupAdminId)
+                    .IsRequired()
+                    .HasMaxLength(450);
+
+                entity.Property(e => e.GroupMemberId).HasMaxLength(450);
+
+                entity.Property(e => e.GroupName).IsRequired();
+
+                entity.HasOne(d => d.GroupAdmin)
+                    .WithMany(p => p.GroupChatGroupAdmin)
+                    .HasForeignKey(d => d.GroupAdminId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__GroupChat__Group__625A9A57");
+
+                entity.HasOne(d => d.GroupMember)
+                    .WithMany(p => p.GroupChatGroupMember)
+                    .HasForeignKey(d => d.GroupMemberId)
+                    .HasConstraintName("FK__GroupChat__Group__73852659");
             });
 
             modelBuilder.Entity<Message>(entity =>

@@ -1,5 +1,6 @@
 ﻿using ChatApp.Services;
 using ChatApp.Services.FriendService;
+using ChatApp.Services.GroupChatService;
 using ChatApp.ViewModels;
 using Microsoft.AspNetCore.SignalR;
 using System;
@@ -14,12 +15,14 @@ namespace ChatApp.Hubs
         private readonly IChatService _chatService;
         private readonly IUserService _userService;
         private readonly IFriendService _friendService;
+        private readonly IGroupChatService _groupChatService;
 
-        public ChatHub(IChatService chatService, IUserService userService, IFriendService friendService)
+        public ChatHub(IChatService chatService, IUserService userService, IFriendService friendService, IGroupChatService groupChatService)
         {
             _chatService = chatService;
             _userService = userService;
             _friendService = friendService;
+            _groupChatService = groupChatService;
         }
 
         public override async Task OnConnectedAsync()
@@ -53,6 +56,22 @@ namespace ChatApp.Hubs
             return conversation;
         }
 
+        public async Task SaveGroupDb(string groupName)
+        {
+            var groupChatVM = new GroupChatVM
+            {
+                GroupAdminId = await _userService.GetUserId(Context.User.Identity.Name),
+                GroupName = groupName
+            };
+
+            await _groupChatService.AddGroupChatAsync(groupChatVM);
+        }
+
+        public async Task AddMemberToGroupDb(string group)
+        {
+            await _groupChatService.AddMemberToGroupAsync(group, await _userService.GetUserId(Context.User.Identity.Name));
+        }
+
 
         public async Task SendInviteToJoinGroup(string groupName,string[] friendsToAdd)
         {
@@ -69,7 +88,7 @@ namespace ChatApp.Hubs
                 await Clients.User(id).ReceiveGroupInvite(groupName);
             }
 
-            
+
         }
 
         public async Task AddToGroup(string groupName)
@@ -80,8 +99,6 @@ namespace ChatApp.Hubs
 
         public async Task SendGroupMessage(string group, string message)
         {
-         
-
             await Clients.Group(group).GroupReceiveMessage(message, Context.User.Identity.Name, DateTime.Now, group);
         }
 
@@ -91,6 +108,14 @@ namespace ChatApp.Hubs
             var conversation = await _chatService.GetUserConversation(loggedinUser, group);
 
             return conversation;
+        }
+
+        public async Task<GroupChatVM[]> GetUsersGroupsAsync()
+        {
+           
+           var groups = await _groupChatService.UserGroups();
+            return groups;
+
         }
 
         public async Task ResopnseFromGroupInvite(string group, bool inviteResponse)

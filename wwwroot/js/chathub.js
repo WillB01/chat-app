@@ -20,12 +20,14 @@ const startChat = () => {
     connection.start()
         .catch((err) => console.error(err.toString())
         )
-        .then(() =>
-            connection.invoke('GetUserName')
-        )
+        .then(() => {
+            getGroups();
+            return connection.invoke('GetUserName');
+        })
         .then((name) => {
             userName = name;
         });
+    
 };
 
 const button = document.createElement("button");
@@ -233,6 +235,7 @@ function renderGroupInvite(groupName) {
     btnYes.addEventListener('click', () => {
         div.remove();
         createNewGroup(groupName);
+        connection.invoke('AddMemberToGroupDb', groupName);
         groupName = '';
     });
 
@@ -252,12 +255,14 @@ inputNewGroup.addEventListener('keydown', e => {
 
     if (e.keyCode === 13) {
         e.preventDefault();
+        connection.invoke('SaveGroupDb', inputNewGroup.value);
         createNewGroup();
     }
 });
 
 newGroupBtn.addEventListener('click', (e) => {
     e.preventDefault();
+    connection.invoke('SaveGroupDb', inputNewGroup.value);
     createNewGroup();
 });
 
@@ -279,6 +284,22 @@ function createNewGroup(groupName) {
     grouptContainer.appendChild(specificGroup);
     groupName = '';
 }
+
+function printHistoryGroups(groups) {
+    console.log(groups);
+    groups.map(item => {
+        let specificGroup = document.createElement('div');
+        specificGroup.classList.add('group-name');
+        let groupNameClassName = classRegex(item.groupName);
+        specificGroup.classList.add(`${groupNameClassName}`);
+        specificGroup.innerHTML = item.groupName;
+        grouptContainer.appendChild(specificGroup);
+        getElement(specificGroup, item.groupName);
+    });
+
+   
+}
+
 const newDiv = document.createElement('div');
 
 
@@ -444,4 +465,10 @@ function renderGroupMessage(message, fromUser, time, group) {
 
 function classRegex(myStr) {
     return myStr.replace(/\s/g, '');
+}
+
+
+function getGroups() {
+    connection.invoke('GetUsersGroupsAsync')
+        .then(res => printHistoryGroups(res));
 }
