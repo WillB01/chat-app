@@ -12,6 +12,7 @@ namespace ChatApp.Models.Entities
         public string Message { get; set; }
         public DateTime? Time { get; set; }
 
+
         public virtual AspNetUsers GroupAdmin { get; set; }
         public virtual AspNetUsers GroupMember { get; set; }
     }

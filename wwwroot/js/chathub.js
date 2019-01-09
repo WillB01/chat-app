@@ -314,7 +314,6 @@ function getElement(el, groupName) {
             connection.invoke('AddToGroup', groupN);
             openGroupChat(groupN);
         }
-
     });
 }
 
@@ -377,7 +376,21 @@ function getFriendsToStartGroup(groupName) {
 }
 
 
+function flattenGroupMsgHistory(history) {
+    const stageOne = [];
+    for (var i = 0; i < history.length; i++) {
+        let timeRemake = timeChanger(history[i].time);
+        stageOne.push({ [timeRemake]: [history[i].message, history[i].isLoggedIn, history[i].name]});
+    }
+    return stageOne;
+};
+
+
 function openGroupChat(group) {
+    //connection.invoke('GetGroupChatHistoryAsync', group)
+        //.then(res => {
+        //    console.log(res);
+        //});
 
     //const button = document.createElement("button");
     //const buttonText = document.createTextNode("Send");
@@ -394,7 +407,33 @@ function openGroupChat(group) {
 
     textToPrintDiv.setAttribute('group-chat', classRegex(group));
 
-    let wrapperDiv = document.createElement('div');
+    //let wrapperDiv = document.createElement('div');
+
+    let history = connection.invoke('GetGroupChatHistoryAsync', group);
+    history.then(result => {
+        console.log(result);
+        flattenGroupMsgHistory(result).map((item, index) => {
+            const p = document.createElement("p");
+            //const text = document.createTextNode(`${item[Object.keys(item)][0]}`);
+            const text = document.createTextNode(`${item[Object.keys(item)][2]} - ${item[Object.keys(item)][0]} - ${Object.keys(item)} `); //the message!
+            let wrapperDiv = document.createElement('div');
+            if (item[Object.keys(item)][1]) {
+                wrapperDiv.classList.add('user-message-wrapper');
+                p.classList.add('user-message-container');
+                p.setAttribute('data-user', friendDataValue);
+            }
+            if (!item[Object.keys(item)][1]) {
+                wrapperDiv.classList.add('other-message-wrapper');
+            }
+            p.appendChild(text);
+            wrapperDiv.appendChild(p);
+
+
+            textToPrintDiv.appendChild(wrapperDiv);
+            scrollToBottom();
+        });
+    });
+    groupToChatWith = group;
 
 
 
@@ -413,17 +452,16 @@ function openGroupChat(group) {
     //    p.setAttribute('data-user', friendDataValue);
     //}
     //if (!item[Object.keys(item)][1]) {
-    wrapperDiv.classList.add('other-message-wrapper');
-    //}
-    p.appendChild(text1);
-    wrapperDiv.appendChild(p);
+    //wrapperDiv.classList.add('other-message-wrapper');
+    ////}
+    //wrapperDiv.appendChild(p);
 
 
-    textToPrintDiv.appendChild(wrapperDiv);
-    scrollToBottom();
-    //});
-    //});
-    groupToChatWith = group;
+    //textToPrintDiv.appendChild(wrapperDiv);
+    //scrollToBottom();
+    ////});
+    ////});
+    //groupToChatWith = group;
     //    });
 
     //});
@@ -437,6 +475,8 @@ function submitGroupMessege() {
         
 
 function renderGroupMessage(message, fromUser, time, group) {
+    
+
     const userName = document.querySelector('.centered-text').innerHTML;
     let isLoggedin = fromUser === userName;
 

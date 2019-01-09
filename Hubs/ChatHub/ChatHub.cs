@@ -100,6 +100,7 @@ namespace ChatApp.Hubs
         public async Task SendGroupMessage(string group, string message)
         {
             await Clients.Group(group).GroupReceiveMessage(message, Context.User.Identity.Name, DateTime.Now, group);
+            await _groupChatService.SaveGroupMessage(message, Context.User.Identity.Name, DateTime.Now, group);
         }
 
         public async Task<MessageVM[]> GetGroupHistory(string group)
@@ -115,6 +116,14 @@ namespace ChatApp.Hubs
            
            var groups = await _groupChatService.UserGroups();
             return groups;
+
+        }
+
+        public async Task<GroupChatVM[]> GetGroupChatHistoryAsync(string group)
+        {
+
+            var chats = await _groupChatService.GetGroupChatHistoryAsync(group);
+            return chats;
 
         }
 

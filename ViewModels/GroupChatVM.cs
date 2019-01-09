@@ -12,6 +12,9 @@ namespace ChatApp.ViewModels
         public string GroupMemberId { get; set; }
         public string Message { get; set; }
         public DateTime Time { get; set; }
+        public bool IsLoggedIn { get; set; }
+        public string Name { get; set; }
+
 
         //public virtual AspNetUsers GroupAdmin { get; set; }
         //public virtual AspNetUsers GroupMember { get; set; }
