@@ -150,12 +150,16 @@
 #group-container {
     width: 100%;
     position: sticky;
+    border: 2px;
     padding-top: 4px;
     min-width: 120px;
     box-sizing: border-box;
     background: #333;
     display: grid;
     grid-template-columns: 100%;
+    -webkit-box-shadow: -5px 72px 59px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: -5px 72px 59px 0px rgba(0,0,0,0.75);
+    box-shadow: -5px 72px 59px 0px rgba(0,0,0,0.75);
 }
 
     #group-container form {

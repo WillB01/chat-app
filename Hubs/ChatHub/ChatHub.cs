@@ -94,7 +94,6 @@ namespace ChatApp.Hubs
         public async Task AddToGroup(string groupName)
         {
             await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
-            //await Clients.Group(groupName).GroupReceiveMessage($"{Context.User.Identity.Name} connected");
         }
 
         public async Task SendGroupMessage(string group, string message)

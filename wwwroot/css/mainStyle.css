@@ -100,8 +100,7 @@ body, html {
     width: 100%;
     min-width: 50px;
     box-sizing: border-box;
-    /*height: 100%;*/
-    
+    height: 100%;
     justify-content: center;
     font-size: 1.1em;
     color: #fff;

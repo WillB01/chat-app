@@ -70,7 +70,7 @@ namespace ChatApp.Services.GroupChatService
                  GroupName = e.GroupName,
                  GroupMemberId = e.GroupMemberId,
                  Message = e.Message,
-                 Time = (DateTime)e.Time,
+                 Time = e.Time,
                  IsLoggedIn = e.GroupMemberId == user.Id,
                  Name = _userService.GetUserNameById(e.GroupMemberId).Result
 

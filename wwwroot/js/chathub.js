@@ -236,8 +236,10 @@ function renderGroupInvite(groupName) {
     btnYes.addEventListener('click', () => {
         div.remove();
         printNewGroup(false, groupName);
-        connection.invoke('AddMemberToGroupDb', groupName);
-        groupName = '';
+        console.log(groupName);
+        connection.invoke('AddMemberToGroupDb', groupName)
+            .then(() => groupName = '');
+       
     });
 }
 
@@ -296,8 +298,6 @@ function createNewGroup(element) {
                 element.setAttribute('groupId', createGroupIdAttr(groupName));
                 element.setAttribute('groupIdToSend', groupName);
                 element.setAttribute('sendGroupInvite', true);
-                //let groupNameClassName = classRegex(groupName);
-                //element.classList.add(`${groupNameClassName}`);
             }
 
             element.innerHTML = removeGuid(groupName);
@@ -322,9 +322,6 @@ function printHistoryGroups(groups) {
         specificGroup.setAttribute('groupId', createGroupIdAttr(item.groupName));
         specificGroup.setAttribute('groupIdToSend', item.groupName);
         specificGroup.setAttribute('sendGroupInvite', false);
-
-        //let groupNameClassName = classRegex(item.groupName);
-        //specificGroup.classList.add(`${groupNameClassName}`);
         specificGroup.innerHTML = removeGuid(item.groupName);
         grouptContainer.appendChild(specificGroup);
         getElement(specificGroup);
@@ -339,15 +336,15 @@ const newDiv = document.createElement('div');
 function getElement(el) {
     el.addEventListener('click', (e) => {
         if (e.target.attributes.sendgroupinvite.value === "true") {
-        createGroupInviteToFriends(el);
-    }
-    if (e.target.attributes.sendGroupInvite.value === "false") {
-        const groupName = e.target.attributes.groupIdToSend.value;
-        groupToChatWith = groupName;
-        connection.invoke('AddToGroup', groupName);
-        openGroupChat(groupName);
-    }
-})
+            createGroupInviteToFriends(el);
+        }
+        if (e.target.attributes.sendGroupInvite.value === "false") {
+            const groupName = e.target.attributes.groupIdToSend.value;
+            groupToChatWith = groupName;
+            connection.invoke('AddToGroup', groupName);
+            openGroupChat(groupName);
+        }
+    });
 
 }
 
@@ -400,9 +397,6 @@ function getFriendsToStartGroup(groupName) {
 
     const sendBtn = document.querySelector('.send-to-friends-group-chat');
     sendBtn.addEventListener('click', (e) => {
-        console.log(groupName);
-        console.log(createGroupIdAttr(groupName));
-
         const group = document.querySelectorAll(`[groupId=${createGroupIdAttr(groupName)}]`)[0];
         const groupChatInviteChecks = document.querySelector('.group-chat-invite');
         group.setAttribute('data', 'sent');
@@ -525,7 +519,7 @@ String.prototype.removeWord = function (searchWord) {
         str = str.substring(0, n) + str.substring(n + searchWord.length, str.length);
     }
     return str;
-}
+};
 
 function removeGuid(groupName) {
     const regex = "(\{){0,1}[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}(\}){0,1}";
