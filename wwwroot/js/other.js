@@ -29,8 +29,6 @@ friendMenu.addEventListener('click', () => {
 
 fetchUserProfileImage().then(data => {
     const authNav = document.querySelector('#profile');
-
-    console.log(data);
     const profileImg = document.createElement('img');
     const div = document.createElement('div');
     const p = document.createElement('p');

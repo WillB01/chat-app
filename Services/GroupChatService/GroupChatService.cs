@@ -59,23 +59,34 @@ namespace ChatApp.Services.GroupChatService
         public async Task<GroupChatVM[]> GetGroupChatHistoryAsync(string group)
         {
             var user = await _userService.GetloggedinUser();
+            GroupChatVM[] chats ;
 
-            var chats = await _chatContext.GroupChat
-               .Where(e => e.GroupName == group)
-               .Select(e => new GroupChatVM
-               {
-                   GroupName = e.GroupName,
-                   GroupMemberId = e.GroupMemberId,
-                   Message = e.Message,
-                   Time = (DateTime)e.Time,
-                   IsLoggedIn = e.GroupMemberId == user.Id,
-                   Name = _userService.GetUserNameById(e.GroupMemberId).Result
+            try
+            {
+                chats = await _chatContext.GroupChat
+             .Where(e => e.GroupName == group)
+             .Select(e => new GroupChatVM
+             {
+                 GroupName = e.GroupName,
+                 GroupMemberId = e.GroupMemberId,
+                 Message = e.Message,
+                 Time = (DateTime)e.Time,
+                 IsLoggedIn = e.GroupMemberId == user.Id,
+                 Name = _userService.GetUserNameById(e.GroupMemberId).Result
 
 
 
-               })
+             })
 
-               .ToArrayAsync();
+             .ToArrayAsync();
+            }
+            catch (Exception e)
+            {
+
+                chats = new GroupChatVM[] { };
+            }
+
+          
 
             return chats;
         }

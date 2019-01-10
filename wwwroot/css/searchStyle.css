@@ -4,7 +4,7 @@
     /*justify-self: bottom;*/
     /*top: 50%;*/
     /*transform: translate(-50%,-50%);*/
-    transition: all 1s;
+    transition: 1s ease-in;
     width: 100%;
     height: 100%;
     background: none;
@@ -60,13 +60,16 @@
     width: 100%;
     height: auto;
     padding: 8px 0;
-    background: white;
+    background: #454545;
+    color: #fafafa;
+    border: none;
     display: grid;
     
     /*grid-template-columns: 1fr, 1fr;*/
     /*background: black;*/
     /*border-radius: 8px;*/
     box-sizing: border-box;
+    z-index: 10000;
 }
 
 .tt-suggestion {
@@ -78,9 +81,10 @@
     height: auto;
     cursor: pointer;
     box-sizing: border-box;
-    -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    /*-webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);*/
+    border: none;
 }
 
     .tt-suggestion.tt-selectable {
@@ -89,10 +93,12 @@
         height: 200px;
         display: grid;
         box-sizing: border-box;
+        z-index: 3000;
     }
 
         .tt-suggestion.tt-selectable:hover {
             background-color: #0097cf;
+            z-index: 3000;
         }
 
             .tt-suggestion.tt-selectable:hover remote {
@@ -102,6 +108,8 @@
     .tt-suggestion.tt-cursor {
         color: #fff;
         background-color: #0097cf;
+        z-index: 3000;
+
     }
 
     .tt-suggestion p {
@@ -148,10 +156,11 @@
 
 #search-container:hover {
     width: 100%;
-    position: absolute;
-    height: 10%;
+    right: 0;
+    /*position: absolute;*/
+    height: 100%;
     cursor: pointer;
-    z-index: 20;
+    z-index: 10000;
     background: #333;
 }
 
@@ -172,7 +181,18 @@
 #cover {
     grid-area: search;
     margin-top: 0;
-    background: black;
     width: 100%;
+
   
 }
+
+@media only screen and (max-width: 800px) {
+    #search-container:hover {
+        width: 100%;
+        position: absolute;
+        height: 10%;
+        cursor: pointer;
+        z-index: 10000;
+        background: #333;
+    }
+}

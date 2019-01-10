@@ -49,7 +49,6 @@ const printFriends = (friend, id, dataItem) => {
 
 const mapFriends = (friends) => {
     fetchFriendsProfileImage().then(data => {
-        console.log(data);
         friends ? friends.map((item, index) => printFriends(item.name, item.identityId, data[index])) : '';
         clickHandlerFriendItem(); // find method in chathub.js
 

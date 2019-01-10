@@ -131,5 +131,11 @@ namespace ChatApp.Hubs
         {
 
         }
+
+        public string CreateGroupName(string group)
+        {
+            var id = Guid.NewGuid().ToString();
+            return $"{group}{id}";
+        }
     }
 }
