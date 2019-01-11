@@ -6,10 +6,6 @@
         <i id="show-friends" class="fas fa-user-friends"></i>
     </div>
 
-    @{
-        await Html.RenderPartialAsync("_Auth");
-    }
-
     <div id="friend-request-container">
         @{
             await Html.RenderPartialAsync("_FriendRequest", Model);
@@ -22,4 +18,9 @@
             await Html.RenderPartialAsync("_Search", Model);
         }
     </div>
+
+    @{
+        await Html.RenderPartialAsync("_Auth");
+    }
+
 </nav>

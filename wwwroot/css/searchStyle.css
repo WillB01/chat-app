@@ -1,122 +1,111 @@
 ﻿#search-container {
     position: relative;
-    /*left: 40%;*/
-    /*justify-self: bottom;*/
-    /*top: 50%;*/
-    /*transform: translate(-50%,-50%);*/
-    transition: 1s ease-in;
+    text-align: center;
+    transition: 0.4s ease-in;
     width: 100%;
-    height: auto;
+    height: 100%;
     background: none;
     box-sizing: border-box;
-    /*border-radius: 25px;*/
-    border-bottom: 5px solid #F44336;
-    padding: 5px;
+    border-bottom: 5px solid #0097cf;
     z-index: 10;
-    background: #333;
 }
 
-    #search-container:hover {
-        background: #F44336;
-    }
+#search-container:hover {
+    background: #F44336;
+}
 
-    #search-container .fas {
-        box-sizing: border-box;
-        padding: 10px;
-        width: 42.5px;
-        height: 42.5px;
-        position: absolute;
-        top: 0px;
-        right: 5px;
-        margin: 0 auto;
-        border-radius: 50%;
-        color: #fff;
-        text-align: center;
-        font-size: 1.1em;
-        transition: all 1s;
-        /*-webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);*/
-    }
+#search-container .fas.fa-search {
+    box-sizing: border-box;
+    margin: 5px auto;
+    border-radius: 50%;
+    color: #0097cf;
+    font-size: 1.1em;
+    transition: all 1s;
+    box-sizing: border-box;
+}
 
-.tt-input { /* UPDATE: newer versions use tt-input instead of tt-query */
-    /*box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);*/
+.tt-input {
+    border: none;
+    outline: none;
+    font-size: 0.9em;
+    box-sizing: border-box;
+    width: 100%;
+    margin: 10px auto;
+}
+
+.tt-hint {
+    color: rgb(110, 110, 110);
     border: none;
     outline: none;
     font-size: 0.9em;
     width: 100%;
-    position: relative;
-    /*padding: 1vh;*/
-}
-
-.tt-hint {
-    color: #999;
-    border: none;
-    outline: none;
-    font-size: 2em;
-    width: 100%;
+    margin: 10px auto;
     box-sizing: border-box;
     background: none;
 }
 
-.tt-menu.tt-open { /* UPDATE: newer versions use tt-menu instead of tt-dropdown-menu */
-    margin: 5px auto;
+
+
+.tt-menu.tt-open {
+    /* margin: 0 auto 0 -22%; */
+    position: relative;
+    left: 0;
+    right: 0;
     width: 100%;
-    height: auto;
-    padding: 8px 0;
-    background: #454545;
+
+    /* padding: 8px 0; */
+    background: none;
     color: #fafafa;
     border: none;
     display: grid;
-    /*grid-template-columns: 1fr, 1fr;*/
-    /*background: black;*/
-    /*border-radius: 8px;*/
     box-sizing: border-box;
     z-index: 10000;
+   
 }
 
 .tt-suggestion {
     display: grid;
-    padding: 3px 20px;
+    
     font-size: 18px;
     line-height: 24px;
     width: 100%;
     height: auto;
     cursor: pointer;
     box-sizing: border-box;
-    /*-webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);*/
     border: none;
+
 }
 
-    .tt-suggestion.tt-selectable {
-        margin: -2px auto;
-        /*background-color: white;*/
-        height: 200px;
-        display: grid;
-        box-sizing: border-box;
-        z-index: 3000;
-    }
+.tt-suggestion.tt-selectable {
+    background: #06749c;
+    padding: 3px;
+    margin: 0 auto 0 auto;
+    position: relative;
+    height: 100px;
+    width: 100%;
+    display: grid;
+    box-sizing: border-box;
+    z-index: 3000;
+}
 
-        .tt-suggestion.tt-selectable:hover {
-            background-color: #0097cf;
-            z-index: 3000;
-        }
+.tt-suggestion.tt-selectable:hover {
+    background-color: #0097cf;
+    z-index: 3000;
+}
 
-            .tt-suggestion.tt-selectable:hover remote {
-                display: block;
-            }
+.tt-suggestion.tt-selectable:hover remote {
+    display: block;
+}
 
-    .tt-suggestion.tt-cursor {
-        color: #fff;
-        background-color: #0097cf;
-        z-index: 3000;
-    }
+.tt-suggestion.tt-cursor {
+    color: #fff;
+    background-color: #0097cf;
+    z-index: 3000;
+}
 
-    .tt-suggestion p {
-        margin: 0;
-    }
+.tt-suggestion p {
+    margin: 0;
+}
 
 /*.twitter-typeahead {
     background: white;
@@ -133,7 +122,6 @@
 
 /*important div*/
 .typeahead {
-    /*border: white 1px solid;*/
     width: 100%;
     box-sizing: border-box;
     color: white;
@@ -143,45 +131,50 @@
     position: absolute;
     top: 0;
     left: 0;
-    width: 80%;
-    height: 42.5px;
+    width: 100%;
+    box-sizing: border-box;
     line-height: 30px;
     outline: 0;
     border: 0;
     display: none;
     font-size: 1em;
-    border-radius: 20px;
-    padding: 0 20px;
+    text-align: center;
+    /* border-radius: 20px; */
+    /* padding: 0 5px; */
 }
 
 #search-container:hover {
-    width: 100%;
-    right: 0;
-    /*position: absolute;*/
-    height: 100%;
     cursor: pointer;
     z-index: 10000;
-    background: #333;
+    background: #0097cf;
+    color: #fff;
+    padding: 0 100px;
+
 }
 
-    #search-container:hover #remote {
-        display: block;
-        /*width: 100%;*/
-        margin: 0 auto;
-        box-sizing: border-box;
-        /*background: white;*/
-        display: grid;
-    }
+#search-container:hover .fas {
+    display: none;
+}
 
-    #search-container:hover .fas {
-        background: #07051a;
-        color: white;
-    }
+#search-container:hover #remote {
+    display: block;
+    margin: 0 auto;
+
+    width: 100%;
+    /* background: #F44336; */
+    box-sizing: border-box;
+    display: grid;
+}
 
 #cover {
+    position: absolute;
     grid-area: search;
-    margin-top: 0;
+    box-sizing: border-box;
+    top: 0;
+    right: 0;
+    height: 100%;
     width: 100%;
+    /* background: red; */
 }
 
 /*@media only screen and (max-width: 800px) {

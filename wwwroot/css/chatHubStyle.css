@@ -1,5 +1,5 @@
 ﻿#chat-container {
-    background: #333;
+    background: #fafafa;
     width: 100%;
     margin: 0 auto;
     position: relative;
@@ -13,7 +13,10 @@
     background: #4EBA6F;
     justify-self: right;
     padding: 10px;
+    height: auto;
     width: auto;
+    word-break: break-all;
+    display: grid;
     position: relative;
     border-radius: .4em;
 }
@@ -38,6 +41,7 @@
     border-bottom: 0;
     margin-top: -16.5px;
     margin-right: -10px;
+    
 }
 
 .other-message-wrapper {
@@ -123,12 +127,13 @@
     height: 40px;
     position: absolute;
     bottom: 0;
+    padding-left: 10px; 
     /*margin: auto 5% auto 5%;*/
     outline: none;
     box-sizing: border-box;
-    border: none;
-    background: #444444;
-    color: #fff;
+    border: nssssone;
+    background: #eeeeee;
+    color: #333;
 }
 
 #text-print {
@@ -180,7 +185,7 @@
     font-size: 3vh;
     padding: 3px;
     width: 100%;
-    background: #575757;
+    background: #fafafa;
     color: white;
     box-sizing: border-box;
 
@@ -223,7 +228,7 @@
 }
 
 #text-print {
-    background: #3c3c3c;
+    background: #fafafa;
     box-sizing: border-box;
     padding-top: 20px;
 }

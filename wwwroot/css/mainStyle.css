@@ -27,7 +27,7 @@ input {
 button:hover {
     background: #ededed;
     color: #4c63a3;
-    transition: ease-in: 0.3s;
+    transition: ease-in 0.3s;
     -webkit-box-shadow: -23px 21px 35px 5px rgba(0,0,0,0.31);
     -moz-box-shadow: -23px 21px 35px 5px rgba(0,0,0,0.31);
     box-shadow: -23px 21px 35px 5px rgba(0,0,0,0.31);
@@ -55,7 +55,7 @@ body, html {
     height: 100%;
     box-sizing: border-box;
     margin: 0 auto;
-    background: #333;
+    background: #fff;
 }
 
 #auth-form-loggedin {
@@ -66,7 +66,7 @@ body, html {
 
 
 #friends-container {
-    background: #2f2f2f;
+    background: #f1f1f1;
     width: 100%;
     min-width: 50px;
     box-sizing: border-box;

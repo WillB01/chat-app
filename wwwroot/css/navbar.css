@@ -1,6 +1,6 @@
 ﻿#navbar {
     /*background: #F44336;*/
-    background: #333;
+    background: #fff;
     width: 100%;
     height: 6%;
     display: flex;
@@ -14,8 +14,7 @@
 #friend-list-menu {
     height: 100%;
     width: 100%;
-    color: #fff;
-    padding: 4px;
+    color: #54a66d;
     font-size: 0.6em;
     font-weight: 600;
     text-align: center;
@@ -23,22 +22,28 @@
     box-sizing: border-box;
     /*z-index: 110;*/
     cursor: pointer;
-    background: #333;
+    background: #fff;
     border-bottom: #54a66d 5px solid;
     
 }
 
  .fa-user-friends{
     /*font-size: 1.2em;*/
-    margin: 0 auto;
-    color: #fafafa;
+    margin: 5px auto;
+    color: #54a66d;
     font-size: 1.8em;
 }
 
 #friend-list-menu:hover {
     background: #6BB983;
-    z-index: 110;
+    color: #fff;
 }
+
+#friend-list-menu:hover  .fa-user-friends {
+    color: #fff;
+}
+
+
 
 /*Auth nav bar*/
 #auth-navbar {
@@ -47,7 +52,6 @@
     width: 100%;
     text-align: center;
     height: 100%;
-    padding: 4px;
     font-size: 2vh;
     color: #fff;
     position: relative;
@@ -84,12 +88,11 @@
 }
 
 #friend-request-container {
-    color: #fff;
-    padding: 4px;
-    font-size:  0.8em;
+    color: #FF6138;
+    font-size:  1.3em;
     font-weight: 100;
     cursor: pointer;
-    background: #2f2f2f;
+    background: #fff;
     border-bottom: #FF6138 5px solid;
     height: 100%;
     width: 100%;
@@ -103,6 +106,8 @@
 
     #friend-request-container:hover {
         background: #FF6138;
+    color: #fff;
+
     }
     #friend-request-result {
     z-index: 10;
