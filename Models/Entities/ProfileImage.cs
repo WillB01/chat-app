@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace ChatApp.Models.Entities
+﻿namespace ChatApp.Models.Entities
 {
     public partial class ProfileImage
     {

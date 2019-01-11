@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ChatApp.ViewModels
 {
@@ -14,7 +11,6 @@ namespace ChatApp.ViewModels
         public DateTime? Time { get; set; }
         public bool IsLoggedIn { get; set; }
         public string Name { get; set; }
-
 
         //public virtual AspNetUsers GroupAdmin { get; set; }
         //public virtual AspNetUsers GroupMember { get; set; }

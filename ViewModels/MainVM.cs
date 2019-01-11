@@ -22,7 +22,5 @@ namespace ChatApp.ViewModels
         public IdentityUserVM IdentityUserVM { get; set; }
 
         //public AddProfileImageVM AddProfileImageVM { get; set; }
-
-
     }
 }

@@ -1,6 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace ChatApp.Models.Entities
 {
@@ -22,7 +20,6 @@ namespace ChatApp.Models.Entities
         public virtual DbSet<GroupChat> GroupChat { get; set; }
         public virtual DbSet<Message> Message { get; set; }
         public virtual DbSet<ProfileImage> ProfileImage { get; set; }
-
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -24,7 +24,6 @@ namespace ChatApp.Hubs
 
         Task GroupReceiveMessage(string message);
 
-
         Task GroupReceiveMessage(string message, string fromUser, DateTime time, string group);
     }
 }

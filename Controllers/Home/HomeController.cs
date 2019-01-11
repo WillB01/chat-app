@@ -49,7 +49,6 @@ namespace ChatApp.Controllers.Home
             _viewModelService.FriendsVM = friends;
             _viewModelService.FriendRequestVM = friendRequests;
             await _profileImageService.GetFriendsProfileImagesAsync();
-            
 
             return View(_viewModelService);
         }

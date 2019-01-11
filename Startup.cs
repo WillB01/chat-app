@@ -41,7 +41,7 @@ namespace ChatApp
             services.AddTransient<IGroupChatService, GroupChatService>();
 
             services.AddDbContext<DataContext>(options =>
-            
+
             {
                 options.UseSqlServer(Configuration.GetConnectionString("ChatAppDb"));
             });

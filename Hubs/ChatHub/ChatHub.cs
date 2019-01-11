@@ -72,8 +72,7 @@ namespace ChatApp.Hubs
             await _groupChatService.AddMemberToGroupAsync(group, await _userService.GetUserId(Context.User.Identity.Name));
         }
 
-
-        public async Task SendInviteToJoinGroup(string groupName,string[] friendsToAdd)
+        public async Task SendInviteToJoinGroup(string groupName, string[] friendsToAdd)
         {
             var friendsId = new List<string>();
             var friends = await _friendService.GetFriends(await _userService.GetloggedinUser());
@@ -87,8 +86,6 @@ namespace ChatApp.Hubs
             {
                 await Clients.User(id).ReceiveGroupInvite(groupName);
             }
-
-
         }
 
         public async Task AddToGroup(string groupName)
@@ -112,23 +109,18 @@ namespace ChatApp.Hubs
 
         public async Task<GroupChatVM[]> GetUsersGroupsAsync()
         {
-           
-           var groups = await _groupChatService.UserGroups();
+            var groups = await _groupChatService.UserGroups();
             return groups;
-
         }
 
         public async Task<GroupChatVM[]> GetGroupChatHistoryAsync(string group)
         {
-
             var chats = await _groupChatService.GetGroupChatHistoryAsync(group);
             return chats;
-
         }
 
         public async Task ResopnseFromGroupInvite(string group, bool inviteResponse)
         {
-
         }
 
         public string CreateGroupName(string group)

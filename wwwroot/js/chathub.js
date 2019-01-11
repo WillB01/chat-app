@@ -27,7 +27,6 @@ const startChat = () => {
         .then((name) => {
             userName = name;
         });
-    
 };
 
 const button = document.createElement("button");
@@ -47,18 +46,18 @@ const flattenMsgHistory = (history) => {
 const clickHandlerFriendItem = () => {
     const friendItem = document.querySelectorAll('.friends');
     friendListItemStyle(friendItem);
-    
+
     for (var i = 0; i < friendItem.length; i++) {
         friendItem[i].addEventListener('click', (e) => {
-           
             friendDataValue = e.target.dataset.friend;
             textToPrintDiv.innerHTML = '';
             const value = e.target.innerHTML;
-
+            
             button.append(buttonText);
             button.id = 'send-msg';
             button.setAttribute('data', 'friend');
             input.id = 'chat-text';
+            input.setAttribute("placeholder", "Type a message");
             input.setAttribute('data', 'friend');
             chatBox.append(input);
             chatBox.append(button);
@@ -81,7 +80,6 @@ const clickHandlerFriendItem = () => {
                     }
                     p.appendChild(text);
                     wrapperDiv.appendChild(p);
-                   
 
                     textToPrintDiv.appendChild(wrapperDiv);
                     scrollToBottom();
@@ -94,8 +92,7 @@ const clickHandlerFriendItem = () => {
 
 connection.on('ReceiveMessage', renderMessage);
 startChat();
-waitForElement(".friends").then((element) => {});
-
+waitForElement(".friends").then((element) => { });
 
 input.addEventListener('keydown', e => {
     if (e.keyCode === 13) {
@@ -124,7 +121,6 @@ function submitMessage() {
 function scrollToBottom() {
     const isScrolledToBottom = friendsAndChatDiv.scrollHeight - friendsAndChatDiv.clientHeight <= friendsAndChatDiv.scrollTop + 1;
     friendsAndChatDiv.scrollTop = friendsAndChatDiv.scrollHeight - friendsAndChatDiv.clientHeight;
-
 };
 
 function renderMessage(message, time, isLoggedin, fromFriend) {
@@ -135,7 +131,7 @@ function renderMessage(message, time, isLoggedin, fromFriend) {
     let testP = document.createElement("p");
     testP.appendChild(document.createTextNode(`${message} - ${remakeTime} `));
     wrapperDiv.appendChild(testP);
-    
+
     if (isLoggedin) {
         testP.classList.add('user-message-container');
         wrapperDiv.classList.add('user-message-wrapper');
@@ -149,7 +145,6 @@ function renderMessage(message, time, isLoggedin, fromFriend) {
         divToPrint.appendChild(wrapperDiv);
     }
     scrollToBottom();
-
 };
 
 async function connect(conn) {
@@ -206,15 +201,12 @@ function timeChanger(time) {
     return `${dateTime.getHours()}:${dateTime.getMinutes()}`;
 }
 
-
-
 /////////////////////////////////////////////////////////////////////////////////////////////////
 //////GROUP MESSAGE//////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
 connection.on('ReceiveGroupInvite', renderGroupInvite);
 connection.on('GroupReceiveMessage', renderGroupMessage);
-
 
 const btnYes = document.createElement('button');
 const btnNo = document.createElement('button');
@@ -239,14 +231,12 @@ function renderGroupInvite(groupName) {
         console.log(groupName);
         connection.invoke('AddMemberToGroupDb', groupName)
             .then(() => groupName = '');
-       
     });
 }
 
 const inputNewGroup = document.querySelector('#new-group');
 const newGroupBtn = document.querySelector('#new-group-btn');
 const grouptContainer = document.querySelector('#group-container');
-
 
 inputNewGroup.addEventListener('keydown', e => {
     const groupName = inputNewGroup.value.trim();
@@ -281,12 +271,11 @@ function createGroupIdAttr(originalGroupName) {
     const querySelectorFormat = classRegex(onlyInput);
     const guid = getGuid(originalGroupName);
     return `${querySelectorFormat}${guid}`;
-
 }
 
 function createNewGroup(element) {
     let groupName = inputNewGroup.value.trim();
-    inputNewGroup.value = '';   
+    inputNewGroup.value = '';
     connection.invoke('CreateGroupName', groupName)
         .then(newName => {
             groupName = newName;
@@ -301,7 +290,6 @@ function createNewGroup(element) {
             }
 
             element.innerHTML = removeGuid(groupName);
-
         });
 }
 
@@ -326,12 +314,9 @@ function printHistoryGroups(groups) {
         grouptContainer.appendChild(specificGroup);
         getElement(specificGroup);
     });
-
-   
 }
 
 const newDiv = document.createElement('div');
-
 
 function getElement(el) {
     el.addEventListener('click', (e) => {
@@ -345,7 +330,6 @@ function getElement(el) {
             openGroupChat(groupName);
         }
     });
-
 }
 
 function createGroupInviteToFriends(el) {
@@ -370,13 +354,9 @@ function createGroupInviteToFriends(el) {
         newDiv.appendChild(checkbox);
     }
 
-
-   
     document.body.appendChild(newDiv);
-    
 
     getFriendsToStartGroup(el.attributes.groupIdToSend.value);
-
 }
 
 function getFriendsToStartGroup(groupName) {
@@ -384,14 +364,12 @@ function getFriendsToStartGroup(groupName) {
     const groupChatInvite = document.querySelectorAll('.friend-add-group-chat');
 
     for (var i = 0; i < groupChatInvite.length; i++) {
-        
         groupChatInvite[i].addEventListener('change', (e) => {
             if (e.target.checked) {
                 friendsToSend.push(e.target.value);
             } else {
                 friendsToSend = friendsToSend.filter(item => item !== e.target.value);
             }
-
         });
     }
 
@@ -403,22 +381,18 @@ function getFriendsToStartGroup(groupName) {
         group.setAttribute('sendGroupInvite', false);
         group.setAttribute('groupIdToSend', groupName);
         connection.invoke('SendInviteToJoinGroup', groupName, friendsToSend);
-        setTimeout(() => { groupChatInviteChecks.remove(); }, 1000);         
-        
+        setTimeout(() => { groupChatInviteChecks.remove(); }, 1000);
     });
-       
 }
-
 
 function flattenGroupMsgHistory(history) {
     const stageOne = [];
     for (var i = 0; i < history.length; i++) {
         let timeRemake = timeChanger(history[i].time);
-        stageOne.push({ [timeRemake]: [history[i].message, history[i].isLoggedIn, history[i].name]});
+        stageOne.push({ [timeRemake]: [history[i].message, history[i].isLoggedIn, history[i].name] });
     }
     return stageOne;
 };
-
 
 function openGroupChat(group) {
     textToPrintDiv.innerHTML = '';
@@ -426,12 +400,12 @@ function openGroupChat(group) {
     button.id = 'send-msg';
     button.setAttribute('data', 'group');
     input.id = 'chat-text';
+    input.setAttribute("placeholder", "Type a message");
     input.setAttribute('data', 'group');
     chatBox.append(input);
     chatBox.append(button);
 
     textToPrintDiv.setAttribute('chat-to-print', createGroupIdAttr(group));
-
 
     let history = connection.invoke('GetGroupChatHistoryAsync', group);
     history.then(result => {
@@ -451,13 +425,11 @@ function openGroupChat(group) {
             p.appendChild(text);
             wrapperDiv.appendChild(p);
 
-
             textToPrintDiv.appendChild(wrapperDiv);
             scrollToBottom();
         });
     });
     groupToChatWith = group;
-
 };
 
 function submitGroupMessege() {
@@ -465,11 +437,8 @@ function submitGroupMessege() {
     input.value = '';
     connection.invoke('SendGroupMessage', groupToChatWith, text);
 }
-        
 
 function renderGroupMessage(message, fromUser, time, group) {
-    
-
     const userName = document.querySelector('.centered-text').innerHTML;
     let isLoggedin = fromUser === userName;
 
@@ -504,7 +473,6 @@ function classRegex(myStr) {
     return myStr.replace(/\s/g, '');
 }
 
-
 function getGroups() {
     connection.invoke('GetUsersGroupsAsync')
         .then(res => printHistoryGroups(res));
@@ -534,6 +502,4 @@ function getGuid(groupName) {
     const regex = "(\{){0,1}[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}(\}){0,1}";
     const guidMatch = groupName.match(regex);
     return guidMatch[0].toString();
-
 }
-

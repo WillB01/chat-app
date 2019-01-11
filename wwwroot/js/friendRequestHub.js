@@ -24,7 +24,6 @@ const printFriends = (friend, id, dataItem) => {
         profileImg.setAttribute('src', `data:image/png;base64,${dataItem.profileImage1}`);
         profileImg.classList.add('friend-profile-image');
         div.appendChild(profileImg);
-
     } else {
         const i = document.createElement('i');
         profileImg.setAttribute('src', `../img/test3.png`);
@@ -32,7 +31,7 @@ const printFriends = (friend, id, dataItem) => {
         //i.classList.add('fas', 'fa-user-circle', 'friend-no-profile-image');
         div.appendChild(profileImg);
     }
-   
+
     const pf = document.createElement('p');
     div.classList.add('friend-div');
     pf.appendChild(document.createTextNode(`${friend}`));
@@ -42,24 +41,18 @@ const printFriends = (friend, id, dataItem) => {
     pf.setAttribute('draggable', true);
 
     friendListContainer.appendChild(div);
-
-  
-
 }; // creates elements in the friend list
 
 const mapFriends = (friends) => {
     fetchFriendsProfileImage().then(data => {
         friends ? friends.map((item, index) => printFriends(item.name, item.identityId, data[index])) : '';
         clickHandlerFriendItem(); // find method in chathub.js
-
     });
-   
-    
 };
 
 const requestResult = (hasRequest, friendRequestsArray, friends, hasAccepted) => {
     hasRequests = hasRequest;
-    
+
     if (hasAccepted || hasAccepted === false) {
         resetFriendContainer();
     }
@@ -159,5 +152,4 @@ function fetchFriendsProfileImage() {
     return fetch("/profile/GetFreindsProfileImages")
         .then(res => res.json())
         .then(data => data.value);
-      
 }

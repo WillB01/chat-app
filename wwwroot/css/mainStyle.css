@@ -1,6 +1,7 @@
 ﻿* {
     padding: 0;
     margin: 0;
+   
 }
 
 a {
@@ -16,8 +17,6 @@ button {
     outline: none;
     border: none;
     cursor: pointer;
-
-
 }
 
 input {
@@ -25,20 +24,24 @@ input {
     border: none;
 }
 
-    button:hover {
-        background: #ededed;
-        color: #4c63a3;
-    }
+button:hover {
+    background: #ededed;
+    color: #4c63a3;
+    transition: ease-in: 0.3s;
+    -webkit-box-shadow: -23px 21px 35px 5px rgba(0,0,0,0.31);
+    -moz-box-shadow: -23px 21px 35px 5px rgba(0,0,0,0.31);
+    box-shadow: -23px 21px 35px 5px rgba(0,0,0,0.31);
+}
 
-    #auth-container div input[type=button], input[type=submit], input[type=reset] {
-        background-color: #4CAF50;
-        border: none;
-        color: white;
-        /*padding: 16px 32px;*/
-        text-decoration: none;
-        margin: 4px 2px;
-        cursor: pointer;
-    }
+#auth-container div input[type=button], input[type=submit], input[type=reset] {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    /*padding: 16px 32px;*/
+    text-decoration: none;
+    margin: 4px 2px;
+    cursor: pointer;
+}
 
 body, html {
     font-family: 'Open Sans', sans-serif;
@@ -46,53 +49,19 @@ body, html {
     background: #0285A8;
 }
 
-
-
 #main-content {
     max-width: 2400px;
     width: 100%;
     height: 100%;
     box-sizing: border-box;
     margin: 0 auto;
-  
 }
 
 #auth-form-loggedin {
     display: none;
 }
-    
 
 /*friends stuff*/
-#friend-request-container {
-    color: #fff;
-    padding: 4px;
-    font-size: 2vh;
-    font-weight: 600;
-    cursor: pointer;
-    background: #FF6138;
-    height: 100%;
-    width: 100%;
-    /*display: grid;*/
-    text-align: center;
-    /*justify-content: center;*/
-    box-sizing: border-box;
-    z-index: 10;
-   
-  
-}
-
-#friend-request-result {
-    z-index: 10;
-    background: #0285A8;
-    margin: 15% auto;
-    
-   
-}
-
-#friend-request-result button {
-    margin: 3px;
-    padding: 2px;
-}
 
 
 #friends-container {
@@ -106,16 +75,11 @@ body, html {
     color: #fff;
     z-index: 110;
     /*display: grid;*/
-
-  
 }
-
-
 
 .friends {
     margin: 10px auto 0 auto;
     overflow: hidden;
-
 }
 
 .has-friend-request {
@@ -130,8 +94,6 @@ body, html {
     background: none;
     padding: 3px;
     box-sizing: border-box;
-   
-   
     -moz-box-shadow: 5px 5px 5px rgba(68, 68, 68, 0.6);
     -webkit-box-shadow: 5px 5px 5px rgba(68, 68, 68, 0.6);
     box-shadow: 5px 5px 5px rgba(68, 68, 68, 0.6);
@@ -141,9 +103,8 @@ body, html {
 }
 
     .friend-request-item:first-child {
-       margin-top: 10px;
+        margin-top: 10px;
     }
-
 
 .backdrop {
     background: rgba(0, 0, 0, 0.15);
@@ -154,4 +115,3 @@ body, html {
     right: 0;
     z-index: 100;
 }
-

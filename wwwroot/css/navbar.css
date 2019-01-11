@@ -1,18 +1,17 @@
 ﻿#navbar {
     background: #F44336;
+    background: #333;
     width: 100%;
     height: 10%;
     display: flex;
-
-    /*position: fixed;*/
-    /*display: grid;*/
-    /*grid-template-columns: auto auto;*/
+    border: none;
+    top: 0;
+   
 }
 
 #friend-list-menu {
     height: 100%;
     width: 100%;
-    background: #54a66d;
     color: #fff;
     padding: 4px;
     font-size: 2vh;
@@ -22,6 +21,9 @@
     box-sizing: border-box;
     /*z-index: 110;*/
     cursor: pointer;
+    background: #333;
+    border-bottom: #54a66d 5px solid;
+    
 }
 
  .fa-user-friends{
@@ -36,7 +38,6 @@
     z-index: 110;
 }
 
-
 /*Auth nav bar*/
 #auth-navbar {
     background: #02BEC4;
@@ -48,7 +49,9 @@
     font-size: 2vh;
     font-weight: 600;
     color: #fff;
-    
+    -webkit-box-shadow: 44px 22px 70px 11px rgba(0,0,0,0.75);
+    -moz-box-shadow: 44px 22px 70px 11px rgba(0,0,0,0.75);
+    box-shadow: 44px 22px 70px 11px rgba(0,0,0,0.75);
     position: relative;
 }
 
@@ -79,4 +82,34 @@
     width: 100%;
 }
 
+#friend-request-container {
+    color: #fff;
+    padding: 4px;
+    font-size: 2vh;
+    font-weight: 600;
+    cursor: pointer;
+    background: #2f2f2f;
+    border-bottom: #FF6138 5px solid;
+    height: 100%;
+    width: 100%;
+    /*display: grid;*/
+    text-align: center;
+    /*justify-content: center;*/
+    box-sizing: border-box;
+    z-index: 10;
+    
+}
 
+    #friend-request-container:hover {
+        background: #FF6138;
+    }
+    #friend-request-result {
+    z-index: 10;
+    background: #0285A8;
+    margin: 15% auto;
+}
+
+    #friend-request-result button {
+        margin: 3px;
+        padding: 2px;
+    }

@@ -12,19 +12,12 @@ friendMenu.addEventListener('click', () => {
         friendListContainer.classList.add('display-none');
         friendsAndChatContainer.classList.remove('change-size-half');
         //backdrop.classList.remove('backdrop');
-
-
     } else {
         friendListContainer.classList.remove('display-none');
         friendsAndChatContainer.classList.remove('change-size-chat');
         friendsAndChatContainer.classList.add('change-size-half');
         //backdrop.classList.add('backdrop');
-
-
-
     }
-
-  
 });
 
 fetchUserProfileImage().then(data => {
@@ -32,9 +25,9 @@ fetchUserProfileImage().then(data => {
     const profileImg = document.createElement('img');
     const div = document.createElement('div');
     const p = document.createElement('p');
-   
+
     p.appendChild(document.createTextNode(`${data.userName}`));
-   
+
     if (data.img) {
         p.classList.add('centered-text');
         profileImg.setAttribute('src', `data:image/png;base64,${data.img}`);
@@ -47,19 +40,29 @@ fetchUserProfileImage().then(data => {
         div.appendChild(p);
         authNav.appendChild(div);
     }
-
-   
-   
-
-        
 });
-
 
 function fetchUserProfileImage() {
     return fetch("/profile/GetImage")
         .then(res => res.json())
         .then(data => data.value);
-
 }
 
 
+
+let showGoup = false;
+const groupDiv = document.querySelector('#group-not-show');
+groupDiv.addEventListener('click', () => {
+    const groupCOntainer = document.querySelector('#group-container');
+    showGoup = !showGoup ? showGoup = true : showGoup = false;
+    if (showGoup) {
+        groupCOntainer.setAttribute('style', "display: block;");
+
+
+       
+    }
+    if (!showGoup) {
+        groupCOntainer.setAttribute('style', "display: none");
+    }
+
+});

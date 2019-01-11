@@ -3,9 +3,7 @@ using ChatApp.Services.FriendService;
 using ChatApp.ViewModels;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -17,7 +15,6 @@ namespace ChatApp.Services.ProfileService
         private readonly IUserService _userService;
         private readonly IHostingEnvironment _hostingEnvironment;
         private readonly IFriendService _friendService;
-
 
         public ProfileImageService(ChatContext chatContext, IUserService userService, IHostingEnvironment hostingEnvironment, IFriendService friendService)
         {
@@ -56,7 +53,7 @@ namespace ChatApp.Services.ProfileService
                 //var bytes = File.ReadAllBytes(webRootPath);
                 return null;
             }
-          
+
             return profileImage.ProfileImage1;
         }
 
@@ -70,7 +67,8 @@ namespace ChatApp.Services.ProfileService
             if (await GetProfileImage() == null)
             {
                 await SaveProfileImageAsync(profileImageVM);
-            }else
+            }
+            else
             {
                 var update = await _chatContext.ProfileImage
                     .Where(e => e.UserId == profileImageVM.UserId)
@@ -80,8 +78,6 @@ namespace ChatApp.Services.ProfileService
 
                 await _chatContext.SaveChangesAsync();
             }
-              
-
         }
 
         public async Task<ProfileImageVM[]> GetFriendsProfileImagesAsync()
@@ -92,7 +88,8 @@ namespace ChatApp.Services.ProfileService
             {
                 profileImageVMs.Add(await _chatContext.ProfileImage
                     .Where(p => p.UserId == friend.IdentityId)
-                    .Select(e => new ProfileImageVM {
+                    .Select(e => new ProfileImageVM
+                    {
                         ProfileImage1 = e.ProfileImage1,
                         UserId = e.UserId
                     })
@@ -100,7 +97,6 @@ namespace ChatApp.Services.ProfileService
             }
 
             return profileImageVMs.ToArray();
-
         }
     }
 }

@@ -32,7 +32,7 @@ namespace ChatApp.Services.GroupChatService
 
         public async Task AddMemberToGroupAsync(string group, string newMember)
         {
-            var db =  await _chatContext.GroupChat
+            var db = await _chatContext.GroupChat
                 .Where(e => e.GroupName == group)
                 .FirstOrDefaultAsync();
             var dbModel = new GroupChat
@@ -40,26 +40,22 @@ namespace ChatApp.Services.GroupChatService
                 GroupName = db.GroupName,
                 GroupAdminId = db.GroupAdminId,
                 GroupMemberId = newMember
-
             };
-         
+
             _chatContext.GroupChat.Add(dbModel);
-           
+
             if (db.GroupMemberId == null)
             {
                 _chatContext.GroupChat.Remove(db);
-
             }
-           
+
             await _chatContext.SaveChangesAsync();
-
-
         }
 
         public async Task<GroupChatVM[]> GetGroupChatHistoryAsync(string group)
         {
             var user = await _userService.GetloggedinUser();
-            GroupChatVM[] chats ;
+            GroupChatVM[] chats;
 
             try
             {
@@ -73,20 +69,14 @@ namespace ChatApp.Services.GroupChatService
                  Time = e.Time,
                  IsLoggedIn = e.GroupMemberId == user.Id,
                  Name = _userService.GetUserNameById(e.GroupMemberId).Result
-
-
-
              })
 
              .ToArrayAsync();
             }
             catch (Exception e)
             {
-
                 chats = new GroupChatVM[] { };
             }
-
-          
 
             return chats;
         }
@@ -108,12 +98,9 @@ namespace ChatApp.Services.GroupChatService
             if (db.Message == null)
             {
                 _chatContext.GroupChat.Remove(db);
-
             }
             _chatContext.GroupChat.Add(groupChat);
             await _chatContext.SaveChangesAsync();
-
-
         }
 
         public async Task<GroupChatVM[]> UserGroups()

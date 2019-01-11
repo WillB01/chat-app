@@ -6,10 +6,7 @@ using ChatApp.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace ChatApp.Controllers.Profile
@@ -23,7 +20,7 @@ namespace ChatApp.Controllers.Profile
         private readonly IFriendService _friendService;
         private readonly IHostingEnvironment _hostingEnvironment;
 
-        public ProfileController(IUserService userService, IViewModelService viewModelService, IProfileImageService profileImageService, 
+        public ProfileController(IUserService userService, IViewModelService viewModelService, IProfileImageService profileImageService,
             IFriendService friendService, IHostingEnvironment hostingEnvironment)
         {
             _userService = userService;
@@ -39,10 +36,8 @@ namespace ChatApp.Controllers.Profile
             return View(new AddProfileImageVM());
         }
 
-
         [HttpPost]
         [ValidateAntiForgeryToken]
-        
         public async Task<IActionResult> Register(AddProfileImageVM AddProfileImageVM)
         {
             //ViewData["ReturnUrl"] = returnUrl;
@@ -53,19 +48,14 @@ namespace ChatApp.Controllers.Profile
             };
             if (ModelState.IsValid)
             {
-
                 using (var memoryStream = new MemoryStream())
                 {
                     await AddProfileImageVM.ProfileImage.CopyToAsync(memoryStream);
                     profileImage.ProfileImage1 = memoryStream.ToArray();
                     await _profileImageService.AddProfileImage(profileImage);
-
-
                 }
-
             }
             return RedirectToAction(nameof(Index));
-
         }
 
         public async Task<IActionResult> GetImage()
@@ -79,14 +69,11 @@ namespace ChatApp.Controllers.Profile
             //}
             //return File( await _profileImageService.GetProfileImage(), "image/*");
             var userName = await _userService.GetloggedinUser();
-            return Ok(Json(new { img = await _profileImageService.GetProfileImage(), userName = userName.UserName}));
-
-            
+            return Ok(Json(new { img = await _profileImageService.GetProfileImage(), userName = userName.UserName }));
         }
 
         public async Task<IActionResult> GetFreindsProfileImages()
         {
-
             return Ok(Json(await _profileImageService.GetFriendsProfileImagesAsync()));
         }
     }
