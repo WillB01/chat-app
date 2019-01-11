@@ -76,9 +76,9 @@
 .navbar-profile-image {
     width: 100%;
     /*border-radius: 50%;*/
-    height: auto;
-    height: 96%;
+    height: 100%;
     object-fit: cover;
+    box-sizing: border-box;
     
 }
 
@@ -86,9 +86,10 @@
     position: absolute;
     text-align: center;
     /*margin: 0px auto;*/
-    top: 20%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    top: 0;
+    /*left: 50%;*/
+    font-weight: 100;
+    /*transform: translate(-50%, -50%);*/
     font-size: 3vh;
     width: 100%;
     overflow: hidden;

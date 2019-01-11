@@ -1,11 +1,13 @@
 ﻿#navbar {
-    background: #F44336;
+    /*background: #F44336;*/
     background: #333;
     width: 100%;
-    height: 10%;
+    height: 6%;
     display: flex;
     border: none;
     top: 0;
+    position: fixed;
+    z-index: 100000;
    
 }
 
@@ -14,7 +16,7 @@
     width: 100%;
     color: #fff;
     padding: 4px;
-    font-size: 2vh;
+    font-size: 0.6em;
     font-weight: 600;
     text-align: center;
     /*justify-content: center;*/
@@ -27,10 +29,10 @@
 }
 
  .fa-user-friends{
-    font-size: 1.8em;
+    /*font-size: 1.2em;*/
     margin: 0 auto;
     color: #fafafa;
-    font-size: 5vh;
+    font-size: 1.8em;
 }
 
 #friend-list-menu:hover {
@@ -40,19 +42,17 @@
 
 /*Auth nav bar*/
 #auth-navbar {
-    background: #02BEC4;
+    background: #333;
     display: grid;
     width: 100%;
     text-align: center;
     height: 100%;
     padding: 4px;
     font-size: 2vh;
-    font-weight: 600;
     color: #fff;
-    -webkit-box-shadow: 44px 22px 70px 11px rgba(0,0,0,0.75);
-    -moz-box-shadow: 44px 22px 70px 11px rgba(0,0,0,0.75);
-    box-shadow: 44px 22px 70px 11px rgba(0,0,0,0.75);
     position: relative;
+    box-sizing: border-box;
+    border-bottom: 5px solid #0285A8
 }
 
     #auth-navbar input {
@@ -74,6 +74,7 @@
 
 #profile {
     width: 100%;
+    
 }
 
 .navbar-no-profile-image p  {
@@ -85,8 +86,8 @@
 #friend-request-container {
     color: #fff;
     padding: 4px;
-    font-size: 2vh;
-    font-weight: 600;
+    font-size:  0.8em;
+    font-weight: 100;
     cursor: pointer;
     background: #2f2f2f;
     border-bottom: #FF6138 5px solid;
