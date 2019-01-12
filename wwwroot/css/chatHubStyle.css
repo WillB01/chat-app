@@ -150,9 +150,9 @@
 }
 
 #group-container {
-    width: 30%;
+    width: 40%;
     min-width: 130px;
-
+border-radius: 5px;
      position: fixed;
     top: 25%;
     left: 130px;
@@ -163,10 +163,10 @@
 
     /*position: sticky;*/
     border: 2px;
-    padding-top: 4px;
+    padding: 10px;
     min-width: 120px;
     box-sizing: border-box;
-    background: #333;
+    background: #437d9f;
     display: grid;
     grid-template-columns: 100%;
     -webkit-box-shadow: -5px 72px 59px 0px rgba(0,0,0,0.75);
@@ -183,11 +183,14 @@
 #group-container input {
     margin: 0 auto;
     font-size: 3vh;
-    padding: 3px;
+    padding: 5px;
     width: 100%;
     background: #fafafa;
     color: white;
     box-sizing: border-box;
+    border-radius:  2px;
+    color: #333;
+
 
 }
 
@@ -245,6 +248,15 @@
     left: 130px;
     z-index: 5000;
     cursor: pointer;
+}
+
+.group-chat-invite {
+    position: absolute;
+    bottom: 0%;
+    width: 100%;
+    margin: 0 auto;
+    background: #4EBA6F;
+    z-index: 5000;
 }
 
     #group-not-show:hover {

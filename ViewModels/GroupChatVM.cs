@@ -11,6 +11,8 @@ namespace ChatApp.ViewModels
         public DateTime? Time { get; set; }
         public bool IsLoggedIn { get; set; }
         public string Name { get; set; }
+        public bool? ExitGroup { get; set; }
+
 
         //public virtual AspNetUsers GroupAdmin { get; set; }
         //public virtual AspNetUsers GroupMember { get; set; }

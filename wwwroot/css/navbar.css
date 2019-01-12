@@ -56,7 +56,7 @@
     color: #fff;
     position: relative;
     box-sizing: border-box;
-    border-bottom: 5px solid #0285A8
+    border-bottom: 5px solid rgb(141, 62, 121)
 }
 
     #auth-navbar input {

@@ -1,12 +1,34 @@
 ﻿const friendMenu = document.querySelector('#friend-list-menu');
 const friendsAndChatContainer = document.querySelector('#friends-and-chat');
+const mainContentDiv = document.querySelector('#text-print');
 friendsAndChatContainer.classList.add('change-size-half');
 //const backdrop = document.querySelector('.backdrop');
 let showFriendContainer = false;
 
 friendMenu.addEventListener('click', () => {
+    clickLogicShowSideBar();
+});
+
+
+mainContentDiv.addEventListener('click',() => {
     showFriendContainer = !showFriendContainer ? showFriendContainer = true : showFriendContainer = false;
     const friendListContainer = document.querySelector('#friends-container');
+
+    if (showFriendContainer) {
+        friendListContainer.classList.add('display-none');
+        friendsAndChatContainer.classList.remove('change-size-half');
+        //backdrop.classList.remove('backdrop');
+    }
+
+    showFriendContainer = true;
+   
+});
+
+function clickLogicShowSideBar(){
+    showFriendContainer = !showFriendContainer ? showFriendContainer = true : showFriendContainer = false;
+    const friendListContainer = document.querySelector('#friends-container');
+   
+
 
     if (showFriendContainer) {
         friendListContainer.classList.add('display-none');
@@ -18,7 +40,7 @@ friendMenu.addEventListener('click', () => {
         friendsAndChatContainer.classList.add('change-size-half');
         //backdrop.classList.add('backdrop');
     }
-});
+};
 
 fetchUserProfileImage().then(data => {
     const authNav = document.querySelector('#profile');
@@ -53,6 +75,8 @@ function fetchUserProfileImage() {
 let showGoup = false;
 const groupDiv = document.querySelector('#group-not-show');
 groupDiv.addEventListener('click', () => {
+    deleteGroupLogic();
+    addMoreToGroupLogic();
     const groupCOntainer = document.querySelector('#group-container');
     showGoup = !showGoup ? showGoup = true : showGoup = false;
     if (showGoup) {

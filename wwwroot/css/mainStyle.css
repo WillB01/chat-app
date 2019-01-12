@@ -6,7 +6,7 @@
 
 a {
     text-decoration: none;
-    color: #fafafa;
+    color: #333;
 }
 
 li {
@@ -86,8 +86,11 @@ body, html {
 .has-friend-request {
     color: #79BD8F;
     width: 100%;
+    height: 100%;
     display: grid;
+    margin-top: 5px; 
     justify-content: center;
+    box-sizing: border-box;
 }
 
 .friend-request-item {

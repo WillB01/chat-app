@@ -257,13 +257,18 @@ newGroupBtn.addEventListener('click', (e) => {
 });
 
 function printNewGroup(willCreateNewGroup, groupName) {
+   
     const specificGroup = document.createElement('div');
     willCreateNewGroup
         ? createNewGroup(specificGroup)
         : addGroupFromInvite(groupName, specificGroup);
     getElement(specificGroup);
     grouptContainer.appendChild(specificGroup);
-    groupName = '';
+ 
+    groupName = '';  
+   
+  
+
 }
 
 function createGroupIdAttr(originalGroupName) {
@@ -282,15 +287,20 @@ function createNewGroup(element) {
             connection.invoke('SaveGroupDb', groupName);
             element.classList.add('group-name');
             if (groupName) {
-                console.log(groupName);
-                console.log(createGroupIdAttr(groupName));
                 element.setAttribute('groupId', createGroupIdAttr(groupName));
                 element.setAttribute('groupIdToSend', groupName);
                 element.setAttribute('sendGroupInvite', true);
+
             }
 
             element.innerHTML = removeGuid(groupName);
+            trashIconCreator(element);
+         
+          
+            
+           
         });
+
 }
 
 function addGroupFromInvite(groupName, element) {
@@ -312,6 +322,9 @@ function printHistoryGroups(groups) {
         specificGroup.setAttribute('sendGroupInvite', false);
         specificGroup.innerHTML = removeGuid(item.groupName);
         grouptContainer.appendChild(specificGroup);
+        trashIconCreator(specificGroup);
+       
+        
         getElement(specificGroup);
     });
 }
@@ -320,70 +333,14 @@ const newDiv = document.createElement('div');
 
 function getElement(el) {
     el.addEventListener('click', (e) => {
-        if (e.target.attributes.sendgroupinvite.value === "true") {
-            createGroupInviteToFriends(el);
-        }
-        if (e.target.attributes.sendGroupInvite.value === "false") {
             const groupName = e.target.attributes.groupIdToSend.value;
             groupToChatWith = groupName;
             connection.invoke('AddToGroup', groupName);
             openGroupChat(groupName);
-        }
     });
 }
 
-function createGroupInviteToFriends(el) {
-    newDiv.innerHTML = '';
-    newDiv.classList.add('group-chat-invite');
-    const h1 = document.createElement('h3');
-    const myBtn = document.createElement('button');
-    myBtn.appendChild(document.createTextNode('Add'));
-    myBtn.classList.add('send-to-friends-group-chat');
-    h1.appendChild(document.createTextNode(`Add friends to group - ${el.innerHTML}`));
-    newDiv.appendChild(h1);
-    newDiv.appendChild(myBtn);
-    const friendItem = document.querySelectorAll('.friends');
-    for (var i = 0; i < friendItem.length; i++) {
-        let checkbox = document.createElement("INPUT");
-        let label = document.createElement("label");
-        checkbox.setAttribute("type", "checkbox");
-        checkbox.classList.add('friend-add-group-chat');
-        checkbox.value = friendItem[i].innerHTML;
-        label.appendChild(document.createTextNode(friendItem[i].innerHTML));
-        newDiv.appendChild(label);
-        newDiv.appendChild(checkbox);
-    }
 
-    document.body.appendChild(newDiv);
-
-    getFriendsToStartGroup(el.attributes.groupIdToSend.value);
-}
-
-function getFriendsToStartGroup(groupName) {
-    let friendsToSend = [];
-    const groupChatInvite = document.querySelectorAll('.friend-add-group-chat');
-
-    for (var i = 0; i < groupChatInvite.length; i++) {
-        groupChatInvite[i].addEventListener('change', (e) => {
-            if (e.target.checked) {
-                friendsToSend.push(e.target.value);
-            } else {
-                friendsToSend = friendsToSend.filter(item => item !== e.target.value);
-            }
-        });
-    }
-
-    const sendBtn = document.querySelector('.send-to-friends-group-chat');
-    sendBtn.addEventListener('click', (e) => {
-        const group = document.querySelectorAll(`[groupId=${createGroupIdAttr(groupName)}]`)[0];
-        const groupChatInviteChecks = document.querySelector('.group-chat-invite');
-        group.setAttribute('data', 'sent');
-        group.setAttribute('sendGroupInvite', false);
-        group.setAttribute('groupIdToSend', groupName);
-        connection.invoke('SendInviteToJoinGroup', groupName, friendsToSend);
-        setTimeout(() => { groupChatInviteChecks.remove(); }, 1000);
-    });
-}
 
 function flattenGroupMsgHistory(history) {
     const stageOne = [];
@@ -409,7 +366,6 @@ function openGroupChat(group) {
 
     let history = connection.invoke('GetGroupChatHistoryAsync', group);
     history.then(result => {
-        console.log(result);
         flattenGroupMsgHistory(result).map((item, index) => {
             const p = document.createElement("p");
             const text = document.createTextNode(`${item[Object.keys(item)][2]} - ${item[Object.keys(item)][0]} - ${Object.keys(item)} `); //the message!
@@ -465,6 +421,9 @@ function renderGroupMessage(message, fromUser, time, group) {
     scrollToBottom();
 };
 
+
+
+
 function isEmptyOrSpaces(str) {
     return str === null || str.match(/^ *$/) !== null;
 }
@@ -502,4 +461,122 @@ function getGuid(groupName) {
     const regex = "(\{){0,1}[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}(\}){0,1}";
     const guidMatch = groupName.match(regex);
     return guidMatch[0].toString();
+}
+
+function trashIconCreator(el){
+    const containerDiv = document.createElement('div');
+    const iconTrash = document.createElement('i');
+    iconTrash.classList.add('fas');
+    iconTrash.classList.add('fa-trash-alt');
+    iconTrash.classList.add('delete-group-btn');
+    
+    const iconAdd = document.createElement('i');
+    iconAdd.classList.add('fas');
+    iconAdd.classList.add('fa-plus');
+    iconAdd.classList.add('add-more-to-group-btn');
+    containerDiv.appendChild(iconAdd);
+    containerDiv.appendChild(iconTrash);
+    el.parentNode.insertBefore(containerDiv, el.nextSibling);
+  
+   
+}
+
+
+
+function deleteGroupLogic() {
+    const deleteGroupBtn = document.querySelectorAll('.delete-group-btn ');
+    for (let i = 0; i < deleteGroupBtn.length; i++) {
+        deleteGroupBtn[i].addEventListener('click', (e) => {
+            const willDelete = confirm(`remove and leave group ${e.target.parentNode.previousSibling.innerHTML}?`)
+            const groupToDelete = e.target.parentNode.previousSibling.attributes.groupidtosend.value; 
+            if (willDelete) {
+                 connection.invoke('RemoveUserFromGroup', groupToDelete)
+                .then(() => {
+                    e.target.parentNode.previousSibling.remove();
+                    e.target.parentNode.remove();
+                    e.target.remove();
+                });
+               
+            }
+           
+        });
+
+    }
+}
+
+let isOpenAddDiv = false;
+function addMoreToGroupLogic(){
+    const addMoreFriends = document.querySelectorAll('.add-more-to-group-btn');
+    for (let i = 0; i < addMoreFriends.length; i++) {
+        addMoreFriends[i].addEventListener('click', (e) => {
+            isOpenAddDiv = !isOpenAddDiv ? isOpenAddDiv = true : isOpenAddDiv = false;
+            const groupToSendInvite = e.target.parentNode.previousSibling.attributes.groupidtosend.value; 
+            createGroupInviteToFriends(groupToSendInvite, isOpenAddDiv);
+        });
+
+    }
+
+
+
+   
+
+   
+}
+
+function createGroupInviteToFriends(groupToInviteTo, shouldCreate) {
+    if (shouldCreate) {
+        newDiv.innerHTML = '';
+        newDiv.classList.add('group-chat-invite');
+        const h1 = document.createElement('h3');
+        const myBtn = document.createElement('button');
+        myBtn.appendChild(document.createTextNode('Add'));
+        myBtn.classList.add('send-to-friends-group-chat');
+        h1.appendChild(document.createTextNode(`Add friends to group - ${removeGuid(groupToInviteTo)}`));
+        newDiv.appendChild(h1);
+        newDiv.appendChild(myBtn);
+        const friendItem = document.querySelectorAll('.friends');
+        for (var i = 0; i < friendItem.length; i++) {
+            let checkbox = document.createElement("INPUT");
+            let label = document.createElement("label");
+            checkbox.setAttribute("type", "checkbox");
+            checkbox.classList.add('friend-add-group-chat');
+            checkbox.value = friendItem[i].innerHTML;
+            label.appendChild(document.createTextNode(friendItem[i].innerHTML));
+            newDiv.appendChild(label);
+            newDiv.appendChild(checkbox);
+        }
+    
+        document.body.appendChild(newDiv);
+    
+        getFriendsToStartGroup(groupToInviteTo);
+    } else {
+        newDiv.remove();
+    }
+   
+}
+
+function getFriendsToStartGroup(groupName) {
+    let friendsToSend = [];
+    const groupChatInvite = document.querySelectorAll('.friend-add-group-chat');
+
+    for (var i = 0; i < groupChatInvite.length; i++) {
+        groupChatInvite[i].addEventListener('change', (e) => {
+            if (e.target.checked) {
+                friendsToSend.push(e.target.value);
+            } else {
+                friendsToSend = friendsToSend.filter(item => item !== e.target.value);
+            }
+        });
+    }
+
+    const sendBtn = document.querySelector('.send-to-friends-group-chat');
+    sendBtn.addEventListener('click', (e) => {
+        const group = document.querySelectorAll(`[groupId=${createGroupIdAttr(groupName)}]`)[0];
+        const groupChatInviteChecks = document.querySelector('.group-chat-invite');
+        group.setAttribute('data', 'sent');
+        group.setAttribute('sendGroupInvite', false);
+        group.setAttribute('groupIdToSend', groupName);
+        connection.invoke('SendInviteToJoinGroup', groupName, friendsToSend);
+        setTimeout(() => { groupChatInviteChecks.remove(); }, 1000);
+    });
 }

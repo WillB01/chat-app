@@ -24,7 +24,9 @@ namespace ChatApp.Services.GroupChatService
             var dbModel = new GroupChat
             {
                 GroupName = groupChatVM.GroupName,
-                GroupAdminId = groupChatVM.GroupAdminId
+                GroupAdminId = groupChatVM.GroupAdminId,
+                ExitGroup = false
+                
             };
             _chatContext.GroupChat.Add(dbModel);
             await _chatContext.SaveChangesAsync();
@@ -39,7 +41,9 @@ namespace ChatApp.Services.GroupChatService
             {
                 GroupName = db.GroupName,
                 GroupAdminId = db.GroupAdminId,
-                GroupMemberId = newMember
+                GroupMemberId = newMember,
+                ExitGroup = false
+                
             };
 
             _chatContext.GroupChat.Add(dbModel);
@@ -50,6 +54,33 @@ namespace ChatApp.Services.GroupChatService
             }
 
             await _chatContext.SaveChangesAsync();
+        }
+
+        public async Task DeleteUserFromGroupAsync(string group, string id)
+        {
+
+            var userGroup = await _chatContext.GroupChat
+                 .Where(e => e.GroupName == group && e.GroupMemberId == id)
+                 .ToArrayAsync();
+            if (userGroup != null)
+            {
+                foreach (var item in userGroup)
+                {
+                    item.ExitGroup = true;
+                }
+            }
+
+            if (userGroup != null)
+            {
+                var adminGroup = await _chatContext.GroupChat
+                 .Where(e => e.GroupName == group && e.GroupAdminId == id)
+                 .ToArrayAsync();
+
+                _chatContext.RemoveRange(adminGroup);
+            }
+
+            await _chatContext.SaveChangesAsync();
+            
         }
 
         public async Task<GroupChatVM[]> GetGroupChatHistoryAsync(string group)
@@ -93,7 +124,9 @@ namespace ChatApp.Services.GroupChatService
                 GroupMemberId = user.Id,
                 Message = message,
                 Time = now,
-                GroupName = group
+                GroupName = group,
+                ExitGroup = false
+                
             };
             if (db.Message == null)
             {
@@ -108,6 +141,7 @@ namespace ChatApp.Services.GroupChatService
             var user = await _userService.GetloggedinUser();
             var groups = await _chatContext.GroupChat
                 .Where(e => e.GroupMemberId == user.Id || e.GroupAdminId == user.Id)
+                .Where(p => p.ExitGroup == false)
                 .Select(p => new GroupChatVM
                 {
                     GroupName = p.GroupName

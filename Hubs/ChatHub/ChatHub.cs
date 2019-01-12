@@ -99,6 +99,12 @@ namespace ChatApp.Hubs
             await _groupChatService.SaveGroupMessage(message, Context.User.Identity.Name, DateTime.Now, group);
         }
 
+        public async Task RemoveUserFromGroup(string group)
+        {
+            var user = await _userService.GetloggedinUser();
+            await _groupChatService.DeleteUserFromGroupAsync(group, user.Id);
+        }
+       
         public async Task<MessageVM[]> GetGroupHistory(string group)
         {
             var loggedinUser = await _userService.GetloggedinUser();

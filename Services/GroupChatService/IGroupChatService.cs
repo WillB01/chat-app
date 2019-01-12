@@ -15,5 +15,7 @@ namespace ChatApp.Services.GroupChatService
         Task SaveGroupMessage(string message, string name, DateTime now, string group);
 
         Task<GroupChatVM[]> GetGroupChatHistoryAsync(string group);
+
+        Task DeleteUserFromGroupAsync(string group, string id);
     }
 }

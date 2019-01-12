@@ -1,4 +1,7 @@
-﻿namespace ChatApp.Models.Entities
+﻿using System;
+using System.Collections.Generic;
+
+namespace ChatApp.Models.Entities
 {
     public partial class Conversation
     {
