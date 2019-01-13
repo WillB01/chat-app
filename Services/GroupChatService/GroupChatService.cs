@@ -34,26 +34,31 @@ namespace ChatApp.Services.GroupChatService
 
         public async Task AddMemberToGroupAsync(string group, string newMember)
         {
-            var db = await _chatContext.GroupChat
-                .Where(e => e.GroupName == group)
-                .FirstOrDefaultAsync();
-            var dbModel = new GroupChat
+            var doesNewMemberExist = await DoesMemberExistAsync(group, newMember);
+            if (!doesNewMemberExist)
             {
-                GroupName = db.GroupName,
-                GroupAdminId = db.GroupAdminId,
-                GroupMemberId = newMember,
-                ExitGroup = false
-                
-            };
+                var db = await _chatContext.GroupChat
+               .Where(e => e.GroupName == group)
+               .FirstOrDefaultAsync();
+                var dbModel = new GroupChat
+                {
+                    GroupName = db.GroupName,
+                    GroupAdminId = db.GroupAdminId,
+                    GroupMemberId = newMember,
+                    ExitGroup = false
 
-            _chatContext.GroupChat.Add(dbModel);
+                };
 
-            if (db.GroupMemberId == null)
-            {
-                _chatContext.GroupChat.Remove(db);
+                _chatContext.GroupChat.Add(dbModel);
+
+                if (db.GroupMemberId == null)
+                {
+                    _chatContext.GroupChat.Remove(db);
+                }
+
+                await _chatContext.SaveChangesAsync();
             }
-
-            await _chatContext.SaveChangesAsync();
+           
         }
 
         public async Task DeleteUserFromGroupAsync(string group, string id)
@@ -81,6 +86,14 @@ namespace ChatApp.Services.GroupChatService
 
             await _chatContext.SaveChangesAsync();
             
+        }
+
+        public async Task<bool> DoesMemberExistAsync(string group, string newMember)
+        {
+            var doesUserExisit = await _chatContext.GroupChat
+              .Where(o => o.GroupName == group)
+              .AnyAsync(e => e.GroupMemberId == newMember || e.GroupAdminId == newMember);
+            return doesUserExisit;
         }
 
         public async Task<GroupChatVM[]> GetGroupChatHistoryAsync(string group)

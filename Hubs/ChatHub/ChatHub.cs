@@ -67,9 +67,16 @@ namespace ChatApp.Hubs
             await _groupChatService.AddGroupChatAsync(groupChatVM);
         }
 
-        public async Task AddMemberToGroupDb(string group)
+        public async Task<bool> AddMemberToGroupDb(string group)
         {
-            await _groupChatService.AddMemberToGroupAsync(group, await _userService.GetUserId(Context.User.Identity.Name));
+            var userId = await _userService.GetUserId(Context.User.Identity.Name);
+            var doesUserExist = await _groupChatService.DoesMemberExistAsync(group, userId);
+            if (!doesUserExist)
+            {
+                await _groupChatService.AddMemberToGroupAsync(group, userId);
+
+            }
+            return doesUserExist;
         }
 
         public async Task SendInviteToJoinGroup(string groupName, string[] friendsToAdd)
@@ -77,9 +84,16 @@ namespace ChatApp.Hubs
             var friendsId = new List<string>();
             var friends = await _friendService.GetFriends(await _userService.GetloggedinUser());
 
+
             foreach (var name in friendsToAdd)
             {
-                friendsId.Add(friends.Where(e => e.Name == name).Select(e => e.IdentityId).FirstOrDefault());
+                var t = friends.Where(e => e.Name == name).Select(e => e.IdentityId).FirstOrDefault();
+                var existInGroup = await _groupChatService.DoesMemberExistAsync(groupName, t);
+                if (!existInGroup)
+                {
+                    friendsId.Add(t);
+                }
+   
             }
 
             foreach (var id in friendsId)

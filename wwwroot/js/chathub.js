@@ -216,7 +216,7 @@ function renderGroupInvite(groupName) {
     div.innerHTML = '';
     groupName = groupName;
     const h3 = document.createElement('h3');
-    h3.innerHTML = groupName;
+    h3.innerHTML = removeGuid(groupName);
     btnYes.innerHTML = 'join';
     btnNo.innerHTML = 'decline';
     div.classList.add('modal-group-invite');
@@ -227,10 +227,28 @@ function renderGroupInvite(groupName) {
 
     btnYes.addEventListener('click', () => {
         div.remove();
-        printNewGroup(false, groupName);
-        console.log(groupName);
+    
         connection.invoke('AddMemberToGroupDb', groupName)
-            .then(() => groupName = '');
+        .then((userDoesExist) => {
+            printNewGroup(false, groupName);
+            groupName = ''
+        });
+        
+
+
+            // .then((doesExist) => {
+            //     groupName = ''
+
+            //     if (!doesExist) {
+                   
+
+            //     }
+
+            // });
+        });
+
+    btnNo.addEventListener('click', () => {
+        div.remove();
     });
 }
 
@@ -238,11 +256,15 @@ const inputNewGroup = document.querySelector('#new-group');
 const newGroupBtn = document.querySelector('#new-group-btn');
 const grouptContainer = document.querySelector('#group-container');
 
+function inputValidationGroupName(groupName) {
+    return !isEmptyOrSpaces(groupName) && !isOnlyNumbers(groupName)  && !hasNumber(groupName);
+}
+
 inputNewGroup.addEventListener('keydown', e => {
     const groupName = inputNewGroup.value.trim();
     if (e.keyCode === 13) {
         e.preventDefault();
-        if (!isEmptyOrSpaces(groupName)) {
+        if (inputValidationGroupName(groupName)) {
             printNewGroup(true, null);
         }
     }
@@ -251,13 +273,12 @@ inputNewGroup.addEventListener('keydown', e => {
 newGroupBtn.addEventListener('click', (e) => {
     const groupName = inputNewGroup.value.trim();
     e.preventDefault();
-    if (!isEmptyOrSpaces(groupName)) {
+    if (inputValidationGroupName(groupName)) {
         printNewGroup(true, null);
     }
 });
 
 function printNewGroup(willCreateNewGroup, groupName) {
-   
     const specificGroup = document.createElement('div');
     willCreateNewGroup
         ? createNewGroup(specificGroup)
@@ -265,7 +286,9 @@ function printNewGroup(willCreateNewGroup, groupName) {
     getElement(specificGroup);
     grouptContainer.appendChild(specificGroup);
  
+   
     groupName = '';  
+ 
    
   
 
@@ -294,7 +317,9 @@ function createNewGroup(element) {
             }
 
             element.innerHTML = removeGuid(groupName);
-            trashIconCreator(element);
+            iconCreatorWithLogic(element);
+            
+           
          
           
             
@@ -310,6 +335,8 @@ function addGroupFromInvite(groupName, element) {
         element.setAttribute('groupIdToSend', groupName);
         element.classList.add('group-name');
         element.innerHTML = removeGuid(groupName);
+        console.log(element)
+        // iconCreatorWithLogic(element);
     }
 }
 
@@ -322,7 +349,7 @@ function printHistoryGroups(groups) {
         specificGroup.setAttribute('sendGroupInvite', false);
         specificGroup.innerHTML = removeGuid(item.groupName);
         grouptContainer.appendChild(specificGroup);
-        trashIconCreator(specificGroup);
+        iconCreatorWithLogic(specificGroup);
        
         
         getElement(specificGroup);
@@ -421,8 +448,13 @@ function renderGroupMessage(message, fromUser, time, group) {
     scrollToBottom();
 };
 
+function hasNumber(str) {
+    return /\d/.test(str[0]);
+  }
 
-
+function isOnlyNumbers(str){
+    return str.match(/^[0-9]+$/) !== null;
+}
 
 function isEmptyOrSpaces(str) {
     return str === null || str.match(/^ *$/) !== null;
@@ -463,7 +495,7 @@ function getGuid(groupName) {
     return guidMatch[0].toString();
 }
 
-function trashIconCreator(el){
+function iconCreatorWithLogic(el){
     const containerDiv = document.createElement('div');
     const iconTrash = document.createElement('i');
     iconTrash.classList.add('fas');
@@ -477,16 +509,15 @@ function trashIconCreator(el){
     containerDiv.appendChild(iconAdd);
     containerDiv.appendChild(iconTrash);
     el.parentNode.insertBefore(containerDiv, el.nextSibling);
+    deleteGroupLogic(iconTrash);
+    addMoreToGroupLogic(iconAdd);
   
-   
 }
 
 
 
-function deleteGroupLogic() {
-    const deleteGroupBtn = document.querySelectorAll('.delete-group-btn ');
-    for (let i = 0; i < deleteGroupBtn.length; i++) {
-        deleteGroupBtn[i].addEventListener('click', (e) => {
+function deleteGroupLogic(iconTrash) {
+        iconTrash.addEventListener('click', (e) => {
             const willDelete = confirm(`remove and leave group ${e.target.parentNode.previousSibling.innerHTML}?`)
             const groupToDelete = e.target.parentNode.previousSibling.attributes.groupidtosend.value; 
             if (willDelete) {
@@ -500,29 +531,17 @@ function deleteGroupLogic() {
             }
            
         });
-
-    }
 }
 
 let isOpenAddDiv = false;
-function addMoreToGroupLogic(){
-    const addMoreFriends = document.querySelectorAll('.add-more-to-group-btn');
-    for (let i = 0; i < addMoreFriends.length; i++) {
-        addMoreFriends[i].addEventListener('click', (e) => {
+function addMoreToGroupLogic(iconAdd){
+        iconAdd.addEventListener('click', (e) => {
             isOpenAddDiv = !isOpenAddDiv ? isOpenAddDiv = true : isOpenAddDiv = false;
             const groupToSendInvite = e.target.parentNode.previousSibling.attributes.groupidtosend.value; 
             createGroupInviteToFriends(groupToSendInvite, isOpenAddDiv);
         });
-
-    }
-
-
-
+};
    
-
-   
-}
-
 function createGroupInviteToFriends(groupToInviteTo, shouldCreate) {
     if (shouldCreate) {
         newDiv.innerHTML = '';

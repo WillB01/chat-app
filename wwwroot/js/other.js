@@ -75,8 +75,6 @@ function fetchUserProfileImage() {
 let showGoup = false;
 const groupDiv = document.querySelector('#group-not-show');
 groupDiv.addEventListener('click', () => {
-    deleteGroupLogic();
-    addMoreToGroupLogic();
     const groupCOntainer = document.querySelector('#group-container');
     showGoup = !showGoup ? showGoup = true : showGoup = false;
     if (showGoup) {

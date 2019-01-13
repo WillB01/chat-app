@@ -17,5 +17,7 @@ namespace ChatApp.Services.GroupChatService
         Task<GroupChatVM[]> GetGroupChatHistoryAsync(string group);
 
         Task DeleteUserFromGroupAsync(string group, string id);
+
+        Task<bool> DoesMemberExistAsync(string group, string newMember);
     }
 }
